@@ -1,6 +1,5 @@
 <template>
-  <h1>Oi</h1>
-  <customised-button></customised-button>
+  <router-view/>
 </template>
 
 <script>
@@ -9,7 +8,13 @@ import CustomisedButton from './components/CustomisedButton.vue'
     name: 'App',
     components:{
       CustomisedButton
-    }
+    },
   }
 </script>
+
+<style>
+
+
+</style>
+
        
