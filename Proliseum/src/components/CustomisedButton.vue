@@ -30,6 +30,8 @@ p{
     font-family: 'Poppins', sans-serif;
     font-weight: 900;
     font-size: 1rem;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 button:active{
     background-color: #fff;
