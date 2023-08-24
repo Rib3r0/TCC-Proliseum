@@ -69,7 +69,6 @@ export default {
 </script>
 
 <style>
-@import url("https://fonts.cdnfonts.com/css/cyberjunkies");
 
 .body {
   display: flex;
@@ -88,19 +87,17 @@ export default {
   padding: 47px 65px 0px 65px;
 }
 
-.main {
+.main{
   display: flex;
-  height: 100%;
-  width: 100%;
-  justify-content: flex-start;
-  align-items: center;
+
+
 }
 
 .login {
-  width: 495px;
-  margin-left: 76px;
+margin-left: 50px;
+  width: 550px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
 }
