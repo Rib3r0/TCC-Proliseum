@@ -13,7 +13,7 @@
         </div>
 
         <div class="botaoReiniciar">
-            <router-link to="/">
+            <router-link to="/reboot-message">
               <customised-button
                 text="RESTART"
                 @buttonFunction="teste"
@@ -45,9 +45,7 @@ export default {
 };
 </script>
 
-
   <style scoped>
-@import url("https://fonts.cdnfonts.com/css/cyberjunkies");
 .body {
   display: flex;
   flex-direction: column;
@@ -59,6 +57,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-bottom: 50px;
 }
 .logo {
   margin-top: 25px;
@@ -112,9 +111,8 @@ font-size: 24px;
 .footer{
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 20px;
+  align-items: end;
+  margin-top: 100px;
   border-top:0.10px solid #ff3130;
 
 }
@@ -122,7 +120,7 @@ font-size: 24px;
 .footer p{
     font-size: 10px;
     font-weight: 600;
-    margin-top: 5px;
+
 }
 
 </style>
