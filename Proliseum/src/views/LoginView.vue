@@ -21,15 +21,15 @@
 
           <div class="login-recuperar">
             <router-link to="/recovery">
-            <span class="recuperacao">Esqueci minha senha</span>
-          </router-link>
+              <span class="recuperacao">Esqueci minha senha</span>
+            </router-link>
 
-          <router-link to="/recovery">
-            <customised-button
-              text="LOGIN"
-              @buttonFunction="teste"
-            ></customised-button>
-          </router-link>
+            <router-link to="/recovery">
+              <customised-button
+                text="LOGIN"
+                @buttonFunction="teste"
+              ></customised-button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -37,34 +37,34 @@
 
     <div class="footer">
       <div class="cadastro">
-            <router-link to="/recovery">
-            <span class="recuperacao"> Ainda não tem uma conta? </span>
-          </router-link>
+        <router-link to="/recovery">
+          <span class="cadrastro"> Ainda não tem uma conta? </span>
+        </router-link>
 
-          <router-link to="/recovery">
-            <customised-button
-              text="Cadrastre-se"
-              @buttonFunction="teste"
-            ></customised-button>
-          </router-link>
-          </div>
+        <router-link to="/recovery">
+          <customised-button
+            text="Cadrastre-se"
+            @buttonFunction="teste"
+          ></customised-button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import CustomisedButton from '../components/CustomisedButton.vue'
+import CustomisedButton from "../components/CustomisedButton.vue";
 export default {
-    name: 'StartView',
-    components:{
-        CustomisedButton
+  name: "StartView",
+  components: {
+    CustomisedButton,
+  },
+  methods: {
+    teste() {
+      console.log("aaaaa");
     },
-    methods:{
-      teste(){
-        console.log("aaaaa");
-      }
-    }
-}
+  },
+};
 </script>
 
 <style>
@@ -106,12 +106,15 @@ export default {
 
 #textLogin {
   font-family: "Cyberjunkies", sans-serif;
-  font-size: 82px;
-  margin-bottom: 35px;
-  letter-spacing: 5px;
+  font-size: 84px;
+  margin: 15px 0px 15px 0px;
+  letter-spacing: 8px;
   text-shadow: 0.09em 0.03em #ff3130;
   color: #f0f8ff;
+  
 }
+
+
 
 .dados {
   padding-top: 50px;
@@ -147,37 +150,47 @@ input {
   border-radius: 10px;
 }
 
-.login-recuperar{
-display: flex;
-justify-content: flex-end;
-align-items: flex-end;
-flex-direction: column;
-margin-right: 130px;
-gap: 30px;
-width: 100%;
+.login-recuperar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-direction: column;
+  margin-right: 130px;
+  gap: 30px;
+  width: 100%;
 }
 
-.recuperacao {
+.recuperacao,
+.cadrastro {
   color: var(--red);
+}
+
+.recuperacao:hover,
+.recuperacao:focus,
+.cadrastro:hover,
+.cadrastro:focus {
+  transition: 0.1;
+  text-shadow: 2px 2px 8px var(--red);
 }
 
 .logo {
   height: 129px;
 }
 
-.footer{
+.footer {
+  height: auto;
   display: flex;
   justify-content: center;
 }
 
-.cadastro{
+.cadastro {
   margin: 0px 60px 0px 0px;
-
   width: 100%;
+  height: auto;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   flex-direction: column;
-  gap:10px
+  gap: 10px;
 }
 </style>
