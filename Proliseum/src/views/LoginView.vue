@@ -33,6 +33,7 @@
           </div>
         </div>
       </div>
+      
     </div>
 
     <div class="footer">
@@ -73,7 +74,7 @@ export default {
 .body {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+
   background-image: url(../assets/img/backgroundLogin.png);
   background-repeat: no-repeat;
   background-size: cover;
@@ -89,7 +90,7 @@ export default {
 
 .main {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   justify-content: flex-start;
   align-items: center;
@@ -113,8 +114,6 @@ export default {
   color: #f0f8ff;
   
 }
-
-
 
 .dados {
   padding-top: 50px;
@@ -178,7 +177,7 @@ input {
 }
 
 .footer {
-  height: auto;
+
   display: flex;
   justify-content: center;
 }
@@ -186,7 +185,6 @@ input {
 .cadastro {
   margin: 0px 60px 0px 0px;
   width: 100%;
-  height: auto;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
