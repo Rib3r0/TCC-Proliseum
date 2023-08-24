@@ -13,7 +13,7 @@
           <p>
             Uma mensagem de redefinição de senha foi enviada para o seu e-mail!
           </p>
-          <router-link to="/recovery">
+          <router-link to="/">
             <customised-button
               text="Voltar para o inicio"
               @buttonFunction="teste"
