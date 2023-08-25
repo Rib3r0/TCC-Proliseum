@@ -26,7 +26,7 @@ export default {
       type: {
           type:String,
           default: "text"
-      }
+      },
     }
 }
 </script>
@@ -44,15 +44,15 @@ export default {
   .input{
     max-height: 55px;
     height: 4vw;
-    font-weight: 900;
+    font-weight: 500;
     padding-left:10px ;
     font-size: var(--font-text);
     min-width: 18vw;
     width: 100%;
   }
-
   .required{
     color: var(--red);
     font-size: var(--font-text);
   }
+
 </style>

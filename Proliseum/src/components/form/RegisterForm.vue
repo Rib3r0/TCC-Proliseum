@@ -1,5 +1,5 @@
 <template>
-  <form class="form">
+  <form class="form" autocomplete="on">
     <FormInput text="NOME DE USUARIO:" required/>
     <FormInput text="EMAIL:" type="email" required/>
     <FormInput text="SENHA:" type="password" required />

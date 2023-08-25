@@ -11,12 +11,8 @@
 
     <div class="footer">
         <span class="cadrastro"> Ainda não tem uma conta? </span>
-        <router-link to="/register">
-          <customised-button
-            text="Cadrastre-se"
-            size="2rem"
-            @buttonFunction="teste"
-          ></customised-button>
+        <router-link to="/register">  
+          <customised-button text="Cadrastre-se" size="2rem" @buttonFunction="teste"/>
         </router-link>
     </div>
   </div>
@@ -47,7 +43,7 @@ export default {
   justify-content: space-between;
   background-image: url(../assets/img/backgroundLogin.png);
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover, contain;
   background-position: center;
   height: 100vh;
 }
