@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('../views/RecoveryView.vue')
     },
     {
+      path: '/register',
+      name: 'Register',
+      component: () => import('../views/RegisterView.vue')
+    },
+    {
       path: '/reboot-message',
       name: ' RebootMessage',
       component: () => import('../views/RebootMessageView.vue')

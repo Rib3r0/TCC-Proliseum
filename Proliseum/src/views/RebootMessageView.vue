@@ -3,11 +3,11 @@
     <div class="main">
       <div class="aviso">
         <div class="imagem-logo">
-          <img src="../assets/img/logoIcon.png" alt="" />
+          <img src="../assets/img/logoIcon.png" alt="" class="logo" />
         </div>
         <div class="texto">
           <div class="titulo">
-            <img src="../assets/img/Proliseum.png" alt="" class="proliseum"/>
+            <img src="../assets/img/Proliseum.png" alt="" class="proliseum" />
             <h1>Informa</h1>
           </div>
           <p>
@@ -23,7 +23,9 @@
       </div>
     </div>
 
-    <div class="footer"></div>
+    <div class="footer">
+      <p>©2023 - TECNO CEOS</p>
+    </div>
   </div>
 </template>
 
@@ -55,40 +57,61 @@ export default {
   display: grid;
   grid-template-areas: "imagem" "texto";
   grid-template-columns: auto auto;
+  height: 100vh;
 }
 
-.aviso{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 80px;
+.aviso,
+.imagem-logo,
+.texto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.imagem-logo{
-    grid-area: imagem;
-    height: 10vh;
+.aviso {
+  gap: 80px;
+  margin-top: 110px;
 }
 
-.texto p{
-    grid-area: texto;
-font-size: 32px;
-font-weight: 400;
+.imagem-logo {
+  grid-area: imagem;
 }
 
-.proliseum{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-    height: 25vh;
+.logo {
+  height: 75vh;
+}
+.texto {
+  grid-area: texto;
+  gap: 39px;
+  width: 623px;
+  flex-wrap: wrap;
+  text-align: center;
 }
 
-.titulo{
-    font-family: "Cyberjunkies", sans-serif;
-    font-size: 68px;
-    text-align: center;
-    color: var(--red);
-    letter-spacing: 5px;
+.texto h1 {
+  font-family: "Cyberjunkies", sans-serif;
+  letter-spacing: 5px;
+  font-size: 64px;
+  color: var(--red);
+
+}
+
+.texto p {
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.proliseum {
+  height: 15vh;
+}
+
+.footer{
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin-top: 100px;
+  border-top:0.10px solid #ff3130;
+
 }
 
 </style>

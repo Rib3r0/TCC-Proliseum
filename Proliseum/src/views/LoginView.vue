@@ -9,15 +9,8 @@
         <h1 id="textLogin">login</h1>
 
         <div class="dados">
-          <div class="username">
-            <label for="username"> username </label>
-            <input type="text" id="username" placeholder=" " required />
-          </div>
 
-          <div class="password">
-            <label for="password"> password </label>
-            <input type="password" id="password" placeholder=" " required />
-          </div>
+<login-form/>
 
           <div class="login-recuperar">
             <router-link to="/recovery">
@@ -55,10 +48,12 @@
 
 <script>
 import CustomisedButton from "../components/CustomisedButton.vue";
+import LoginForm from '../components/form/LoginForm.vue';
 export default {
   name: "StartView",
   components: {
     CustomisedButton,
+    LoginForm,
   },
   methods: {
     teste() {
@@ -73,7 +68,6 @@ export default {
 .body {
   display: flex;
   flex-direction: column;
-
   background-image: url(../assets/img/backgroundLogin.png);
   background-repeat: no-repeat;
   background-size: cover;
@@ -89,8 +83,6 @@ export default {
 
 .main{
   display: flex;
-
-
 }
 
 .login {
@@ -132,19 +124,11 @@ margin-left: 50px;
   flex-direction: column;
 }
 
-label {
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: 16px;
-}
-
 input {
   background-color: transparent;
   border: 1px solid #f7f7f7;
-  width: 380px;
-  height: 45px;
   border-radius: 10px;
-}
+} 
 
 .login-recuperar {
   display: flex;
@@ -174,13 +158,12 @@ input {
 }
 
 .footer {
-
   display: flex;
-  justify-content: center;
+  height: 100%;
 }
 
 .cadastro {
-  margin: 0px 60px 0px 0px;
+  margin: 0px 60px 6px 0px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
