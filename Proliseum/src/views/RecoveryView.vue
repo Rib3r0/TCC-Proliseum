@@ -30,7 +30,7 @@
 </template>
   
 
-  <script>
+<script>
 import CustomisedButton from "../components/CustomisedButton.vue";
 export default {
   name: "StartView",
@@ -45,82 +45,29 @@ export default {
 };
 </script>
 
-  <style scoped>
-.body {
-  display: flex;
-  flex-direction: column;
-  background: #1f1e31;
-  height: 100vh;
-}
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 50px;
-}
-.logo {
-  margin-top: 25px;
-  height: 20vh;
-}
-
-.titulo {
-  font-family: "Cyberjunkies", sans-serif;
-  font-size: 2.2rem;
-  letter-spacing: 3px;
-  text-shadow: 0.05em 0.04em #ff3130;
-  color: #f0f8ff;
-}
-
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.reiniciarSenha {
-  background: #0000003a;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 920px;
-  height: 375px;
-  padding-top: 44px;
-  gap: 50px;
-}
-
-.reiniciarSenha p{
-font-weight: 400;
-font-size: 24px;
-}
-
-.email {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.botaoReiniciar{
+<style scoped>
+  .body {
     display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    margin: 25px 85px 0px 0px ;
-}
-
-.footer{
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  margin-top: 100px;
-  border-top:0.10px solid #ff3130;
-
-}
-
-.footer p{
-    font-size: 10px;
-    font-weight: 600;
-
-}
+    flex-direction: column;
+    background: #1f1e31;
+    height: 100vh;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 50px;
+  }
+  .logo {
+    margin-top: 25px;
+    height: 20vh;
+  }
+  .title{
+          font-family: 'Cyberjunkies', sans-serif;
+          font-size: var(--font-subtitle);
+          text-shadow: 0px 0.4vw red;
+          font-weight: 100;
+      }
 
 </style>
