@@ -10,7 +10,7 @@
       <div>
         <h1 class="text1">COMECE SUA NOVA</h1>
         <h1 class="text1">JORNADA COM</h1>
-        <img class="proliseum" src="../assets/img/Proliseum.png">
+        <h1 class="name">PROLISEUM</h1>
         <h1 class="text2">A MELHOR PLATAFORMA PARA</h1>
         <h1 class="text2">ENCONTRAR SEU TIME DOS SONHOS</h1>
       </div>
@@ -73,14 +73,24 @@ export default {
 .main{
   display: flex;
   padding: 0px 175px 0px 175px;
+  gap: 100px;
+  align-items: center;
   justify-content: center;
 }
 
 .text1{
-  font-size: 3rem;
+  font-size: var(--font-subtitle);
 }
+.name{
+  font-family: 'Cyberjunkies', sans-serif;
+  font-size: var(--font-title);
+  text-shadow: 0px 10px red;
+  font-weight: 100;
+  filter: drop-shadow(0 0 2rem var(--red));
+}
+
 .text2{
-  font-size: 1.5rem;
+  font-size: var(--font-description);
 }
 
 .trofel{
@@ -103,7 +113,7 @@ export default {
 
 .proliseum{
   height: 15vh;
-  filter: drop-shadow(0 0 2rem var(--red));
+  
 }
 .games{
   display: flex;

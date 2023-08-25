@@ -3,6 +3,15 @@
 :root{
     --red: #FF3130;
     --background-color: #1F1E31;
+    --font-title: calc(1.5rem + 5vw);
+    --font-subtitle: calc(0.9rem + 2vw);
+    --font-description: calc(0.5rem + 0.9vw);
+    --font-text: calc(0.3rem + 0.9vw);
+}
+
+@font-face {
+    font-family: "Cyberjunkies";
+    src: url(../assets/fonts/Cyberjunkies.ttf);
 }
 
 *{
