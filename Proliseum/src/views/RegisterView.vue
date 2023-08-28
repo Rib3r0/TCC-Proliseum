@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <img class="logo" src="../assets/img/logoIcon.png" alt="" srcset="">
-    <H1 class="title ">CADASTRO</H1>
+    <h1 class="title ">CADASTRO</h1>
     <RegisterForm/>
   </div>
 

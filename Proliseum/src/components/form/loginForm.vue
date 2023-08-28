@@ -3,7 +3,7 @@
     <FormInput text="NOME DE USUARIO:"/>
     <FormInput text="SENHA:" type="password"/>
     <router-link class="recuperar" to="/recovery">  
-        <span> Ainda não tem uma conta? </span>
+        <span> Esqueceu sua senha?</span>
     </router-link>
     <CustomisedButton class="loginButton" text="LOGIN" type="submit" size="1.5rem"/>
   </form>
