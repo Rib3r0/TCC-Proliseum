@@ -1,5 +1,5 @@
 <template>
-<button type="button" @click="$emit('buttonFunction')"><p :style="font_size">{{ text }}</p></button>
+<button :type="type" @click="$emit('buttonFunction')"><p :style="font_size">{{ text }}</p></button>
 </template>
 
 <script>
@@ -12,7 +12,11 @@ export default {
     },
     props:{
         text: String,
-        size: Number
+        size: Number,
+        type: {
+            type:String,
+            default: "button"
+        }
     }
 
 }
