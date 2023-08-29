@@ -1,11 +1,5 @@
 <template>
-  <div v-if="type == 'checkbox'">
-    <input id="checkbox" type="checkbox" hidden>
-    <label class="checkbox" for="checkbox">
-      <img src="../../assets/img/LOL.png">
-    </label>
-  </div>
-  <div v-else-if="type == 'image'">
+  <div v-if="type == 'image'">
     <label class="upload" for="arquivo">UPLOAD</label>
     <input name="arquivo" id="arquivo" type="file" accept="image/*" @change="$emit('onChange', $event)" hidden/>
   </div>
@@ -37,6 +31,11 @@ export default {
           type:String,
           default: "text"
       },
+      id:{
+        type:String,
+        default: ""
+      },
+      value: null
     }
 }
 </script>
@@ -46,11 +45,7 @@ export default {
     display: flex;
     flex-direction: column;
   }
-  .title{
-    padding-left:10px ;
-    font-weight: 900;
-    font-size: var(--font-text);
-  }
+
   .input{
     max-height: 55px;
     height: 4vw;
@@ -72,22 +67,7 @@ export default {
     font-weight: 900;
     font-size: 1rem;
   }
-  .checkbox{
-    background-color: var(--red);
-    padding: 10px;
-    display: block;
-    height: fit-content;
-    border-radius: 20px;
-  }
-  .checkbox img {
-    height: 4vw;
-  }
-  :checked + .checkbox {
-    background-color: #fff
-  }
-  :checked + .checkbox img {
-    filter: brightness(0) saturate(100%) invert(49%) sepia(54%) saturate(7439%) hue-rotate(342deg) brightness(103%) contrast(104%);
-  }
+  
 
 
 </style>

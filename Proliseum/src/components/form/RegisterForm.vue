@@ -8,33 +8,18 @@
       <FormInput text="NOME COMPLETO:" required />
       <FormInput text="DATA DE NASCIMENTO:" type="date" required />
       <div>
-        <FormInput type="checkbox" />
+        <p class="title">GÊNERO:</p>
+        <div class="genero">
+          <FormRatio name="genero" id="masculino" :value="genero.masculino" icon="../../src/assets/img/Male.png" required/>
+          <FormRatio name="genero" id="feminino" :value="genero.feminino" icon="../../src/assets/img/Female.png" />
+          <FormRatio name="genero" id="outro" :value="genero.outro" icon="../../src/assets/img/_.png" />
+        </div>
+      </div>
+      <div>
+        <h2>FOTO DE PERFIL:</h2>
+        <ImageUpload @ImageUploded="imageUploded"/>
       </div>
 
-      <div v-if="Image == null " class="icons">
-        <div class="icon">
-          <img class="iconSmall" src="https://i.ibb.co/jVvMSHY/image-6.png">
-        </div>
-        <div class="icon">
-          <img class="iconMedium" src="https://i.ibb.co/jVvMSHY/image-6.png">
-        </div>
-        <div class="icon">
-          <img class="iconLarge" src="https://i.ibb.co/jVvMSHY/image-6.png">
-        </div>
-        <FormInput type="image" text="UPLOAD" @onChange="changeImage" />
-      </div>
-      <div v-else class="icons">
-        <div class="icon">
-          <img class="iconSmall" :src="Image">
-        </div>
-        <div class="icon">
-          <img class="iconMedium" :src="Image">
-        </div>
-        <div class="icon">
-          <img class="iconLarge" :src="Image">
-        </div>
-        <FormInput type="image" text="UPLOAD" @onChange="changeImage" />
-      </div>
     </div>
   </form>
 </template>
@@ -42,28 +27,33 @@
 <script>
 import CustomisedButton from '../CustomisedButton.vue';
 import FormInput from './FormInput.vue';
+import FormRatio from './FormRatio.vue';
+import ImageUpload from './ImageUpload.vue';
 export default {
     name: 'RegisterForm',
     data(){
       return { 
-        Image : null
+        Image : null,
+        genero : {
+          masculino : false,
+          feminino : false,
+          outro : false
+        }
+      }
+    },
+    methods:{
+      imageUploded(event){
+        this.Image = event
+        console.log(this.Image)
       }
     },
     components:{
-      FormInput,
-        CustomisedButton
-    },
-    methods: {
-      changeImage(event){
-        const image = event.target.files[0]
-        const reader = new FileReader()
-        reader.readAsDataURL(image)
-        reader.onload = e =>{
-          this.Image = e.target.result
-          console.log(e.target.result)
-        }
-      }
-    }
+    FormInput,
+    CustomisedButton,
+    FormRatio,
+    ImageUpload
+},
+    
 }
 </script>
 
@@ -71,16 +61,11 @@ export default {
   .form{
     padding-top:20px ;
   }
-  .icons{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-width: 60%;
-    max-width: 60%;
-  }
+
   .cadastro{
     justify-content: space-between;
     width: 45vw;
+    height: fit-content;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -89,28 +74,11 @@ export default {
     border-radius: 50px;
   }
 
-  .icon{
-    clip-path: circle();
-    display: grid;
-    place-items: center;
-    overflow: hidden;
+  .genero{
+    display: flex;
+    gap: 15px;
+    width: 100%;
   }
 
-  .iconSmall{
-    max-height: 3vw;
-    min-height: 3vw;
-    overflow: hidden;
-  }
-  .iconMedium{
-    max-height: 6vw;
-    min-height: 6vw;
-    overflow: hidden;
-  }
-
-  .iconLarge{
-    max-height: 9vw;
-    min-height: 9vw;
-    overflow: hidden;
-  }
 
 </style>
