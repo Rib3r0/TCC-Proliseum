@@ -19,7 +19,7 @@ export default {
 
 <style scoped>
     .logo{
-        height: 160px;
+        height: 15vw;
     }
     .body{
         display: flex;

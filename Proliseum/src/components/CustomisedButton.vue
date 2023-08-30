@@ -1,5 +1,5 @@
 <template>
-<button :type="type" @click="$emit('buttonFunction')"><p :style="font_size">{{ text }}</p></button>
+    <button :type="type" @click="$emit('buttonFunction')"><p :style="font_size">{{ text }}</p></button>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 button{
     background-color: var(--red);
     padding: 20px;
