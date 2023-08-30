@@ -3,12 +3,12 @@
     <div class="main">
       <div class="aviso">
         <div class="imagem-logo">
-          <img src="../assets/img/logoIcon.png" alt="" />
+          <img src="../assets/img/logoIcon.png" alt="" class="icon" />
         </div>
         <div class="texto">
           <div class="titulo">
-            <img src="../assets/img/Proliseum.png" alt="" class="proliseum"/>
-            <h1>Informa</h1>
+            <h1 class="name">proliseum</h1>
+            <h1 class="informa">Informa</h1>
           </div>
           <p>
             Uma mensagem de redefinição de senha foi enviada para o seu e-mail!
@@ -57,38 +57,60 @@ export default {
   grid-template-columns: auto auto;
 }
 
-.aviso{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 80px;
+.aviso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
 }
 
-.imagem-logo{
-    grid-area: imagem;
-    height: 10vh;
+.imagem-logo {
+  grid-area: imagem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 110px 0 0 0;
+
 }
 
-.texto p{
-    grid-area: texto;
-font-size: 32px;
-font-weight: 400;
+.icon {
+  height: 80vh;
 }
 
-.proliseum{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
-    height: 25vh;
+.texto {
+  grid-area: texto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+  width: 550px;
+  text-align: center;
 }
 
-.titulo{
-    font-family: "Cyberjunkies", sans-serif;
-    font-size: 68px;
-    text-align: center;
-    color: var(--red);
-    letter-spacing: 5px;
+.texto p {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 50px 0 50px 0;
+}
+
+.titulo {
+  font-family: "Cyberjunkies", sans-serif;
+  text-align: center;
+  letter-spacing: 5px;
+  margin: 80px 0 0 0;
+}
+
+.informa {
+  color: var(--red);
+  font-size: 72px;
+}
+.name {
+  color: #f7f7f7;
+  font-size: var(--font-title);
+  text-shadow: 0px 10px red;
+  font-weight: 100;
+  text-transform: uppercase;
 }
 
 </style>

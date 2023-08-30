@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <img class="logo" src="../assets/img/logoIcon.png" alt="" srcset="">
-    <h1 class="title ">CADASTRO</h1>
+    <h1 class="title ">cadastro</h1>
     <RegisterForm/>
   </div>
 
@@ -31,5 +31,6 @@ export default {
         font-size: var(--font-subtitle);
         text-shadow: 0px 0.4vw red;
         font-weight: 100;
+        text-transform: uppercase;
     }
 </style>

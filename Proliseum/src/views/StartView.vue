@@ -8,11 +8,11 @@
     </div>
     <div class="main">
       <div>
-        <h1 class="text1">COMECE SUA NOVA</h1>
-        <h1 class="text1">JORNADA COM</h1>
-        <h1 class="name">PROLISEUM</h1>
-        <h1 class="text2">A MELHOR PLATAFORMA PARA</h1>
-        <h1 class="text2">ENCONTRAR SEU TIME DOS SONHOS</h1>
+        <h1 class="text1">comece sua nova</h1>
+        <h1 class="text1">jornada com</h1>
+        <h1 class="name">proliseum</h1>
+        <h1 class="text2">a melhor plataforma para</h1>
+        <h1 class="text2">encontrar seu time dos sonhos</h1>
       </div>
       <div class="pro">
         <img class="trofel" src="../assets/img/trofel.png">
@@ -26,7 +26,7 @@
         <img class="icons" src="../assets/img/CSGO.png" alt="" srcset="">
         <img class="icons" src="../assets/img/LOL.png" alt="" srcset="">
         <img class="icons" src="../assets/img/Valorant.png" alt="" srcset="">
-        <h2>MAIS EM BREVE...</h2>
+        <h2>mais em breve...</h2>
       </div>
       <p>©2023 - TECNO CEOS</p>
     </div>
@@ -125,6 +125,10 @@ export default {
 }
 .icons{
   height: 10vh;
+}
+
+h1,h2{
+  text-transform: uppercase;
 }
 
 @keyframes MoveUpDown {
