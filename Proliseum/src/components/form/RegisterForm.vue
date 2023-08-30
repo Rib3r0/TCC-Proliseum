@@ -1,24 +1,29 @@
 <template>
   <form class="form" autocomplete="on">
     <div class="cadastro">
-      <FormInput text="NOME DE USUARIO:" required/>
-      <FormInput text="EMAIL:" type="email" required/>
-      <FormInput text="SENHA:" type="password" required />
-      <FormInput text="CONFIRMAR SENHA:" type="password" required/>
-      <FormInput text="NOME COMPLETO:" required />
-      <FormInput text="DATA DE NASCIMENTO:" type="date" required />
+      <FormInput @on-input="handleInput" id="username" text="NOME DE USUARIO:" required/>
+      <FormInput @on-input="handleInput" id="email" text="EMAIL:" type="email" required/>
+      <FormInput @on-input="handleInput" id="password" text="SENHA:" type="password" required />
+      <div>
+        <FormInput @on-input="handleInput" id="confPassword" text="CONFIRMAR SENHA:" type="password" required/>
+        <p v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IGUAIS</p>
+      </div>
+      <FormInput @on-input="handleInput" id="fullName"  text="NOME COMPLETO:" required />
+      <FormInput @on-input="handleInput" id="birthDay" text="DATA DE NASCIMENTO:" type="date" required />
       <div>
         <p class="title">GÊNERO:</p>
         <div class="genero">
-          <FormRatio name="genero" id="masculino" :value="genero.masculino" icon="../../src/assets/img/Male.png" required/>
-          <FormRatio name="genero" id="feminino" :value="genero.feminino" icon="../../src/assets/img/Female.png" />
-          <FormRatio name="genero" id="outro" :value="genero.outro" icon="../../src/assets/img/_.png" />
+          <FormRatio name="genero" @on-input="handleInputGenero" id="masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" required/>
+          <FormRatio name="genero" @on-input="handleInputGenero" id="feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" />
+          <FormRatio name="genero" @on-input="handleInputGenero" id="outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" />
         </div>
       </div>
       <div>
         <h2>FOTO DE PERFIL:</h2>
         <ImageUpload @ImageUploded="imageUploded"/>
       </div>
+    </div>
+    <div>
 
     </div>
   </form>
@@ -32,20 +37,37 @@ import ImageUpload from './ImageUpload.vue';
 export default {
     name: 'RegisterForm',
     data(){
-      return { 
-        Image : null,
-        genero : {
-          masculino : false,
-          feminino : false,
-          outro : false
+      return {
+        cadastro :{
+          username : "",
+          email : "",
+          password : "",
+          confPassword : "",
+          fullName: "",
+          birthDay: "",
+          Image : null,
+          genero : {
+            masculino : false,
+            feminino : false,
+            outro : false
+          }
         }
       }
     },
     methods:{
       imageUploded(event){
-        this.Image = event
-        console.log(this.Image)
+        this.cadastro.Image = event
+      },
+      handleInput(value,id) {
+        this.cadastro[id] = value
+      },
+      handleInputGenero(value,id) {
+        this.cadastro.genero.masculino = false
+        this.cadastro.genero.feminino = false
+        this.cadastro.genero.outro = false
+        this.cadastro.genero[id] = value
       }
+
     },
     components:{
     FormInput,

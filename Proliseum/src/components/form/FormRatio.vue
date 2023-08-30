@@ -1,5 +1,5 @@
 <template>
-    <input :id="id" type="radio" :value="value" :name="name" :required="required"  hidden>
+    <input :id="id" type="radio"  :name="name" :required="required" @input="onInput"  hidden>
     <label class="checkbox" :for="id">
         <img :src="icon">
     </label>
@@ -25,10 +25,18 @@ export default {
             type: Boolean,
             default: false
         },
-        value: {
-            type: Boolean,
-            required: true
+        type: {
+            type: String
         }
+
+    },
+    methods: {
+      onInput(event) {
+        if(event.target.value){
+            this.$emit('on-input', event.target.value,this.id)
+        }
+        
+      }
     }
 }
 </script>
@@ -39,14 +47,18 @@ export default {
     background-color: var(--red);
     padding: 10px;
     display: grid;
-    justify-content: center;
+    place-items: center;
     height: 6vw;
     width: 6vw;
     border-radius: 20px;
   }
   .checkbox img {
-    max-width: 100%;
+    max-width: 90%;
   }
+  .checkbox i {
+    font-size: var(--font-subtitle);
+  }
+
   :checked + .checkbox {
     background-color: #fff
   }

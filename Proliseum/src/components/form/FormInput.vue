@@ -5,14 +5,14 @@
   </div>
   <div v-else-if="!required" class="container">
     <span class="title">{{ text }}</span>
-    <input class="input" :type="type">
+    <input class="input" :type="type" @input="onInput">
   </div>
   <div v-else class="container">
     <div>
       <span class="title">{{ text }}</span>
       <span class="required">*</span>
     </div>
-    <input class="input" :type="type" required>
+    <input class="input" :type="type" @input="onInput" required>
   </div>
 
 </template>
@@ -35,7 +35,11 @@ export default {
         type:String,
         default: ""
       },
-      value: null
+    },
+    methods: {
+      onInput(event) {
+        this.$emit('on-input', event.target.value,this.id)
+      }
     }
 }
 </script>
