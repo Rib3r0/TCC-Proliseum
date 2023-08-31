@@ -4,6 +4,7 @@
         <img  :src="icon">
     </label>
     <label v-else  class="button" :for="id">
+        <img v-if="icon"  :src="icon">
         <p >{{ text }}</p>
     </label>
 </template>
@@ -11,6 +12,7 @@
 <script>
 export default {
     name: "FormRatio",
+    emits: ["input"],
     data(){
         return{
             font_size : "font-size: " + this.size
@@ -19,7 +21,6 @@ export default {
     props:{
         icon: {
             type: String,
-            default: "../../src/assets/img/LOL.png",
         },
         name: {
             type: String,
@@ -47,7 +48,7 @@ export default {
     methods: {
       onInput(event) {
         if(event.target.value){
-            this.$emit('on-input', event.target.value,this.id)
+            this.$emit('input', event.target.value,this.id)
         }
         
       }
@@ -68,6 +69,7 @@ export default {
   }
 .checkbox img {
     max-width: 90%;
+    filter: brightness(0) saturate(100%)
 }
 .checkbox i {
     font-size: var(--font-subtitle);
