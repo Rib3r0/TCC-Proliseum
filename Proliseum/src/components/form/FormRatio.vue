@@ -76,13 +76,15 @@ export default {
 }
 
 :checked + .checkbox {
-    background-color: #fff
+    background-color: #fff;
+    transition: all 0.8s
 }
 :checked + .checkbox img {
     filter: brightness(0) saturate(100%) invert(49%) sepia(54%) saturate(7439%) hue-rotate(342deg) brightness(103%) contrast(104%);
 }
 :checked + .checkbox p {
     color: var(--red);
+    transition: all 0.8s
 }
 
 .button{
@@ -101,9 +103,13 @@ p{
 }
 :checked + .button{
     background-color: #fff;
+    transition: all 0.8s
 }
 :checked + .button p{
     color: var(--red);
+    transition: all 0.8s
 }
+
+
 
 </style>

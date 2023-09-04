@@ -3,23 +3,26 @@
     <img class="logo" src="../assets/img/logoIcon.png" alt="" srcset="">
     <h1 class="title ">cadastro</h1>
     <RegisterForm/>
+    <Rodape/>
   </div>
 
 </template>
 
 <script>
 import RegisterForm from '../components/form/RegisterForm.vue';
+import Rodape from '../components/Rodape.vue';
 export default {
     name: "RegisterView",
     components:{
-        RegisterForm
+        RegisterForm,
+        Rodape
     }
 }
 </script>
 
 <style scoped>
     .logo{
-        height: 15vw;
+        height: 10vw;
     }
     .body{
         display: flex;

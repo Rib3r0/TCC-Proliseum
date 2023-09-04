@@ -1,11 +1,11 @@
 <template>
-  <form class="form" autocomplete="on">
+  <form class="form" autocomplete="on" @submit="submit">
     <div class="cadastro">
       <FormInput @on-input="handleInput" id="username" text="NOME DE USUARIO:" required/>
       <FormInput @on-input="handleInput" id="email" text="EMAIL:" type="email" required/>
       <FormInput @on-input="handleInput" id="password" text="SENHA:" type="password" required />
       <div>
-        <FormInput @on-input="handleInput" id="confPassword" text="CONFIRMAR SENHA:" type="password" required/>
+        <FormInput ref="password" @on-input="handleInput" id="confPassword" text="CONFIRMAR SENHA:" type="password" required/>
         <p v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IGUAIS</p>
       </div>
       <FormInput @on-input="handleInput" id="fullName"  text="NOME COMPLETO:" required />
@@ -20,7 +20,7 @@
       </div>
       <div>
         <h2>FOTO DE PERFIL:</h2>
-        <ImageUpload @ImageUploded="imageUploded"/>
+        <ImageUpload @ImageUploded="imageUploded" id="profile"/>
       </div>
     </div>
     <div class="formChanger">
@@ -52,9 +52,18 @@
       </div>
 
     </div>
-    <div v-else-if="!form.souJogador" class="cadastro">
-      <h1>SOU ORGANIZADOR</h1>
+    <div v-else-if="!form.souJogador" >
+      <div class="cadastro">
+        <FormInput @on-input="handleInputOrganizacao" id="nome" text="NOME DA ORGANIZAÇÃO:" required/>
+        <ImageUpload @ImageUploded="imageLogoUploded" id="logo"/>
+      </div>
+
     </div>
+    <div class="submit">
+      <CustomisedButton  text="ENVIAR" type="submit"/>
+    </div>
+
+    
   </form>
 </template>
 
@@ -64,6 +73,9 @@ import CustomisedButton from '../CustomisedButton.vue';
 import FormInput from './FormInput.vue';
 import FormRatio from './FormRatio.vue';
 import ImageUpload from './ImageUpload.vue';
+
+
+
 export default {
     name: 'RegisterForm',
     data(){
@@ -89,6 +101,10 @@ export default {
           funcao : "",
           id : "",
           elo : ""
+        },
+        organizador : {
+          nome : "",
+          logo : null,
         }
 
       }
@@ -124,14 +140,12 @@ export default {
       getRanking(value, id){
         this.jogador[id] = value
 
-        let key = "?api_key=RGAPI-74eaa77e-40f5-4b3e-8b48-f67d0256f6d8"
+        let key = "?api_key=RGAPI-43d90271-d8cc-493f-bb71-5d29e39152bf"
         axios
           .get("https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ value.replace(/ /g, '%20') + key)//mudar aqui!!
           .then((res) => {
-            console.log(res.data.id)
             this.jogador.id = res.data.id
             let url = "https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + this.jogador.id + key
-            console.log(url);
             axios.get(url)
               .then( (res) => {
                   let data = res.data.filter( x => x.queueType == "RANKED_SOLO_5x5")[0]
@@ -144,6 +158,18 @@ export default {
             
           });
           
+      },
+      handleInputOrganizacao(value , id) {
+        this.organizador[id] = value
+      },
+      imageLogoUploded(event){
+        this.organizador.logo = event
+      },
+      submit(e){
+        e.preventDefault()
+        console.log("teste")
+        this.$router.push("/login")
+        
       }
 
     },
@@ -209,6 +235,10 @@ export default {
     width: 100%;
   }
   
+  .submit{
+    padding-top: 30px;
+    align-self: flex-end;
+  }
 
 
 </style>

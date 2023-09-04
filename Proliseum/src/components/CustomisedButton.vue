@@ -1,5 +1,5 @@
 <template>
-    <button :type="type" @click="$emit('buttonFunction')"><p :style="font_size">{{ text }}</p></button>
+    <button :type="type" @click="$emit('buttonFunction')" ><p>{{ text }}</p></button>
 </template>
 
 <script>
@@ -32,7 +32,7 @@ p{
     color: #fff;
     font-family: 'Poppins', sans-serif;
     font-weight: 900;
-    font-size: 1rem;
+    font-size: var(--font-description);
     padding-left: 5px;
     padding-right: 5px;
 }

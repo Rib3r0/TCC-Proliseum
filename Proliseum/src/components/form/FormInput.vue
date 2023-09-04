@@ -1,7 +1,7 @@
 <template>
   <div v-if="type == 'image'">
-    <label class="upload" for="arquivo">UPLOAD</label>
-    <input name="arquivo" id="arquivo" type="file" accept="image/*" @change="$emit('onChange', $event)" hidden/>
+    <label class="upload" :for="id">UPLOAD</label>
+    <input name="arquivo" :id="id" type="file" accept="image/*" @change="$emit('onChange', $event)" hidden/>
   </div>
   <div v-else-if="!required" class="container">
     <span class="title">{{ text }}</span>
@@ -31,7 +31,7 @@ export default {
           type:String,
           default: "text"
       },
-      id:{
+      id :{
         type:String,
         default: ""
       },

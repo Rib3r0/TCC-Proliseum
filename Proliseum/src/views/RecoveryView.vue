@@ -22,20 +22,19 @@
         </div>
       </div>
     </div>
-
-    <div class="footer">
-      <p>©2023 - TECNO CEOS</p>
-    </div>
+    <Rodape/>
   </div>
 </template>
   
 
 <script>
 import CustomisedButton from "../components/CustomisedButton.vue";
+import Rodape from '../components/Rodape.vue';
 export default {
   name: "StartView",
   components: {
     CustomisedButton,
+    Rodape,
   },
   methods: {
     teste() {
@@ -50,6 +49,7 @@ export default {
   display: flex;
   flex-direction: column;
   background: #1f1e31;
+  justify-content: space-between;
   height: 100vh;
 }
 .header {

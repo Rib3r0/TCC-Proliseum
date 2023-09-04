@@ -12,7 +12,7 @@
     <div class="footer">
         <span class="cadrastro"> Ainda não tem uma conta? </span>
         <router-link to="/register">  
-          <customised-button text="Cadrastre-se" size="2rem" @buttonFunction="teste"/>
+          <customised-button text="Cadrastre-se" @buttonFunction="teste"/>
         </router-link>
     </div>
   </div>

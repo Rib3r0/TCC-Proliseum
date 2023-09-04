@@ -9,7 +9,7 @@
         <div class="icon">
           <img class="iconLarge" src="https://i.ibb.co/jVvMSHY/image-6.png">
         </div>
-        <FormInput type="image" text="UPLOAD" @onChange="changeImage" />
+        <FormInput type="image" :id="id" text="UPLOAD" @onChange="changeImage" />
       </div>
       <div v-else class="icons">
         <div class="icon">
@@ -21,7 +21,7 @@
         <div class="icon">
           <img class="iconLarge" :src="Image">
         </div>
-        <FormInput type="image" text="UPLOAD" @onChange="changeImage" />
+        <FormInput type="image" :id="id" text="UPLOAD" @onChange="changeImage" />
       </div>
 </template>
 
@@ -33,6 +33,9 @@ export default {
         return{
             Image: null
         }
+    },
+    props: {
+      id: String,
     },
     components: {
          FormInput
