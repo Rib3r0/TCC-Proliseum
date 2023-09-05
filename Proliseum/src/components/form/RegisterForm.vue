@@ -167,8 +167,15 @@ export default {
       },
       submit(e){
         e.preventDefault()
-        console.log("teste")
-        this.$router.push("/login")
+        if(this.confPassword != this.password){
+          this.$refs.password.focus()
+        }else{
+          console.log("teste")
+          console.log(this.password)
+          console.log(this.confPassword);
+          //this.$router.push("/login")
+        }
+
         
       }
 

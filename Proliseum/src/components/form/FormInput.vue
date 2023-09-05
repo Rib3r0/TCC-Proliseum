@@ -71,7 +71,16 @@ export default {
     font-weight: 900;
     font-size: 1rem;
   }
-  
+  textarea:focus, input:focus{
+    outline: none;
+    border-bottom: 5px solid var(--red);
+    transition: 0.3s;
+  }
+  textarea, input{
+    outline: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+  }
 
 
 </style>
