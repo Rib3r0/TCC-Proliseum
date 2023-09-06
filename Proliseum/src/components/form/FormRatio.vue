@@ -1,12 +1,17 @@
 <template>
-    <input :id="id" type="radio"  :name="name" :required="required" @input="onInput" :checked="checked"  hidden>
+    <div>
+        <input type="radio">
+    </div>
+
+
+    <!-- <input :id="id" type="radio"  :name="name" :required="required" @input="onInput" :checked="checked"  hidden>
     <label v-if="!text" class="checkbox" v :for="id">
         <img  :src="icon">
     </label>
     <label v-else  class="button" :for="id">
         <img v-if="icon"  :src="icon">
         <p >{{ text }}</p>
-    </label>
+    </label> -->
 </template>
 
 <script>

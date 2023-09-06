@@ -1,5 +1,5 @@
 <template>
-  <form class="form" autocomplete="on" @submit="submit">
+  <form class="form" autocomplete="off" @submit="submit">
     <div class="cadastro">
       <new-input-form v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
       <new-input-form v-model="cadastro.email" label="EMAIL:" type="email" required/>

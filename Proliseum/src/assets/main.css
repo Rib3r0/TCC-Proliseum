@@ -3,10 +3,10 @@
 :root{
     --red: #FF3130;
     --background-color: #1F1E31;
-    --font-title: calc(1.5rem + 5vw);
+    --font-title: calc(1.9rem + 5vw);
     --font-subtitle: calc(0.9rem + 2vw);
     --font-description: calc(0.5rem + 0.9vw);
-    --font-text: calc(0.1rem + 0.7vw);
+    --font-text: calc(0.1rem + 0.9vw);
 }
 
 @font-face {
@@ -42,7 +42,3 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.title{
-    font-weight: 900;
-    font-size: var(--font-text);
-}

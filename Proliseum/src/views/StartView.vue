@@ -3,42 +3,42 @@
     <div class="header">
       <img class="logo" src="../assets/img/logoMain.png">
       <router-link to="/login">
-        <customised-button text="LOGIN" @buttonFunction="teste" size="1rem"></customised-button>
+        <customised-button text="LOGIN" @buttonFunction="teste"></customised-button>
       </router-link>
     </div>
     <div class="main">
-      <div>
-        <h1 class="text1">comece sua nova</h1>
-        <h1 class="text1">jornada com</h1>
+      <div class="main1">
         <h1 class="name">proliseum</h1>
         <h1 class="text2">a melhor plataforma para</h1>
         <h1 class="text2">encontrar seu time dos sonhos</h1>
+        <div class="games">
+          <img class="icons" src="../assets/img/LOL.png" alt="" srcset="">
+          <img class="icons" src="../assets/img/CSGO.png" alt="" srcset="">
+          <img class="icons" src="../assets/img/Valorant.png" alt="" srcset="">
+          <h2>mais em breve...</h2>
+        </div>
       </div>
       <div class="pro">
         <img class="trofel" src="../assets/img/trofel.png">
         <router-link to="/register">
-          <customised-button text="TORNE-SE UM PRO" size="2.25rem" @buttonFunction="teste"></customised-button>
+          <customised-button text="TORNE-SE UM PRO"  @buttonFunction="teste"></customised-button>
         </router-link>
       </div>
     </div>
     <div class="footer">
-      <div class="games">
-        <img class="icons" src="../assets/img/CSGO.png" alt="" srcset="">
-        <img class="icons" src="../assets/img/LOL.png" alt="" srcset="">
-        <img class="icons" src="../assets/img/Valorant.png" alt="" srcset="">
-        <h2>mais em breve...</h2>
-      </div>
-      <p>©2023 - TECNO CEOS</p>
+      <rodape/>
     </div>
   </div>
 </template>
 
 <script>
 import CustomisedButton from '../components/CustomisedButton.vue'
+import Rodape from '../components/Rodape.vue';
 export default {
     name: 'StartView',
     components:{
-        CustomisedButton
+        CustomisedButton,
+        Rodape
     },
     methods:{
       teste(){
@@ -51,19 +51,19 @@ export default {
 <style scoped>
 
 .body{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  width: 100vw;
+  height: 100vh;
+  grid-template-rows: 150px 1fr auto ;
   background-image: url(../assets/img/backgroundStart.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  height: 100vh;
 }
 .header{
   display: flex;
   align-items: center;
-  padding: 47px 65px 0px 65px;
+  padding: 0px 20px 0px 20px;
   justify-content: space-between;
 }
 .logo{
@@ -76,17 +76,20 @@ export default {
   gap: 100px;
   align-items: center;
   justify-content: center;
+  
+}
+.main1{
+  filter: drop-shadow(0 0 0.5rem #ccc);
 }
 
 .text1{
-  font-size: var(--font-subtitle);
+  font-size: var(--font-description);
 }
 .name{
   font-family: 'Cyberjunkies', sans-serif;
   font-size: var(--font-title);
   text-shadow: 0px 10px red;
   font-weight: 100;
-  filter: drop-shadow(0 0 2rem var(--red));
 }
 
 .text2{
@@ -94,9 +97,8 @@ export default {
 }
 
 .trofel{
-  height: 25vw;
+  height: 50vh;
   animation: MoveUpDown 1s alternate infinite;
-  filter: drop-shadow(0 0 2rem var(--red));
 }
 .pro{
   display: flex;
@@ -118,10 +120,11 @@ export default {
 .games{
   display: flex;
   align-items: center;
+  padding-top: 30px;
   gap: 20px;
   color: var(--background-color);
   align-self: flex-start;
-  padding-left: 100px;
+
 }
 .icons{
   height: 10vh;
@@ -134,10 +137,16 @@ h1,h2{
 @keyframes MoveUpDown {
   0%{
     transform: translateY(0);
+    filter: drop-shadow(0 0 0.5rem var(--red));
   }
   100% {
-    transform: translateY(-15px);
+
+    transform: translateY(-20px);
+    filter: drop-shadow(0 0 2rem var(--red));
+    
   }
 }
+
+
 
 </style>
