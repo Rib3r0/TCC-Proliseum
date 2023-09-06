@@ -1,16 +1,25 @@
 <template>
   <form class="form" autocomplete="on" @submit="submit">
     <div class="cadastro">
-      <FormInput @on-input="handleInput" id="username" text="NOME DE USUARIO:" required/>
-      <FormInput @on-input="handleInput" id="email" text="EMAIL:" type="email" required/>
-      <FormInput @on-input="handleInput" id="password" text="SENHA:" type="password" required />
+      <new-input-form v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
+      <new-input-form v-model="cadastro.email" label="EMAIL:" type="email" required/>
+      <new-input-form 
+        v-model="cadastro.password" 
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+        title="Precisa conter pelo menos um numero, uma letra maiuscula e minuscula e ao menos 8 caracteres" 
+        label="SENHA:" 
+        type="password" 
+        required/>
       <div>
-        <FormInput ref="password" @on-input="handleInput" id="confPassword" text="CONFIRMAR SENHA:" type="password" required/>
-        <p v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IGUAIS</p>
+        <new-input-form v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
+        <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
       </div>
-      <FormInput @on-input="handleInput" id="fullName"  text="NOME COMPLETO:" required />
-      <FormInput @on-input="handleInput" id="birthDay" text="DATA DE NASCIMENTO:" type="date" required />
-      <div>
+      <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z]" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
+      <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02"/>
+    </div>
+
+
+    <!-- <div class="cadastro">
         <p class="title">GÊNERO:</p>
         <div class="genero">
           <FormRatio name="genero" @input="handleInputGenero" id="masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" required/>
@@ -32,8 +41,6 @@
         <p class="title">GAME:</p>
         <div class="jogo">
             <FormRatio name="jogo" @input="handleInputJogo" :checked="true" id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" required/>
-            <!--<FormRatio name="jogo" @input="handleInputJogo" id="CSGO" icon="https://img.icons8.com/?size=512&id=d29kdhkzGD55&format=png" />
-            <FormRatio name="jogo" @input="handleInputJogo" id="Valorant" icon="https://img.icons8.com/?size=512&id=GSHWFnD9x56D&format=png" />-->
         </div>
       </div>
       <FormInput @on-input="getRanking" id="nickname" text="NICKNAME:" required/>
@@ -58,136 +65,73 @@
         <ImageUpload @ImageUploded="imageLogoUploded" id="logo"/>
       </div>
 
-    </div>
+    </div> -->
     <div class="submit">
       <CustomisedButton  text="ENVIAR" type="submit"/>
     </div>
-
-    
   </form>
 </template>
 
-<script>
+<script setup>
 import axios from "axios";
+import { ref } from "vue";
 import CustomisedButton from '../CustomisedButton.vue';
-import FormInput from './FormInput.vue';
 import FormRatio from './FormRatio.vue';
 import ImageUpload from './ImageUpload.vue';
+import NewInputForm from "./NewInputForm.vue";
 
 
+const cadastro = ref({
+  username : "",
+  email : "",
+  password : "",
+  confPassword : "",
+  fullName: "",
+  birthDay: "",
+  image : null,
+  genero : "",
+  socialMedia : [],
+  jogador : {
+    jogo : "League of legends",
+    nickname : "",
+    funcao : "",
+    id : "",
+    elo : ""
+  },
+  organizador : {
+    nome : "",
+    logo : null,
+  }
+})
 
-export default {
-    name: 'RegisterForm',
-    data(){
-      return {
-        cadastro :{
-          username : "",
-          email : "",
-          password : "",
-          confPassword : "",
-          fullName: "",
-          birthDay: "",
-          Image : null,
-          genero : "",
-          socialMedia : []
-        },
-        form : {
-          souJogador : true,
-          souOrganizador : false
-        },
-        jogador : {
-          jogo : "League of legends",
-          nickname : "",
-          funcao : "",
-          id : "",
-          elo : ""
-        },
-        organizador : {
-          nome : "",
-          logo : null,
-        }
+const form = ref({
+  souJogador : true,
+  souOrganizador : false
+})
 
-      }
-    },
-    methods:{
-      imageUploded(event){
-        this.cadastro.Image = event
-      },
-      handleInput(value,id) {
-        this.cadastro[id] = value
-      },
-      handleInputGenero(value,id) {
-        this.cadastro.genero = id
-      },
-      handleInputForm(value,id) {
-        this.form.souJogador = false
-        this.form.souOrganizador = false
-        this.form[id] = true
-      },
-      handleInputJogo(value,id) {
-        this.jogador.jogo = id
-      },
-      handleInputFuncao(value,id) {
-        this.jogador.funcao = id
-      },
-      handleInputJogador(value , id) {
-        this.jogador[id] = value
-      },
-      handleInputSocialMedia(value , id) {
-        this.cadastro.socialMedia.push({ socialMedia : value , id : id  })
-        this.jogador[id] = value
-      },
-      getRanking(value, id){
-        this.jogador[id] = value
+const getRanking = (value, id) =>{
+  this.jogador[id] = value
 
-        let key = "?api_key=RGAPI-43d90271-d8cc-493f-bb71-5d29e39152bf"
-        axios
-          .get("https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ value.replace(/ /g, '%20') + key)//mudar aqui!!
-          .then((res) => {
-            this.jogador.id = res.data.id
-            let url = "https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + this.jogador.id + key
-            axios.get(url)
-              .then( (res) => {
-                  let data = res.data.filter( x => x.queueType == "RANKED_SOLO_5x5")[0]
-                  this.jogador.elo = data.tier + " "+ data.rank
-              })
-              .catch((error) => {
-              });
-          })
-          .catch((error) => {
-            
-          });
-          
-      },
-      handleInputOrganizacao(value , id) {
-        this.organizador[id] = value
-      },
-      imageLogoUploded(event){
-        this.organizador.logo = event
-      },
-      submit(e){
-        e.preventDefault()
-        if(this.confPassword != this.password){
-          this.$refs.password.focus()
-        }else{
-          console.log("teste")
-          console.log(this.password)
-          console.log(this.confPassword);
-          //this.$router.push("/login")
-        }
+  let key = "?api_key=RGAPI-43d90271-d8cc-493f-bb71-5d29e39152bf"
+  axios
+    .get("https://br1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"+ value.replace(/ /g, '%20') + key)//mudar aqui!!
+    .then((res) => {
+      this.jogador.id = res.data.id
+      let url = "https://br1.api.riotgames.com/lol/league/v4/entries/by-summoner/" + this.jogador.id + key
+      axios.get(url)
+        .then( (res) => {
+            let data = res.data.filter( x => x.queueType == "RANKED_SOLO_5x5")[0]
+            this.jogador.elo = data.tier + " "+ data.rank
+        })
+        .catch((error) => {
+        });
+    })
+    .catch((error) => {
 
-        
-      }
+    });
 
-    },
-    components:{
-    FormInput,
-    CustomisedButton,
-    FormRatio,
-    ImageUpload
-},
-    
 }
+
 </script>
 
 <style scoped>
@@ -245,6 +189,10 @@ export default {
   .submit{
     padding-top: 30px;
     align-self: flex-end;
+  }
+
+  .awarn{
+    color: var(--red);
   }
 
 

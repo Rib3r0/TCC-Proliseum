@@ -1,7 +1,7 @@
 <template>
   <form class="form" autocomplete="on">
-    <FormInput text="NOME DE USUARIO:"/>
-    <FormInput text="SENHA:" type="password"/>
+    <new-input-form v-model="userName" label="NOME DE USUARIO" autofocus/>
+    <new-input-form v-model="password" label="SENHA" type="password" />
     <router-link class="recuperar" to="/recovery">  
         <span> Esqueceu sua senha?</span>
     </router-link>
@@ -9,16 +9,15 @@
   </form>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue';
 import CustomisedButton from '../CustomisedButton.vue';
-import FormInput from './FormInput.vue'
-export default {
-    name: "loginForm",
-    components: {
-    FormInput,
-    CustomisedButton
-},
-}
+import NewInputForm from './NewInputForm.vue';
+
+const userName = ref("")
+const password = ref("")
+
+
 </script>
 
 <style scoped>

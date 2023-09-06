@@ -1,24 +1,15 @@
 <template>
-  <NovoInputForm label="TESTE" :value="teste" @onInput="testando" required/>
+  <new-input-form label="TESTE" v-model="nome"  required/>
+  <new-input-form label="TESTE" v-model="senha" required/>
 </template>
 
-<script>
-import NovoInputForm from '../components/form/NovoInputForm.vue';
+<script setup>
+import { ref } from 'vue';
+import NewInputForm from '../components/form/NewInputForm.vue';
 
-export default {
-    data(){
-        return {
-            teste : "",
-            nome : ""
-        }
-    },
-    methods:{
-      testando(input){
-        this.nome = input
-      }  
-    },
-    components: { NovoInputForm }
-}
+const nome = ref("")
+const senha = ref("")
+
 </script>
 
 <style>
