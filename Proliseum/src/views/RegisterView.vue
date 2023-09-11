@@ -1,9 +1,8 @@
 <template>
   <div class="body">
-    <img class="logo" src="../assets/img/logoIcon.png" alt="" srcset="">
     <h1 class="title ">cadastro</h1>
     <RegisterForm/>
-    <Rodape/>
+    <Rodape :lined="true" />
   </div>
 
 </template>
@@ -21,15 +20,12 @@ export default {
 </script>
 
 <style scoped>
-    .logo{
-        height: 10vw;
-    }
     .body{
         display: flex;
         flex-direction: column;
-        align-items: center;
     }
     .title{
+        padding: 40px;
         font-family: 'Cyberjunkies', sans-serif;
         font-size: var(--font-subtitle);
         text-shadow: 0px 0.4vw red;

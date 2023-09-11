@@ -63,14 +63,6 @@ export default {
     color: var(--red);
     font-size: var(--font-text);
   }
-  .upload{
-    background-color: var(--red);
-    padding: 20px;
-    border: 0;
-    border-radius: 73px;
-    font-weight: 900;
-    font-size: 1rem;
-  }
   textarea:focus, input:focus{
     outline: none;
     border-bottom: 5px solid var(--red);

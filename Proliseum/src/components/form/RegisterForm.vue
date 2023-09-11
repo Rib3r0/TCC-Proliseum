@@ -15,7 +15,7 @@
         <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
       </div>
       <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z]" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
-      <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02"/>
+      <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
     </div>
 
 
@@ -67,7 +67,9 @@
 
     </div> -->
     <div class="submit">
-      <CustomisedButton  text="ENVIAR" type="submit"/>
+      <ImageUpload id="profilePic"/>
+      <NewCustomButton label="CADASTRAR" size="1.5vw" />
+      <!-- <CustomisedButton  text="ENVIAR" type="submit"/> -->
     </div>
   </form>
 </template>
@@ -79,6 +81,7 @@ import CustomisedButton from '../CustomisedButton.vue';
 import FormRatio from './FormRatio.vue';
 import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
+import NewCustomButton from "../NewCustomButton.vue";
 
 
 const cadastro = ref({
@@ -136,14 +139,14 @@ const getRanking = (value, id) =>{
 
 <style scoped>
   .form{
-    padding-top:20px ;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding:30px ;
+    display: grid;
+    column-gap: 5%;
+    grid-template-columns: 1fr auto;
   }
 
   .cadastro{
-    width: 80vw;
+    width: 100%;
     height: fit-content;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -151,7 +154,6 @@ const getRanking = (value, id) =>{
     gap: 20px;
     padding: 50px;
     background-color: #0005;
-    border-radius: 50px;
   }
 
   .genero{
@@ -187,8 +189,12 @@ const getRanking = (value, id) =>{
   }
   
   .submit{
-    padding-top: 30px;
-    align-self: flex-end;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+    background-color: #0005;
   }
 
   .awarn{
