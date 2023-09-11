@@ -14,8 +14,14 @@
         <new-input-form v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
         <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
       </div>
-      <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z]" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
+      <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
       <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
+      <div class="genero">
+        <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero"/>
+        <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero"/>
+        <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero"/>
+      </div>
+
     </div>
 
 
@@ -67,8 +73,8 @@
 
     </div> -->
     <div class="submit">
-      <ImageUpload id="profilePic"/>
-      <NewCustomButton label="CADASTRAR" size="1.5vw" />
+      <ImageUpload id="profilePic" v-model="cadastro.image" />
+      <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" @onClick="makeRegister" />
       <!-- <CustomisedButton  text="ENVIAR" type="submit"/> -->
     </div>
   </form>
@@ -135,6 +141,11 @@ const getRanking = (value, id) =>{
 
 }
 
+function makeRegister () {
+  console.log(cadastro.value);
+}
+
+
 </script>
 
 <style scoped>
@@ -142,7 +153,7 @@ const getRanking = (value, id) =>{
     padding:30px ;
     display: grid;
     column-gap: 5%;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr 350px;
   }
 
   .cadastro{
@@ -158,7 +169,7 @@ const getRanking = (value, id) =>{
 
   .genero{
     display: flex;
-    gap: 15px;
+    justify-content: space-between;
     width: 100%;
   }
 

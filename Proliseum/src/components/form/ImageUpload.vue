@@ -26,7 +26,7 @@
 
   <div class="container">
     <div class="icon">
-      <img class="iconLarge" src="https://i.ibb.co/jVvMSHY/image-6.png">
+      <img  class="iconLarge" :key="src" :src="src">
     </div>
     <label class="upload" :for="id">UPLOAD</label>
     <input name="arquivo" :id="id" type="file" accept="image/*" @change="getImage" hidden/>
@@ -35,16 +35,26 @@
 </template>
 
 <script setup>
+import { ref } from "vue"
+
 defineProps({
   id : {
     type : String,
     required : true
   }
 })
-defineEmits(['onChange'])
+let src = ref("https://i.ibb.co/jVvMSHY/image-6.png")
+const emit = defineEmits(['update:modelValue'])
 
 function getImage(event){
-  console.log(event)
+  const image = event.target.files[0]
+  const reader = new FileReader()
+  reader.readAsDataURL(image)
+  reader.onload = e =>{
+    src.value = e.target.result
+    console.log(src);
+    emit('update:modelValue',src.value)
+  }
 }
 
 
@@ -91,6 +101,7 @@ function getImage(event){
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: fit-content;
     gap: 20px;
   }
 </style>
