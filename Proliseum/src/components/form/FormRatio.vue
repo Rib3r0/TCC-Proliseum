@@ -134,6 +134,10 @@ p{
 :checked + .button img{
     filter: brightness(0) saturate(100%) invert(49%) sepia(54%) saturate(7439%) hue-rotate(342deg) brightness(103%) contrast(104%);
 }
+:checked + .button p{
+    filter: brightness(0) saturate(100%) invert(49%) sepia(54%) saturate(7439%) hue-rotate(342deg) brightness(103%) contrast(104%);
+}
+
 
 
 

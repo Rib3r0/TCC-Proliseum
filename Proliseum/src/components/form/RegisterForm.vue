@@ -21,8 +21,11 @@
         <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero"/>
         <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero"/>
       </div>
-
+      <div>
+        <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro"/>
+      </div>
     </div>
+
 
 
     <!-- <div class="cadastro">
