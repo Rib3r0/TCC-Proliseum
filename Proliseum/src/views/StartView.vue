@@ -3,7 +3,8 @@
     <div class="header">
       <img class="logo" src="../assets/img/logoMain.png">
       <router-link to="/login">
-        <customised-button text="LOGIN" @buttonFunction="teste"></customised-button>
+        <new-custom-button label="LOGIN" size="1vw" />
+        <!-- <customised-button text="LOGIN" @buttonFunction="teste"></customised-button> -->
       </router-link>
     </div>
     <div class="main">
@@ -12,16 +13,17 @@
         <h1 class="text2">a melhor plataforma para</h1>
         <h1 class="text2">encontrar seu time dos sonhos</h1>
         <div class="games">
-          <img class="icons" src="../assets/img/LOL.png" alt="" srcset="">
-          <img class="icons" src="../assets/img/CSGO.png" alt="" srcset="">
-          <img class="icons" src="../assets/img/Valorant.png" alt="" srcset="">
+          <img class="icons" src="../assets/img/LOL.png" >
+          <img class="icons" src="../assets/img/CSGO.png" >
+          <img class="icons" src="../assets/img/Valorant.png" >
           <h2>mais em breve...</h2>
         </div>
       </div>
       <div class="pro">
         <img class="trofel" src="../assets/img/trofel.png">
         <router-link to="/register">
-          <customised-button text="TORNE-SE UM PRO"  @buttonFunction="teste"></customised-button>
+          <new-custom-button label="TORNE-SE UM PRO" size="2.2vw" />
+          <!-- <customised-button text="TORNE-SE UM PRO" ></customised-button> -->
         </router-link>
       </div>
     </div>
@@ -31,21 +33,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import CustomisedButton from '../components/CustomisedButton.vue'
+import NewCustomButton from '../components/NewCustomButton.vue';
 import Rodape from '../components/Rodape.vue';
-export default {
-    name: 'StartView',
-    components:{
-        CustomisedButton,
-        Rodape
-    },
-    methods:{
-      teste(){
-        console.log("aaaaa");
-      }
-    }
-}
+
 </script>
 
 <style scoped>
@@ -54,7 +46,7 @@ export default {
   display: grid;
   width: 100vw;
   height: 100vh;
-  grid-template-rows: 150px 1fr auto ;
+  grid-template-rows: auto 1fr auto ;
   background-image: url(../assets/img/backgroundStart.png);
   background-repeat: no-repeat;
   background-size: cover;
@@ -63,11 +55,12 @@ export default {
 .header{
   display: flex;
   align-items: center;
-  padding: 0px 20px 0px 20px;
+  width: 100%;
+  padding: 20px 50px 0px 50px;
   justify-content: space-between;
 }
 .logo{
-  height: 15vh;
+  height: 9vw;
 }
 
 .main{
@@ -97,7 +90,7 @@ export default {
 }
 
 .trofel{
-  height: 50vh;
+  height: 25vw;
   animation: MoveUpDown 1s alternate infinite;
 }
 .pro{
@@ -122,12 +115,13 @@ export default {
   align-items: center;
   padding-top: 30px;
   gap: 20px;
-  color: var(--background-color);
+  color: #FFF;
   align-self: flex-start;
 
 }
 .icons{
-  height: 10vh;
+  height: 5vw;
+  filter: brightness(0) saturate(100%) invert(100%) sepia(8%) saturate(0%) hue-rotate(166deg) brightness(107%) contrast(108%);
 }
 
 h1,h2{

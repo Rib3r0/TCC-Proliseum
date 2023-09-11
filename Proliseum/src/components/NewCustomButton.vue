@@ -7,11 +7,17 @@ defineProps({
     label : {
         type : String,
         default : "BUTTON"
-    }
+    },
+    size : {
+        type : String,
+        default : "1rem"
+    },
 })
+const emit = defineEmits(['onClick'])
+
 
 const handleClick = (event) => {
-    console.log("olá")
+    emit('onClick')
 }
 
 </script>
@@ -19,27 +25,24 @@ const handleClick = (event) => {
 <style scoped>
     button{
         background-color: var(--red);
-        border-radius: 4px;
+        border-radius: 10px;
         border-style: none;
         box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
         color: #fff;
         cursor: pointer;
-        display: inline-block;
-        font-size: 16px;
-        font-weight: 700;
+        font-size: v-bind(size);
+        font-weight: 900;
         line-height: 1.5;
+        display: inline-block;
         margin: 0;
-        max-width: none;
-        min-height: 44px;
-        min-width: 10px;
+        width: fit-content;
         outline: none;
+        padding: 15px 30px 15px 30px;
         overflow: hidden;
-        padding: 9px 20px 8px;
         position: relative;
         text-align: center;
         text-transform: none;
-        user-select: none;
-        -webkit-user-select: none;
         touch-action: manipulation;
     }
     button:hover{
