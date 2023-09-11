@@ -1,19 +1,23 @@
 <template>
   <div class="body">
-    <div class="header">
-      <img class="logo" src="../assets/img/logoMain.png">
-    </div> 
-    <div class="main">
-      <h1 class="title">login</h1>
-      <login-form/>
-      
+    <div class="login">
+      <div class="header">
+        <img class="logo" src="../assets/img/logoMain.png">
+      </div> 
+      <div class="main">
+        <h1 class="title">login</h1>
+        <login-form/>
+        
+      </div>
     </div>
-
-    <div class="footer">
-        <span class="cadrastro"> Ainda não tem uma conta? </span>
+    <div class="background">
+      <div>
+        <h3 class="cadrastro"> Ainda não tem uma conta? </h3>
         <router-link to="/register">  
           <customised-button text="Cadrastre-se" @buttonFunction="teste"/>
         </router-link>
+      </div>
+
     </div>
   </div>
 </template>
@@ -38,20 +42,31 @@ export default {
 <style scoped>
 
 .body {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+}
+
+.background{
   background-image: url(../assets/img/backgroundLogin.png);
   background-repeat: no-repeat;
   background-size: cover, contain;
-  background-position: center;
-  height: 100vh;
+  background-position: right;
+  display: flex;
+  align-items: flex-end;
+  justify-content: end;
+  padding: 20px;
+}
+
+.login{
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 .header{
   display: flex;
   align-items: center;
-  padding: 47px 65px 0px 65px;
+  padding: 20px 20px;
   justify-content: space-between;
 }
 
@@ -61,6 +76,7 @@ export default {
   width: 50vw;
   align-items: center;
   justify-content: center;
+  place-self: center;
   
 }
 
@@ -74,7 +90,8 @@ export default {
   font-weight: 100;
 }
 .cadrastro{
-  color: var(--red)
+  color: var(--red);
+  font-size: 1vw
 }
 
 .footer{

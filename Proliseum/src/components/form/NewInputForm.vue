@@ -39,11 +39,10 @@ defineProps({
   }
   .input{
     max-height: 55px;
-    height: 4vw;
     font-weight: 500;
     padding-left:10px ;
     font-size: var(--font-text);
-    min-width: 18vw;
+    min-width: 20vw;
     max-width: 100%;
     border-bottom: 3px solid transparent;
     height: 3vw;
