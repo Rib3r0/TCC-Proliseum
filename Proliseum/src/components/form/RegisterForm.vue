@@ -64,61 +64,11 @@
     <div>
       <div class="submit">
         <ImageUpload id="profilePic" v-model="cadastro.image" />
-        <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" @onClick="makeRegister" />
-        <!-- <CustomisedButton  text="ENVIAR" type="submit"/> -->
+        <span class="title">BIO:</span>
+        <textarea name="" v-model="cadastro.bio" id="" maxlength="300" required></textarea>
       </div>
+      <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" @onClick="makeRegister" />
     </div>
-
-
-
-
-    <!-- <div class="cadastro">
-        <p class="title">GÊNERO:</p>
-        <div class="genero">
-          <FormRatio name="genero" @input="handleInputGenero" id="masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" required/>
-          <FormRatio name="genero" @input="handleInputGenero" id="feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" />
-          <FormRatio name="genero" @input="handleInputGenero" :checked="true" id="outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" />
-        </div>
-      </div>
-      <div>
-        <h2>FOTO DE PERFIL:</h2>
-        <ImageUpload @ImageUploded="imageUploded" id="profile"/>
-      </div>
-    </div>
-    <div class="formChanger">
-      <FormRatio name="formChange" @input="handleInputForm" :checked="true" id="souJogador"  text="SOU JOGADOR" size="2rem" />
-      <FormRatio name="formChange" @input="handleInputForm" id="souOrganizador"  text="SOU ORGANIZADOR" size="2rem" />
-    </div>
-    <div v-if="!form.souOrganizador" class="cadastro">
-      <div>
-        <p class="title">GAME:</p>
-        <div class="jogo">
-            <FormRatio name="jogo" @input="handleInputJogo" :checked="true" id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" required/>
-        </div>
-      </div>
-      <FormInput @on-input="getRanking" id="nickname" text="NICKNAME:" required/>
-      <div>
-        <p class="title">FUNÇÃO:</p>
-          <div class="jogo">
-              <FormRatio name="funcao" @input="handleInputFuncao" id="TOP" icon="https://cdn3.emoji.gg/emojis/TopLane.png" required/>
-              <FormRatio name="funcao" @input="handleInputFuncao" id="JG" icon="https://cdn3.emoji.gg/emojis/Jungle.png" />
-              <FormRatio name="funcao" @input="handleInputFuncao" id="MID" icon="https://cdn3.emoji.gg/emojis/MidLane.png" />
-              <FormRatio name="funcao" @input="handleInputFuncao" id="ADC" icon="https://cdn3.emoji.gg/emojis/ADC.png" />
-              <FormRatio name="funcao" @input="handleInputFuncao" id="SUP" icon="https://cdn3.emoji.gg/emojis/Support.png" />
-        </div>
-      </div>
-      <div>
-          <p class="title">{{jogador.elo}}</p>
-      </div>
-
-    </div>
-    <div v-else-if="!form.souJogador" >
-      <div class="cadastro">
-        <FormInput @on-input="handleInputOrganizacao" id="nome" text="NOME DA ORGANIZAÇÃO:" required/>
-        <ImageUpload @ImageUploded="imageLogoUploded" id="logo"/>
-      </div>
-
-    </div> -->
 
   </form>
 </template>
@@ -142,6 +92,7 @@ const cadastro = ref({
   confPassword : "",
   fullName: "",
   birthDay: "",
+  bio: "",
   image : null,
   genero : "outro",
   socialMedia : [],
@@ -256,6 +207,25 @@ function makeRegister () {
   .awarn{
     color: var(--red);
   }
-
+  textarea:focus{
+    outline: none;
+    border-bottom: 5px solid var(--red);
+    transition: 0.2s;
+  }
+  textarea:hover{
+    outline: none;
+    border-bottom: 5px solid var(--red);
+    transition: 0.2s;
+  }
+  textarea{
+    outline: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    font-size: var(--font-text);
+    resize: none;
+    width: 100%;
+    height: 10vw;
+  }
 
 </style>

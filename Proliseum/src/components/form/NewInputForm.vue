@@ -50,19 +50,18 @@ defineProps({
   .optional{
     font-size: var(--font-text);
   }
-  textarea:focus, input:focus{
+  input:focus{
     outline: none;
-    border-bottom: 3px solid var(--red);
+    border-bottom: 5px solid var(--red);
     transition: 0.2s;
   }
-  textarea:hover, input:hover{
+  input:hover{
     outline: none;
-    border-bottom: 3px solid var(--red);
+    border-bottom: 5px solid var(--red);
     transition: 0.2s;
   }
 
-
-  textarea, input{
+  input{
     outline: none;
     border: none;
     font-family: 'Poppins', sans-serif;
