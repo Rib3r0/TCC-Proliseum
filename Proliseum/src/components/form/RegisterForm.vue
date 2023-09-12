@@ -1,30 +1,41 @@
 <template>
   <form class="form" autocomplete="off" @submit="submit">
-    <div class="cadastro">
-      <new-input-form v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
-      <new-input-form v-model="cadastro.email" label="EMAIL:" type="email" required/>
-      <new-input-form 
-        v-model="cadastro.password" 
-        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
-        title="Precisa conter pelo menos um numero, uma letra maiuscula e minuscula e ao menos 8 caracteres" 
-        label="SENHA:" 
-        type="password" 
-        required/>
-      <div>
-        <new-input-form v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
-        <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
+    <div>
+      <div class="cadastro">
+        <new-input-form v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
+        <new-input-form v-model="cadastro.email" label="EMAIL:" type="email" required/>
+        <new-input-form 
+          v-model="cadastro.password" 
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+          title="Precisa conter pelo menos um numero, uma letra maiuscula e minuscula e ao menos 8 caracteres" 
+          label="SENHA:" 
+          type="password" 
+          required/>
+        <div>
+          <new-input-form v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
+          <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
+        </div>
+        <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
+        <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
+        <div class="genero">
+          <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" value="masculino" v-model="cadastro.genero"/>
+          <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" value="feminino" v-model="cadastro.genero" />
+          <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" value="outro" v-model="cadastro.genero" checked/>
+        </div>
       </div>
-      <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
-      <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
-      <div class="genero">
-        <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero"/>
-        <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero"/>
-        <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero"/>
-      </div>
-      <div>
+      <div class="forms">
         <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro"/>
+        <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro"/>
       </div>
     </div>
+    <div>
+      <div class="submit">
+        <ImageUpload id="profilePic" v-model="cadastro.image" />
+        <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" @onClick="makeRegister" />
+        <!-- <CustomisedButton  text="ENVIAR" type="submit"/> -->
+      </div>
+    </div>
+
 
 
 
@@ -75,11 +86,7 @@
       </div>
 
     </div> -->
-    <div class="submit">
-      <ImageUpload id="profilePic" v-model="cadastro.image" />
-      <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" @onClick="makeRegister" />
-      <!-- <CustomisedButton  text="ENVIAR" type="submit"/> -->
-    </div>
+
   </form>
 </template>
 
@@ -101,7 +108,7 @@ const cadastro = ref({
   fullName: "",
   birthDay: "",
   image : null,
-  genero : "",
+  genero : "outro",
   socialMedia : [],
   jogador : {
     jogo : "League of legends",
@@ -156,7 +163,14 @@ function makeRegister () {
     padding:30px ;
     display: grid;
     column-gap: 5%;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 1fr 20vw;
+  }
+  .forms{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    height: 200px;
   }
 
   .cadastro{

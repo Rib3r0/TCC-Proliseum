@@ -1,19 +1,11 @@
 <template>
-    <input :id="id" :name="name" type="radio" hidden>
-        <label class="button" :for="id">
-            <img v-if="icon"  :src="icon">
-            <p v-if="label" >{{ label }}</p>
-        </label>    
-
-
-    <!-- <input :id="id" type="radio"  :name="name" :required="required" @input="onInput" :checked="checked"  hidden>
-    <label v-if="!text" class="checkbox" v :for="id">
-        <img  :src="icon">
-    </label>
-    <label v-else  class="button" :for="id">
+    <input :id="id" :name="name" type="radio" v-bind="$attrs" @input="$emit('update:modelValue', $event.target.value)" hidden>
+    <label v-if="icon" class="button icon" :for="id">
         <img v-if="icon"  :src="icon">
-        <p >{{ text }}</p>
-    </label> -->
+    </label>    
+    <label v-if="label" class="button text" :for="id">
+        <p v-if="label" >{{ label }}</p>
+    </label>    
 </template>
 
 <script setup>
@@ -30,7 +22,6 @@ defineProps({
     label : String,
 
 })
-
 
 // export default {
 //     name: "FormRatio",
@@ -80,40 +71,20 @@ defineProps({
 
 <style scoped>
 
-.checkbox{
-    background-color: var(--red);
-    padding: 10px;
-    display: grid;
-    place-items: center;
-    height: 6vw;
-    width: 6vw;
-    border-radius: 20px;
-  }
-.checkbox img {
-    max-width: 90%;
-    filter: brightness(0) saturate(100%)
-}
-.checkbox i {
-    font-size: var(--font-subtitle);
-}
-
-:checked + .checkbox {
-    background-color: #fff;
-    transition: all 0.8s
-}
-:checked + .checkbox img {
-    filter: brightness(0) saturate(100%) invert(49%) sepia(54%) saturate(7439%) hue-rotate(342deg) brightness(103%) contrast(104%);
-}
-:checked + .checkbox p {
-    color: var(--red);
-    transition: all 0.8s
-}
-
 .button{
+    display: block;
     background-color: var(--red);
     border-radius: 10px;
+
+}
+.icon{
     width: 5vw;
     height: 5vw;
+}
+.text{
+    width:fit-content;
+    height: fit-content;
+    padding: 15px 30px 15px 30px;
 }
 .button img{
     width: 100%;
