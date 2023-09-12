@@ -1,5 +1,5 @@
 <template>
-    <input :id="id" :name="name" type="radio" v-bind="$attrs" @input="$emit('update:modelValue', $event.target.value)" hidden>
+    <input :id="id" :name="name" type="radio" v-bind="$attrs" @input="$emit('update:modelValue', $event.target.value)" hidden required>
     <label v-if="icon" class="button icon" :for="id">
         <img v-if="icon"  :src="icon">
     </label>    
@@ -88,6 +88,7 @@ defineProps({
 }
 .button img{
     width: 100%;
+    filter: brightness(0) saturate(100%)
 }
 
 p{

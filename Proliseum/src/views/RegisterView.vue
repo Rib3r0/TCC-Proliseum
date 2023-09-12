@@ -1,6 +1,12 @@
 <template>
   <div class="body">
-    <h1 class="title ">cadastro</h1>
+    <div class="header">
+        <h1 class="title">cadastro</h1>
+        <router-link to="/login"> 
+            <span class="subtitle">Já tem uma conta?</span>
+        </router-link>
+    </div>
+    
     <RegisterForm/>
     <Rodape :lined="true" />
   </div>
@@ -25,8 +31,19 @@ export default {
         min-height: 100vh;
         grid-template-rows: max-content 1fr max-content;
     }
-    .title{
+    .subtitle{
+        font-weight: 100;
+        color: var(--red);
+        text-decoration-line: underline;
+    }
+    .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         padding: 40px;
+        background: linear-gradient(0deg, rgba(2,0,36,0) 0%, rgba(0, 0, 0, 0.427) 61%);
+    }
+    .title{
         font-family: 'Cyberjunkies', sans-serif;
         font-size: var(--font-subtitle);
         text-shadow: 0px 0.4vw red;

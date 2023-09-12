@@ -17,22 +17,48 @@
         </div>
         <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
         <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
-        <div class="genero">
-          <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" value="masculino" v-model="cadastro.genero"/>
-          <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" value="feminino" v-model="cadastro.genero" />
-          <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" value="outro" v-model="cadastro.genero" checked/>
+        <div>
+          <span class="title">GÊNERO:</span>
+          <div class="genero">
+            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" value="masculino" v-model="cadastro.genero"/>
+            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" value="feminino" v-model="cadastro.genero" />
+            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" value="outro" v-model="cadastro.genero" checked/>
+          </div>
         </div>
+
       </div>
       <div class="forms">
         <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario"/>
         <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
       </div>
       <div class="cadastro" v-if="usuario == 'jogador'">
-        <h1>jogador</h1>
+        <div>
+          <span class="title">GAME:</span>
+            <div class="jogo">
+              <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" value="league of legends" v-model="cadastro.jogador.jogo" checked/>
+          </div>
+        </div>
         <new-input-form v-model="cadastro.jogador.nickname" label="NICKNAME:" required/>
+        <div>
+          <span class="title">FUNÇÃO:</span>
+            <div class="jogo">
+              <FormRatio name="funcao"  id="top" icon="https://cdn3.emoji.gg/emojis/TopLane.png" value="top" v-model="cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="jg" icon="https://cdn3.emoji.gg/emojis/Jungle.png" value="jg" v-model="cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="mid" icon="https://cdn3.emoji.gg/emojis/MidLane.png" value="mid" v-model="cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="adc" icon="https://cdn3.emoji.gg/emojis/ADC.png" value="adc" v-model="cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="sup" icon="https://cdn3.emoji.gg/emojis/Support.png" value="sup" v-model="cadastro.jogador.funcao"/>
+          </div>
+        </div>
+
       </div>
+      
       <div class="cadastro" v-if="usuario == 'organizador'">
-        <h1>organizador</h1>
+        <new-input-form v-model="cadastro.organizador.nome" label="NOME DA ORGANIZAÇÃO:" required/>
+        <div>
+          <span class="title">LOGO:</span>
+          <ImageUpload id="orgPic" v-model="cadastro.organizador.logo" />
+        </div>
+        
       </div>
     </div>
     <div>
@@ -104,6 +130,8 @@ import FormRatio from './FormRatio.vue';
 import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
 import NewCustomButton from "../NewCustomButton.vue";
+import { createToast } from 'mosha-vue-toastify'
+import 'mosha-vue-toastify/dist/style.css'
 
 const usuario = ref("")
 
@@ -160,6 +188,16 @@ const getRanking = (value, id) =>{
 
 function makeRegister () {
   console.log(cadastro.value);
+  createToast('Teste',{
+    type : 'danger',
+    showIcon : true,
+    toastBackgroundColor : "#FF3130"
+  })
+  createToast('Teste',{
+    type : 'success',
+    showIcon : true,
+  })
+  
 }
 
 
@@ -170,14 +208,18 @@ function makeRegister () {
     padding:30px ;
     display: grid;
     column-gap: 5%;
-    grid-template-columns: 1fr 20vw;
+    grid-template-columns: 1fr 30vw;
   }
+  .title{
+    font-weight: 900;
+    font-size: var(--font-text);
+}
   .forms{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 20px;
-    height: 200px;
+    height: 100px;
   }
 
   .cadastro{
@@ -197,32 +239,11 @@ function makeRegister () {
     width: 100%;
   }
 
-  .formChanger{
-    width: 100%;
-    display: flex;
-    padding: 30px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-  }
-
   .jogo{
     display: flex;
     gap: 15px;
     width: 100%;
   }
-
-  .select{
-    max-height: 55px;
-    height: 4vw;
-    font-weight: 500;
-    padding-left:10px ;
-    font-size: var(--font-text);
-    min-width: 18vw;
-    width: 100%;
-  }
-  
   .submit{
     display: flex;
     flex-direction: column;
