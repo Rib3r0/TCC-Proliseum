@@ -24,8 +24,15 @@
         </div>
       </div>
       <div class="forms">
-        <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro"/>
-        <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro"/>
+        <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario"/>
+        <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
+      </div>
+      <div class="cadastro" v-if="usuario == 'jogador'">
+        <h1>jogador</h1>
+        <new-input-form v-model="cadastro.jogador.nickname" label="NICKNAME:" required/>
+      </div>
+      <div class="cadastro" v-if="usuario == 'organizador'">
+        <h1>organizador</h1>
       </div>
     </div>
     <div>
@@ -93,12 +100,12 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-import CustomisedButton from '../CustomisedButton.vue';
 import FormRatio from './FormRatio.vue';
 import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
 import NewCustomButton from "../NewCustomButton.vue";
 
+const usuario = ref("")
 
 const cadastro = ref({
   username : "",
@@ -186,7 +193,7 @@ function makeRegister () {
 
   .genero{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
   }
 

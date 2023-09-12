@@ -40,6 +40,7 @@ defineProps({
   .container{
     display: flex;
     flex-direction: column;
+    place-self: end;
   }
 
 </style>

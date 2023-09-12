@@ -21,8 +21,9 @@ export default {
 
 <style scoped>
     .body{
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        min-height: 100vh;
+        grid-template-rows: max-content 1fr max-content;
     }
     .title{
         padding: 40px;
