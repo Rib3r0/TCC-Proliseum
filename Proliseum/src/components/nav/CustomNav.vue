@@ -1,35 +1,26 @@
 <template>
   <div class="sidebar" :style="{ width: sidebarWidth}">
-    <span class="collapsed-icon" @click="toggleSidebar">
-      <img  src="https://img.icons8.com/ios-filled/150/FFFFFF/menu--v6.png" alt="menu--v6"/>
-    </span>
+    <h1 v-if="!collapsed">
+      Perfil
+    </h1>
+    <span 
+        class="collapsed-icon"
+        :class="{ 'rotate-180' : collapsed }"
+        @click="toggleSidebar">
+        <img  src="https://img.icons8.com/ios-filled/100/FFFFFF/forward--v1.png" alt="menu--v6"/>
+      </span>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
-
-
-const collapsed =ref(true)
-const toggleSidebar = () => (collapsed.value = !collapsed.value)
-
-const SIDEBAR_WIDTH = 15
-const SIDEBAR_WIDTH_COLLAPSED = 3.5
-
-const sidebarWidth = computed(
-  () => `${collapsed.value ? SIDEBAR_WIDTH_COLLAPSED : SIDEBAR_WIDTH}vw`
-)
+import { collapsed, toggleSidebar, sidebarWidth } from './state.js';
 
 </script>
 
 <style scoped>
-.collapsed-icon img{
-  height: 20%;
-}
-
 .sidebar{
   background-color: #191828;
-
+  overflow: hidden;
   float: left;
   position: fixed;
   z-index: 1;
@@ -41,6 +32,27 @@ const sidebarWidth = computed(
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+.collapsed-icon{
+  align-self: end;
+  position: absolute;
+  transition: 0.2s linear;
+  height: 50px;
+  width: 50px;
+}
+.collapsed-icon img{
+  width:  100%;
+  height: 80%;
+}
+
+.rotate-180{
+  transform: rotate(180deg);
+  transition: 0.2s linear;
+}
+
+.profile{
+  display: flex;
+  justify-content: space-between;
 }
 
 </style>
