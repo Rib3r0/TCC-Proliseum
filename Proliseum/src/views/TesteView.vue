@@ -1,11 +1,9 @@
 <template>
-  <new-input-form label="TESTE" v-model="nome"  required/>
-  <new-input-form label="TESTE" v-model="senha" required/>
-  <NewCustomButtonVue label="LOGIN" size="10px" @onClick="login" />
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import CustomNav from '../components/Nav/CustomNav.vue';
 import NewInputForm from '../components/form/NewInputForm.vue';
 import NewCustomButtonVue from '../components/NewCustomButton.vue';
 

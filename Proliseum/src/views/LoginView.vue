@@ -7,7 +7,6 @@
       <div class="main">
         <h1 class="title">login</h1>
         <login-form/>
-        
       </div>
     </div>
     <div class="background">

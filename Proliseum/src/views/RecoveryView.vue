@@ -5,76 +5,70 @@
       <h1 class="titulo">Recuperar senha</h1>
     </div>
     <div class="main">
-      <div class="reiniciarSenha">
+      <form class="reiniciarSenha" @submit.prevent="sendEmail">
         <p class="text">Para reiniciar a senha digite seu E-mail</p>
-        <div class="email">
-          <label for="email">Email:</label>
-          <input type="email" id="email" placeholder=" " required />
-        </div>
-
-        <div class="botaoReiniciar">
-          <router-link to="/reboot-message">
-            <customised-button
-              text="Reiniciar Senha"
-              @buttonFunction="teste"
-            ></customised-button>
-          </router-link>
-        </div>
-      </div>
+        <NewInputForm label="EMAIL:" v-model="email" type="email" required/>
+        <NewCustomButton type="submit" label="ENVIAR" size="2rem" />
+      </form>
+      <router-link to="/login">
+        <NewCustomButton label="VOLTAR" size="1rem" />
+      </router-link>
+      
     </div>
     <Rodape/>
   </div>
 </template>
   
 
-<script>
-import CustomisedButton from "../components/CustomisedButton.vue";
+<script setup>
+import { ref } from "vue";
+import NewCustomButton from "../components/NewCustomButton.vue";
+import NewInputForm from "../components/form/NewInputForm.vue";
 import Rodape from '../components/Rodape.vue';
-export default {
-  name: "StartView",
-  components: {
-    CustomisedButton,
-    Rodape,
-  },
-  methods: {
-    teste() {
-      console.log("aaaaa");
-    },
-  },
-};
+import { createToast } from "mosha-vue-toastify";
+
+
+const email = ref("")
+
+function sendEmail() {
+  console.log('teste');
+  createToast('Email enviado!',{
+    type : 'success',
+    showIcon : true,
+    position : "top-center"
+  })
+}
+
 </script>
 
 <style scoped>
 .body {
-  display: flex;
-  flex-direction: column;
-  background: #1f1e31;
-  justify-content: space-between;
-  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 50px;
 }
 .logo {
-  margin-top: 25px;
-  height: 20vh;
+  height: 10vw;
 }
 
 .main {
   display: flex;
   padding: 0px 175px 0px 175px;
+  flex-direction: column;
   gap: 100px;
   align-items: center;
   justify-content: center;
 }
 .titulo {
   font-family: 'Cyberjunkies', sans-serif;
-  font-size: 48px;
-  text-shadow: 0px 5px red;
+  font-size: var(--font-subtitle);
+  text-shadow: 0px 10px red;
   font-weight: 100;
 }
 
@@ -86,7 +80,6 @@ export default {
   width: 980px;
   height: 376px;
   background-color: #0005;
-  border-radius: 50px;
 }
 
 .text{

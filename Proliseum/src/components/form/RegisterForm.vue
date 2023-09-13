@@ -1,5 +1,5 @@
 <template>
-  <form class="form" autocomplete="off" @submit="submit">
+  <form class="form" autocomplete="off" @submit.prevent="handleSubmit($event)">
     <div>
       <div class="cadastro">
         <new-input-form v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
@@ -28,7 +28,7 @@
 
       </div>
       <div class="forms">
-        <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario"/>
+        <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario" checked/>
         <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
       </div>
       <div class="cadastro" v-if="usuario == 'jogador'">
@@ -61,13 +61,13 @@
         
       </div>
     </div>
-    <div>
+    <div class="second">
       <div class="submit">
         <ImageUpload id="profilePic" v-model="cadastro.image" />
         <span class="title">BIO:</span>
-        <textarea name="" v-model="cadastro.bio" id="" maxlength="300" required></textarea>
+        <textarea name="" v-model="cadastro.bio" id="" maxlength="300" placeholder="Bio..."></textarea>
       </div>
-      <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" @onClick="makeRegister" />
+      <NewCustomButton class="cadastrar" label="CADASTRAR" size="1.5vw" type="submit" />
     </div>
 
   </form>
@@ -81,9 +81,8 @@ import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
 import NewCustomButton from "../NewCustomButton.vue";
 import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'
 
-const usuario = ref("")
+const usuario = ref("jogador")
 
 const cadastro = ref({
   username : "",
@@ -137,7 +136,7 @@ const getRanking = (value, id) =>{
 
 }
 
-function makeRegister () {
+async function handleSubmit () {
   console.log(cadastro.value);
   createToast('Teste',{
     type : 'danger',
@@ -226,6 +225,14 @@ function makeRegister () {
     resize: none;
     width: 100%;
     height: 10vw;
+  }
+  .second{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .cadastrar{
+    align-self: end;
   }
 
 </style>

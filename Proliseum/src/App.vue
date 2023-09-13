@@ -1,18 +1,16 @@
 <template>
-  <router-view/>
+  <div>
+    <custom-nav/>
+    <router-view/>
+  </div>
 </template>
 
-<script>
-import CustomisedButton from './components/CustomisedButton.vue'
-  export default{
-    name: 'App',
-    components:{
-      CustomisedButton
-    },
-  }
+<script setup>
+import CustomNav from './components/Nav/CustomNav.vue';
+
 </script>
 
-<style>
+<style scoped>
 
 
 </style>

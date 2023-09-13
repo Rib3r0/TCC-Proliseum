@@ -12,6 +12,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import router from '../../router';
 import CustomisedButton from '../CustomisedButton.vue';
 import NewCustomButton from '../NewCustomButton.vue';
 import NewInputForm from './NewInputForm.vue';
@@ -22,7 +23,7 @@ const password = ref("")
 function makeLogin(){
   console.log(userName.value);
   console.log(password.value);
-
+  router.push('/home')
 }
 
 
