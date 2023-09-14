@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div v-if="lined" class="line"></div>
-    <p class="text">©2023 - TECNO CEOS</p>
+    <p class="text">©2023 - TECNO CEOS, icons by <a href="https://icons8.com">Icons8</a></p> 
   </div>
 </template>
 
@@ -36,6 +36,10 @@ defineProps({
   }
   .text{
     font-size: var(--font-text);
+    color: #fffc;
+  }
+  .text a{
+    color: var(--red);
   }
   .container{
     display: flex;

@@ -59,16 +59,15 @@ function sendEmail() {
 
 .main {
   display: flex;
-  padding: 0px 175px 0px 175px;
+  padding: 20px 175px 0px 175px;
   flex-direction: column;
-  gap: 100px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 .titulo {
   font-family: 'Cyberjunkies', sans-serif;
   font-size: var(--font-subtitle);
-  text-shadow: 0px 10px red;
+  text-shadow: 0px 5px red;
   font-weight: 100;
 }
 

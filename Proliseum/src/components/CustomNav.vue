@@ -1,8 +1,17 @@
 <template>
   <div class="sidebar" :style="{ width: sidebarWidth}" :class="{ 'shadow' : !collapsed } ">
-    <h1 v-if="!collapsed">
-      Perfil
-    </h1>
+    <div>
+      <div class="profile">
+
+      </div>  
+      <SidebarLink to="/home" icon="https://img.icons8.com/windows/512/FFFFFF/home.png">HOME</SidebarLink>
+      <SidebarLink to="/teste" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">TESTE</SidebarLink>
+    </div>
+    <div>
+      <SidebarLink to="/teste" icon="/src/assets/img/logoIcon.png">PREMIUM</SidebarLink>
+      <SidebarLink to="/" icon="https://img.icons8.com/windows/96/FFFFFF/exit.png">SAIR</SidebarLink>
+    </div>
+
     <span 
         class="collapsed-icon"
         :class="{ 'rotate-180' : collapsed } "
@@ -13,8 +22,8 @@
 </template>
 
 <script setup>
-import { collapsed, toggleSidebar, sidebarWidth } from './nav/state.js';
-
+import { sidebarWidth, collapsed, toggleSidebar } from './state';
+import SidebarLink from './SidebarLink.vue';
 </script>
 
 <style scoped>
@@ -24,35 +33,37 @@ import { collapsed, toggleSidebar, sidebarWidth } from './nav/state.js';
   float: left;
   position: fixed;
   z-index: 1;
-  padding: 0.5rem;
   height: 100vh;
 
   transition: 0.3s ease;
-
   display: flex;
-  align-items: center;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
 }
 .collapsed-icon{
+  top: 40px;
+  right: 20px;
   align-self: end;
   position: absolute;
   transition: 0.2s linear;
-  height: 50px;
+  height: 40px;
   width: 50px;
+  transform: rotate(180deg);
 }
 .collapsed-icon img{
   width:  100%;
-  height: 80%;
+  height: 100%;
 }
 
 .rotate-180{
-  transform: rotate(180deg);
+  transform: rotate(0deg);
+  align-self: center;
   transition: 0.2s linear;
 }
 
 .profile{
-  display: flex;
-  justify-content: space-between;
+  height: 120px;
 }
 
 .shadow{

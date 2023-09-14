@@ -11,6 +11,7 @@
 </template>
 
 <script setup>
+import { createToast } from 'mosha-vue-toastify';
 import { ref } from 'vue';
 import router from '../../router';
 import CustomisedButton from '../CustomisedButton.vue';
@@ -23,6 +24,11 @@ const password = ref("")
 function makeLogin(){
   console.log(userName.value);
   console.log(password.value);
+  createToast('Logado com sucesso!',{
+    type : 'success',
+    showIcon : true,
+    position : "top-center"
+  })
   router.push('/home')
 }
 

@@ -9,9 +9,9 @@
 import { computed } from 'vue';
 import CustomNav from './components/CustomNav.vue';
 import router from './router';
-import { SIDEBAR_WIDTH_COLLAPSED } from './components/nav/state';
+import { SIDEBAR_WIDTH_COLLAPSED } from './components/state';
 
-const tamanho = SIDEBAR_WIDTH_COLLAPSED + "vw"
+const tamanho = SIDEBAR_WIDTH_COLLAPSED + "px"
 
 const showNav = computed(
   () =>   router.currentRoute.value.path != '/' &&  
