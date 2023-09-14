@@ -9,7 +9,7 @@
     </div>
     <div>
       <SidebarLink to="/teste" icon="/src/assets/img/logoIcon.png">PREMIUM</SidebarLink>
-      <SidebarLink to="/" icon="https://img.icons8.com/windows/96/FFFFFF/exit.png">SAIR</SidebarLink>
+      <SidebarLink @click="logoff" to="/" icon="https://img.icons8.com/windows/96/FFFFFF/exit.png">SAIR</SidebarLink>
     </div>
 
     <span 
@@ -24,6 +24,17 @@
 <script setup>
 import { sidebarWidth, collapsed, toggleSidebar } from './state';
 import SidebarLink from './SidebarLink.vue';
+import { createToast } from 'mosha-vue-toastify';
+
+const logoff = () => {
+  createToast('Saiu com Sucesso!',{
+    type : 'success',
+    showIcon : true,
+    position : "top-center"
+  })
+}
+
+
 </script>
 
 <style scoped>
