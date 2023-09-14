@@ -1,20 +1,23 @@
 <template>
-  <custom-nav v-if="showNav"/>
-  <div :style="{ 'margin-left' : tamanho }"> 
+  <CustomNav v-if="showNav"/>
+  <div :style="showNav ? { 'margin-left' : tamanho} : { 'margin-left' : '0' } "> 
     <router-view/>
   </div>
 </template>
 
 <script setup>
-import { computed, watch } from 'vue';
-import CustomNav from './components/Nav/CustomNav.vue';
+import { computed } from 'vue';
+import CustomNav from './components/CustomNav.vue';
 import router from './router';
 import { SIDEBAR_WIDTH_COLLAPSED } from './components/nav/state';
 
 const tamanho = SIDEBAR_WIDTH_COLLAPSED + "vw"
 
 const showNav = computed(
-  () =>  router.currentRoute.value.path == '/home'
+  () =>   router.currentRoute.value.path != '/' &&  
+          router.currentRoute.value.path != '/login' &&
+          router.currentRoute.value.path != '/recovery' &&
+          router.currentRoute.value.path != '/register' 
 )
 
 

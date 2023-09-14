@@ -3,7 +3,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import CustomNav from '../components/Nav/CustomNav.vue';
 import NewInputForm from '../components/form/NewInputForm.vue';
 import NewCustomButtonVue from '../components/NewCustomButton.vue';
 

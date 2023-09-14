@@ -1,11 +1,11 @@
 <template>
-  <div class="sidebar" :style="{ width: sidebarWidth}">
+  <div class="sidebar" :style="{ width: sidebarWidth}" :class="{ 'shadow' : !collapsed } ">
     <h1 v-if="!collapsed">
       Perfil
     </h1>
     <span 
         class="collapsed-icon"
-        :class="{ 'rotate-180' : collapsed }"
+        :class="{ 'rotate-180' : collapsed } "
         @click="toggleSidebar">
         <img  src="https://img.icons8.com/ios-filled/100/FFFFFF/forward--v1.png" alt="menu--v6"/>
       </span>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { collapsed, toggleSidebar, sidebarWidth } from './state.js';
+import { collapsed, toggleSidebar, sidebarWidth } from './nav/state.js';
 
 </script>
 
@@ -53,6 +53,10 @@ import { collapsed, toggleSidebar, sidebarWidth } from './state.js';
 .profile{
   display: flex;
   justify-content: space-between;
+}
+
+.shadow{
+  filter : drop-shadow(60px 0px 200px #000);
 }
 
 </style>

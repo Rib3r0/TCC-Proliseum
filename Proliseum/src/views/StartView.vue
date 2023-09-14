@@ -34,7 +34,6 @@
 </template>
 
 <script setup>
-import CustomisedButton from '../components/CustomisedButton.vue'
 import NewCustomButton from '../components/NewCustomButton.vue';
 import Rodape from '../components/Rodape.vue';
 
