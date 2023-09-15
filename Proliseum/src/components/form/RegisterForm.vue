@@ -2,9 +2,10 @@
   <form class="form" autocomplete="off" @submit.prevent="handleSubmit($event)">
     <div>
       <div class="cadastro">
-        <new-input-form v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
-        <new-input-form v-model="cadastro.email" label="EMAIL:" type="email" required/>
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
+        <new-input-form icon="https://img.icons8.com/ios-filled/100/new-post.png" v-model="cadastro.email" label="EMAIL:" type="email" required/>
         <new-input-form 
+          icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png"
           v-model="cadastro.password" 
           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
           title="Precisa conter pelo menos um numero, uma letra maiuscula e minuscula e ao menos 8 caracteres" 
@@ -12,11 +13,11 @@
           type="password" 
           required/>
         <div>
-          <new-input-form v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
+          <new-input-form icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
           <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
         </div>
-        <new-input-form v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
-        <new-input-form v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
+        <new-input-form icon="https://img.icons8.com/ios-filled/100/planner.png" v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
         <div>
           <span class="title">GÊNERO:</span>
           <div class="genero">
@@ -81,6 +82,7 @@ import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
 import NewCustomButton from "../NewCustomButton.vue";
 import { createToast } from 'mosha-vue-toastify'
+import router from "../../router";
 
 const usuario = ref("jogador")
 
@@ -138,15 +140,13 @@ const getRanking = (value, id) =>{
 
 async function handleSubmit () {
   console.log(cadastro.value);
-  createToast('Teste',{
-    type : 'danger',
-    showIcon : true,
-    toastBackgroundColor : "#FF3130"
-  })
-  createToast('Teste',{
+  createToast('Cadastro criado com sucesso!',{
     type : 'success',
     showIcon : true,
+    position : "top-center"
   })
+  router.push('/login')
+
   
 }
 
@@ -223,6 +223,7 @@ async function handleSubmit () {
     font-weight: 200;
     font-size: var(--font-text);
     resize: none;
+    padding: 10px;
     width: 100%;
     height: 10vw;
   }

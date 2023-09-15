@@ -1,7 +1,7 @@
 <template>
   <form class="form" autocomplete="on">
-    <NewInputForm v-model="userName" label="NOME DE USUARIO:" autofocus/>
-    <NewInputForm v-model="password" label="SENHA:" type="password" />
+    <NewInputForm icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="userName" label="NOME DE USUARIO:" autofocus/>
+    <NewInputForm icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="password" label="SENHA:" type="password" />
     <router-link class="recuperar" to="/recovery">  
         <h3 style="font-size: 0.8vw"> Esqueceu sua senha?</h3>
     </router-link>

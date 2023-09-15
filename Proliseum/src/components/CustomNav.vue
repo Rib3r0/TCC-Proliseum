@@ -78,7 +78,7 @@ const logoff = () => {
 }
 
 .shadow{
-  filter : drop-shadow(60px 0px 200px #000);
+  box-shadow: 100px 0px 50px #0009;
 }
 
 </style>

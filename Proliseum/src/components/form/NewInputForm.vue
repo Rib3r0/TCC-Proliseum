@@ -1,13 +1,16 @@
 <template>
   <div class="input-wrap">
     <span class="title" for="">{{ label }} </span>
-    <input
-      class="input" 
-      type="text" 
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      v-bind="$attrs"
-    />
+    <div class="line">
+      <img class="icon" :src="icon">
+      <input
+        class="input" 
+        type="text" 
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        v-bind="$attrs"
+      />
+    </div>
     <span class="optional" v-if="optional">opcional</span>
   </div>
 </template>
@@ -25,6 +28,9 @@ defineProps({
   optional: {
     type: Boolean,
     default: false
+  },
+  icon: {
+    type: String,
   }
 })
 
@@ -40,7 +46,7 @@ defineProps({
   .input{
     max-height: 55px;
     font-weight: 500;
-    padding-left:10px ;
+    padding-left: 40px;
     font-size: var(--font-text);
     min-width: 20vw;
     max-width: 100%;
@@ -65,9 +71,20 @@ defineProps({
     outline: none;
     border: none;
     font-family: 'Poppins', sans-serif;
+    
   }
   .title{
     font-weight: 900;
     font-size: var(--font-text);
-}
+  }
+  .icon{
+    position: absolute;
+    height: 25px;
+    margin-left: 10px;
+    opacity: 30%;
+  }
+  .line{
+    display: flex;
+    align-items: center;
+  }
 </style>
