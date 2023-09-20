@@ -2,28 +2,29 @@
   <form class="form" autocomplete="off" @submit.prevent="handleSubmit($event)">
     <div>
       <div class="cadastro">
-        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.username" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nome_usuario" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
         <new-input-form icon="https://img.icons8.com/ios-filled/100/new-post.png" v-model="cadastro.email" label="EMAIL:" type="email" required/>
-        <new-input-form 
+        <new-input-form
+          ref="senha"
           icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png"
-          v-model="cadastro.password" 
+          v-model="cadastro.senha" 
           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
           title="Precisa conter pelo menos um numero, uma letra maiuscula e minuscula e ao menos 8 caracteres" 
           label="SENHA:" 
           type="password" 
           required/>
         <div>
-          <new-input-form icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="cadastro.confPassword" label="CONFIRMAR SENHA:" type="password" required/>
-          <p class="awarn" v-if="cadastro.password != cadastro.confPassword && cadastro.confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
+          <new-input-form icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="confPassword" label="CONFIRMAR SENHA:" type="password" required/>
+          <p class="awarn" v-if="cadastro.senha != confPassword && confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
         </div>
-        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.fullName" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
-        <new-input-form icon="https://img.icons8.com/ios-filled/100/planner.png" v-model="cadastro.birthDay" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nome_completo" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
+        <new-input-form icon="https://img.icons8.com/ios-filled/100/planner.png" v-model="cadastro.data_nascimento" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
         <div>
           <span class="title">GÊNERO:</span>
           <div class="genero">
-            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" value="masculino" v-model="cadastro.genero"/>
-            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" value="feminino" v-model="cadastro.genero" />
-            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" value="outro" v-model="cadastro.genero" checked/>
+            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" :value="0" v-model="cadastro.genero"/>
+            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" :value="1" v-model="cadastro.genero" />
+            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="cadastro.genero" checked/>
           </div>
         </div>
 
@@ -36,7 +37,7 @@
         <div>
           <span class="title">GAME:</span>
             <div class="jogo">
-              <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" value="league of legends" v-model="cadastro.jogador.jogo" checked/>
+              <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" :value="0" v-model="cadastro.jogador.jogo" checked/>
           </div>
         </div>
         <new-input-form v-model="cadastro.jogador.nickname" label="NICKNAME:" required/>
@@ -66,7 +67,7 @@
       <div class="submit">
         <ImageUpload id="profilePic" v-model="cadastro.image" />
         <span class="title">BIO:</span>
-        <textarea name="" v-model="cadastro.bio" id="" maxlength="300" placeholder="Bio..."></textarea>
+        <textarea name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
       </div>
       <NewCustomButton class="cadastrar" label="CADASTRAR" size="1.5vw" type="submit" />
     </div>
@@ -75,32 +76,35 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { ref } from "vue";
 import FormRatio from './FormRatio.vue';
 import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
 import NewCustomButton from "../NewCustomButton.vue";
 import { createToast } from 'mosha-vue-toastify'
+import axios from "axios";
+import "../../axios/axios.js";
 import router from "../../router";
 
 const usuario = ref("jogador")
 
+const confPassword = ref("")
+
 const cadastro = ref({
-  username : "",
+  nome_usuario : "",
+  nome_completo: "",
   email : "",
-  password : "",
-  confPassword : "",
-  fullName: "",
-  birthDay: "",
-  bio: "",
-  image : null,
-  genero : "outro",
-  socialMedia : [],
+  senha : "",
+  data_nascimento: "",
+  foto_perfil : "",
+  foto_capa: "",
+  biografia: "",
+  genero : 2,
+  tipo_de_usuario: 0,
   jogador : {
-    jogo : "League of legends",
     nickname : "",
-    funcao : "",
+    jogo : 0,
+    funcao : 0,
     id : "",
     elo : ""
   },
@@ -139,15 +143,26 @@ const getRanking = (value, id) =>{
 }
 
 async function handleSubmit () {
-  console.log(cadastro.value);
-  createToast('Cadastro criado com sucesso!',{
-    type : 'success',
-    showIcon : true,
-    position : "top-center"
-  })
-  router.push('/login')
+  if(cadastro.value.senha != confPassword.value && confPassword.value != '' ){
+    window.scrollTo(0,0)
+  }else{
+    if(form.value.souJogador){
+      cadastro.value.tipo_de_usuario = 0
+    }else{
+      cadastro.value.tipo_de_usuario = 1
+    }
+    const response = await axios.post('Register',cadastro)
 
-  
+    console.log(response);
+
+  //   createToast('Cadastro criado com sucesso!',{
+  //     type : 'success',
+  //     showIcon : true,
+  //     position : "top-center"
+  //   })
+  //   router.push('/login')
+  }
+
 }
 
 

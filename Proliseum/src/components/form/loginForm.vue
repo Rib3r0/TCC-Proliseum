@@ -14,16 +14,25 @@
 import { createToast } from 'mosha-vue-toastify';
 import { ref } from 'vue';
 import router from '../../router';
-import CustomisedButton from '../CustomisedButton.vue';
 import NewCustomButton from '../NewCustomButton.vue';
 import NewInputForm from './NewInputForm.vue';
+import axios from "axios";
+import "../../axios/axios.js";
 
 const userName = ref("")
 const password = ref("")
 
-function makeLogin(){
+ async function makeLogin(){
   console.log(userName.value);
   console.log(password.value);
+
+  const response = await axios.post('login',{
+    login: userName.value,
+    senha: password.value
+  })
+
+  console.log(response)
+
   createToast('Logado com sucesso!',{
     type : 'success',
     showIcon : true,
