@@ -55,21 +55,27 @@
       </div>
       
       <div class="cadastro" v-if="usuario == 'organizador'">
-        <new-input-form v-model="cadastro.organizador.nome" label="NOME DA ORGANIZAÇÃO:" required/>
+        <new-input-form v-model="novo_cadastro.organizador.nome" label="NOME DA ORGANIZAÇÃO:" required/>
         <div>
           <span class="title">LOGO:</span>
-          <ImageUpload id="orgPic" v-model="cadastro.organizador.logo" />
+          <ImageUpload id="orgPic" v-model="novo_cadastro.organizador.logo" />
         </div>
         
       </div>
     </div>
     <div class="second">
       <div class="submit">
-        <ImageUpload id="profilePic" v-model="cadastro.image" />
+        <ImageUpload id="profilePic" v-model="novo_cadastro.image" />
         <span class="title">BIO:</span>
-        <textarea name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+        <textarea name="" v-model="novo_cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
       </div>
-      <NewCustomButton class="cadastrar" label="CADASTRAR" size="1.5vw" type="submit" />
+      <div class="end">
+        <p class="awarnResponse" v-if="errorLogin" >Email ou Nome de Usuario já cadastrado!</p>
+        <div  class="cadastrar">
+          <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
+          <NewCustomButton label="CADASTRAR" size="1.5vw" type="submit" />
+        </div>
+      </div>
     </div>
 
   </form>
@@ -111,31 +117,9 @@ const novo_cadastro = ref({
       }
 })
 
+const loading = ref(false)
 
-
-const cadastro = ref({
-  nome_usuario : "",
-  nome_completo: "",
-  email : "",
-  senha : "",
-  data_nascimento: "",
-  foto_perfil : "",
-  foto_capa: "",
-  biografia: "",
-  genero : 2,
-  tipo_de_usuario: 0,
-  jogador : {
-    nickname : "",
-    jogo : 0,
-    funcao : 0,
-    id : "",
-    elo : ""
-  },
-  organizador : {
-    nome : "",
-    logo : null,
-  }
-})
+const errorLogin = ref(false)
 
 const form = ref({
   souJogador : true,
@@ -170,33 +154,46 @@ async function handleSubmit () {
     window.scrollTo(0,0)
   }else{
     if(form.value.souJogador){
-      cadastro.value.tipo_de_usuario = 0
+      novo_cadastro.value.tipo_de_usuario = 0
     }else{
-      cadastro.value.tipo_de_usuario = 1
+      novo_cadastro.value.tipo_de_usuario = 1
     }
+    
+    loading.value = true
+    errorLogin.value = false
 
     //const response = await axios.post('Register',cadastro)
-    const response = await axiosPerfil.post('register', JSON.stringify(novo_cadastro.value))
-    
+    await axiosPerfil.post('register', JSON.stringify(novo_cadastro.value))
+  .then( (response) => {
+    loading.value = false
+    createToast('Cadastrado com sucesso!',{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+    router.push('/login')
+  })
+  .catch( (error) => {
+    loading.value = false
 
-    console.log(response.status == 200);
-    if(response.status == 201){
-      createToast('Cadastro criado com sucesso!',{
-        type : 'success',
-        showIcon : true,
-        position : "top-center"
-      })
-      router.push('/login')
-    }else{
-      createToast('Um erro ocorreu!',{
-        type : 'danger',
-        showIcon : true,
-        position : "top-center"
+    if(error.response.status == 400){
+      errorLogin.value = true
+      createToast('Email ou Nome de Usuario já cadastrado!',{
+      type : 'warning',
+      showIcon : true,
+      position : "top-center"
+    })
+    }
+    if(error.response.status == 500){
+      createToast('Erro interno, Tente novamente!',{
+      type : 'danger',
+      showIcon : true,
+      position : "top-center"
       })
     }
 
-
-  }
+  })
+}
 
 }
 
@@ -283,7 +280,19 @@ async function handleSubmit () {
     justify-content: space-between;
   }
   .cadastrar{
-    align-self: end;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .cadastrar img{
+    height: 7vh;
+  }
+  .awarnResponse{
+    color: var(--red);
   }
 
+  .end{
+    display: flex;
+  }
 </style>
