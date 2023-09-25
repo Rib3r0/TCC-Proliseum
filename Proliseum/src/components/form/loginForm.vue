@@ -1,7 +1,7 @@
 <template>
   <form class="form" autocomplete="on">
-    <NewInputForm icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="userName" label="NOME DE USUARIO:" autofocus/>
-    <NewInputForm icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="password" label="SENHA:" type="password" />
+    <NewInputForm icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="login.login" label="NOME DE USUARIO:" autofocus/>
+    <NewInputForm icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="login.senha" label="SENHA:" type="password" />
     <router-link class="recuperar" to="/recovery">  
         <h3 style="font-size: 0.8vw"> Esqueceu sua senha?</h3>
     </router-link>
@@ -16,22 +16,28 @@ import { ref } from 'vue';
 import router from '../../router';
 import NewCustomButton from '../NewCustomButton.vue';
 import NewInputForm from './NewInputForm.vue';
-import axios from "axios";
-import "../../axios/axios.js";
+import { axiosPerfil } from '../../axios/axios';
 
-const userName = ref("")
-const password = ref("")
+
+const login = ref({
+  login: "",
+  senha: ""
+})
 
  async function makeLogin(){
-  console.log(userName.value);
-  console.log(password.value);
+  //const response = await axios.post('Register',cadastro)
+  const response = await axiosPerfil.post('login', JSON.stringify(login.value))
+    
 
-  const response = await axios.post('login',{
-    login: userName.value,
-    senha: password.value
-  })
-
-  console.log(response)
+  console.log(response.status == 200);
+  if(response.status == 201){
+    createToast('Cadastro criado com sucesso!' + response.data.nome_completo,{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+    router.push('/login')
+  }
 
   createToast('Logado com sucesso!',{
     type : 'success',

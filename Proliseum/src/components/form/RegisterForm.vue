@@ -2,12 +2,12 @@
   <form class="form" autocomplete="off" @submit.prevent="handleSubmit($event)">
     <div>
       <div class="cadastro">
-        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nome_usuario" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
-        <new-input-form icon="https://img.icons8.com/ios-filled/100/new-post.png" v-model="cadastro.email" label="EMAIL:" type="email" required/>
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="novo_cadastro.nome_usuario" label="NOME DE USUARIO:" maxlength="30" autofocus required/>
+        <new-input-form icon="https://img.icons8.com/ios-filled/100/new-post.png" v-model="novo_cadastro.email" label="EMAIL:" type="email" required/>
         <new-input-form
           ref="senha"
           icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png"
-          v-model="cadastro.senha" 
+          v-model="novo_cadastro.senha" 
           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
           title="Precisa conter pelo menos um numero, uma letra maiuscula e minuscula e ao menos 8 caracteres" 
           label="SENHA:" 
@@ -15,16 +15,16 @@
           required/>
         <div>
           <new-input-form icon="https://img.icons8.com/ios-glyphs/240/lock--v1.png" v-model="confPassword" label="CONFIRMAR SENHA:" type="password" required/>
-          <p class="awarn" v-if="cadastro.senha != confPassword && confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
+          <p class="awarn" v-if="novo_cadastro.senha != confPassword && confPassword != '' " >AS SENHAS NÃO SÃO IDENTICAS!</p>
         </div>
-        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nome_completo" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
-        <new-input-form icon="https://img.icons8.com/ios-filled/100/planner.png" v-model="cadastro.data_nascimento" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="novo_cadastro.nome_completo" pattern="[A-Za-z\s]+" title="Não pode possuir numeros" label="NOME COMPLETO:" maxlength="50" optional/>
+        <new-input-form icon="https://img.icons8.com/ios-filled/100/planner.png" v-model="novo_cadastro.data_nascimento" label="DATA DE NASCIMENTO:" type="date"  min="1900-01-02" required/>
         <div>
           <span class="title">GÊNERO:</span>
           <div class="genero">
-            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" :value="0" v-model="cadastro.genero"/>
-            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" :value="1" v-model="cadastro.genero" />
-            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="cadastro.genero" checked/>
+            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" :value="0" v-model="novo_cadastro.genero"/>
+            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" :value="1" v-model="novo_cadastro.genero" />
+            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="novo_cadastro.genero" checked/>
           </div>
         </div>
 
@@ -37,18 +37,18 @@
         <div>
           <span class="title">GAME:</span>
             <div class="jogo">
-              <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" :value="0" v-model="cadastro.jogador.jogo" checked/>
+              <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" :value="0" v-model="novo_cadastro.jogador.jogo" checked/>
           </div>
         </div>
-        <new-input-form v-model="cadastro.jogador.nickname" label="NICKNAME:" required/>
+        <new-input-form v-model="novo_cadastro.jogador.nickname" label="NICKNAME:" required/>
         <div>
           <span class="title">FUNÇÃO:</span>
             <div class="jogo">
-              <FormRatio name="funcao"  id="top" icon="https://cdn3.emoji.gg/emojis/TopLane.png" value="top" v-model="cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="jg" icon="https://cdn3.emoji.gg/emojis/Jungle.png" value="jg" v-model="cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="mid" icon="https://cdn3.emoji.gg/emojis/MidLane.png" value="mid" v-model="cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="adc" icon="https://cdn3.emoji.gg/emojis/ADC.png" value="adc" v-model="cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="sup" icon="https://cdn3.emoji.gg/emojis/Support.png" value="sup" v-model="cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="top" icon="https://cdn3.emoji.gg/emojis/TopLane.png" :value="0" v-model="novo_cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="jg" icon="https://cdn3.emoji.gg/emojis/Jungle.png" :value="1" v-model="novo_cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="mid" icon="https://cdn3.emoji.gg/emojis/MidLane.png" :value="2" v-model="novo_cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="adc" icon="https://cdn3.emoji.gg/emojis/ADC.png" :value="3" v-model="novo_cadastro.jogador.funcao"/>
+              <FormRatio name="funcao"  id="sup" icon="https://cdn3.emoji.gg/emojis/Support.png" :value="4" v-model="novo_cadastro.jogador.funcao"/>
           </div>
         </div>
 
@@ -82,13 +82,36 @@ import ImageUpload from './ImageUpload.vue';
 import NewInputForm from "./NewInputForm.vue";
 import NewCustomButton from "../NewCustomButton.vue";
 import { createToast } from 'mosha-vue-toastify'
-import axios from "axios";
-import "../../axios/axios.js";
+import { axiosPerfil } from "../../axios/axios.js";
 import router from "../../router";
 
 const usuario = ref("jogador")
 
 const confPassword = ref("")
+
+const novo_cadastro = ref({
+      nome_usuario: "" ,
+      nome_completo: "",
+      email: "",
+      senha: "",
+      data_nascimento: "",
+      foto_perfil: "",
+      foto_capa: "",
+      genero: 2,
+      tipo_de_usuario: 0,
+      jogador: {
+          nickname: "",
+          biografia: "",
+          jogo: 0,
+          funcao: 3
+      },
+      organizador : {
+        nome : "",
+        logo : null,
+      }
+})
+
+
 
 const cadastro = ref({
   nome_usuario : "",
@@ -143,7 +166,7 @@ const getRanking = (value, id) =>{
 }
 
 async function handleSubmit () {
-  if(cadastro.value.senha != confPassword.value && confPassword.value != '' ){
+  if(novo_cadastro.value.senha != confPassword.value && confPassword.value != '' ){
     window.scrollTo(0,0)
   }else{
     if(form.value.souJogador){
@@ -151,16 +174,28 @@ async function handleSubmit () {
     }else{
       cadastro.value.tipo_de_usuario = 1
     }
-    const response = await axios.post('Register',cadastro)
 
-    console.log(response);
+    //const response = await axios.post('Register',cadastro)
+    const response = await axiosPerfil.post('register', JSON.stringify(novo_cadastro.value))
+    
 
-  //   createToast('Cadastro criado com sucesso!',{
-  //     type : 'success',
-  //     showIcon : true,
-  //     position : "top-center"
-  //   })
-  //   router.push('/login')
+    console.log(response.status == 200);
+    if(response.status == 201){
+      createToast('Cadastro criado com sucesso!',{
+        type : 'success',
+        showIcon : true,
+        position : "top-center"
+      })
+      router.push('/login')
+    }else{
+      createToast('Um erro ocorreu!',{
+        type : 'danger',
+        showIcon : true,
+        position : "top-center"
+      })
+    }
+
+
   }
 
 }

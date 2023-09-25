@@ -1,3 +1,10 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:8080/'
+export const axiosPerfil = axios.create({
+    baseURL: 'https://proliseum-back.cyclic.app/',
+    headers: {
+        'Content-Type': "application/json",
+    }
+})
+
+//axios.defaults.baseURL = 'https://proliseum-back.cyclic.app/'
