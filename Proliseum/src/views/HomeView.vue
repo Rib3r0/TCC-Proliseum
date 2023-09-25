@@ -15,8 +15,17 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from 'vue';
 import NewInputForm from '../components/form/NewInputForm.vue';
 import Rodape from '../components/Rodape.vue';
+import router from '../router';
+
+onBeforeMount( () => {
+  if(!localStorage.getItem('token')){
+    router.push('login')
+  }
+  
+})
 
 const buscar = ""
 

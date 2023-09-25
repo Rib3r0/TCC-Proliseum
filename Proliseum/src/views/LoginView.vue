@@ -23,13 +23,11 @@
 </template>
 
 <script>
-import CustomisedButton from "../components/CustomisedButton.vue";
 import LoginForm from '../components/form/loginForm.vue';
 import NewCustomButton from "../components/NewCustomButton.vue";
 export default {
   name: "StartView",
   components: {
-    CustomisedButton,
     LoginForm,
     NewCustomButton
 },

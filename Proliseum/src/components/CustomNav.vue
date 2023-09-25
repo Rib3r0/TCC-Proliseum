@@ -27,7 +27,8 @@ import SidebarLink from './SidebarLink.vue';
 import { createToast } from 'mosha-vue-toastify';
 
 const logoff = () => {
-  createToast('Saiu com Sucesso!',{
+  localStorage.clear()
+  createToast('Até a Proxima!',{
     type : 'success',
     showIcon : true,
     position : "top-center"

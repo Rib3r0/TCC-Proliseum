@@ -8,19 +8,25 @@
     </router-link>
     <div class="login">
       <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
-      <NewCustomButton class="loginButton" label="LOGIN" size="1vw" @onClick="makeLogin" />
+      <NewCustomButton class="loginButton" label="LOGIN" size="1vw" @onClick="makeLogin" :disabled="loading" />
     </div>
-    <!-- <CustomisedButton class="loginButton" text="LOGIN" type="submit"/> -->
   </form>
 </template>
 
 <script setup>
 import { createToast } from 'mosha-vue-toastify';
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 import router from '../../router';
 import NewCustomButton from '../NewCustomButton.vue';
 import NewInputForm from './NewInputForm.vue';
 import { axiosPerfil } from '../../axios/axios';
+
+onBeforeMount( () => {
+  if(localStorage.getItem('token')){
+    router.push('home')
+  }
+})
+
 
 
 const login = ref({
@@ -28,22 +34,27 @@ const login = ref({
   senha: ""
 })
 
+
+
 const errorLogin = ref(false)
 
 const loading = ref(false)
 
  async function makeLogin(){
   errorLogin.value = false
-  loading.value = true
   //const response = await axios.post('Register',cadastro)
-  await axiosPerfil.post('login', JSON.stringify(login.value))
+  if(!loading.value){
+    loading.value = true
+    await axiosPerfil.post('login', JSON.stringify(login.value))
   .then( (response) => {
     loading.value = false
-    createToast('Bem vindo!',{
+    const message = 'Bem Vindo ' + response.data.user.nome_completo.split(" ")[0] + "!"
+    createToast(message,{
       type : 'success',
       showIcon : true,
       position : "top-center"
     })
+    localStorage.setItem('token', response.data.token)
     router.push('/home')
   })
   .catch( (error) => {
@@ -66,6 +77,9 @@ const loading = ref(false)
     }
 
   })
+}
+
+
 }
 </script>
 
