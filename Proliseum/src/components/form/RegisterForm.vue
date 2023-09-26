@@ -90,6 +90,8 @@ import NewCustomButton from "../NewCustomButton.vue";
 import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../../axios/axios.js";
 import router from "../../router";
+import  storage from '../../firebase/firebase.js'
+import { ref as refFB , uploadBytes } from 'firebase/storage'
 
 const usuario = ref("jogador")
 
@@ -162,10 +164,13 @@ async function handleSubmit () {
     loading.value = true
     errorLogin.value = false
 
-    //const response = await axios.post('Register',cadastro)
     await axiosPerfil.post('register', JSON.stringify(novo_cadastro.value))
   .then( (response) => {
     loading.value = false
+
+    const storageRef = refFB(storage, response.data.id + '/profile')
+    uploadBytes(storageRef, novo_cadastro.value.foto_perfil)
+
     createToast('Cadastrado com sucesso!',{
       type : 'success',
       showIcon : true,
@@ -183,8 +188,7 @@ async function handleSubmit () {
       showIcon : true,
       position : "top-center"
     })
-    }
-    if(error.response.status == 500){
+    }else{
       createToast('Erro interno, Tente novamente!',{
       type : 'danger',
       showIcon : true,

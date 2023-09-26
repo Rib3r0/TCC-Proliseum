@@ -12,6 +12,8 @@
 
 <script setup>
 import { ref } from "vue"
+import  storage from '../../firebase/firebase.js'
+import { ref as refFB , uploadBytes } from 'firebase/storage'
 
 defineProps({
   id : {
@@ -24,11 +26,16 @@ const emit = defineEmits(['update:modelValue'])
 
 function getImage(event){
   const image = event.target.files[0]
+  console.log(image);
+  
+  const storageRef = refFB(storage, 'id/profile')
+  uploadBytes(storageRef, image).then( (snapshot) => { console.log('uploaded') } )
+
   const reader = new FileReader()
   reader.readAsDataURL(image)
   reader.onload = e =>{
     src.value = e.target.result
-    emit('update:modelValue',src.value)
+    emit('update:modelValue', event.target.files[0])
   }
 }
 

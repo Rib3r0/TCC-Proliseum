@@ -68,8 +68,7 @@ const loading = ref(false)
       showIcon : true,
       position : "top-center"
     })
-    }
-    if(error.response.status == 500){
+    }else{
       createToast('Erro interno, Tente novamente!',{
       type : 'danger',
       showIcon : true,
