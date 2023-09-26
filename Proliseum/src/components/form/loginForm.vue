@@ -59,6 +59,7 @@ const loading = ref(false)
   })
   .catch( (error) => {
     loading.value = false
+    console.log(error);
 
     if(error.response.status == 400){
       errorLogin.value = true

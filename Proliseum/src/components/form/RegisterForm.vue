@@ -65,7 +65,7 @@
     </div>
     <div class="second">
       <div class="submit">
-        <ImageUpload id="profilePic" v-model="novo_cadastro.image" />
+        <ImageUpload id="profilePic" v-model="novo_cadastro.foto_perfil" />
         <span class="title">BIO:</span>
         <textarea name="" v-model="novo_cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
       </div>
