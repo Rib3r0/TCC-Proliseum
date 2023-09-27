@@ -115,7 +115,7 @@ const novo_cadastro = ref({
       },
       organizador : {
         nome : "",
-        logo : null,
+        logo : "",
       }
 })
 
@@ -171,6 +171,14 @@ async function handleSubmit () {
     const storageRef = refFB(storage, response.data.id + '/profile')
     uploadBytes(storageRef, novo_cadastro.value.foto_perfil)
 
+    try{
+      const storageRefLogo = refFB(storage, response.data.id + '/logo')
+      uploadBytes(storageRefLogo, novo_cadastro.value.organizador.logo)
+    }
+    catch{
+    }
+
+
     createToast('Cadastrado com sucesso!',{
       type : 'success',
       showIcon : true,
@@ -180,7 +188,7 @@ async function handleSubmit () {
   })
   .catch( (error) => {
     loading.value = false
-
+    console.log(error);
     if(error.response.status == 400){
       errorLogin.value = true
       createToast('Email ou Nome de Usuario já cadastrado!',{
@@ -188,7 +196,7 @@ async function handleSubmit () {
       showIcon : true,
       position : "top-center"
     })
-    }else{
+    }else if(error.code == "ERR_NETWORK" || error.response.status == 500 ){
       createToast('Erro interno, Tente novamente!',{
       type : 'danger',
       showIcon : true,
