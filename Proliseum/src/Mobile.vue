@@ -16,7 +16,7 @@
 <script setup>
 </script>
 
-<style>
+<style scoped>
 .body{
     display: flex;
     flex-direction: column;
