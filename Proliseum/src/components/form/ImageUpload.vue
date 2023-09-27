@@ -28,8 +28,8 @@ function getImage(event){
   const image = event.target.files[0]
   console.log(image);
   
-  const storageRef = refFB(storage, 'id/profile')
-  uploadBytes(storageRef, image).then( (snapshot) => { console.log('uploaded') } )
+  // const storageRef = refFB(storage, 'id/profile')
+  // uploadBytes(storageRef, image).then( (snapshot) => { console.log('uploaded') } )
 
   const reader = new FileReader()
   reader.readAsDataURL(image)
