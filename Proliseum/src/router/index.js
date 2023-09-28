@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory('https://proliseum.vercel.app'),
   routes: [
     {
       path: '/',
@@ -32,6 +32,9 @@ const router = createRouter({
       path: '/teste',
       name: 'teste',
       component: () => import('../views/TesteView.vue')
+    },
+    {
+
     }
 
   ]
