@@ -12,6 +12,7 @@
     "firebase": "^10.4.0",
     "mosha-vue-toastify": "^1.0.23",
     "notiwind": "^2.0.2",
+    "vercel": "^32.3.1",
     "volar-service-vetur": "^0.0.13",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
