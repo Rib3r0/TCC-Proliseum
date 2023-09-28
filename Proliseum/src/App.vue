@@ -17,7 +17,8 @@ const showNav = computed(
   () =>   router.currentRoute.value.path != '/' &&  
           router.currentRoute.value.path != '/login' &&
           router.currentRoute.value.path != '/recovery' &&
-          router.currentRoute.value.path != '/register' 
+          router.currentRoute.value.path != '/register' &&
+          router.currentRoute.value.name != 'Not_Found'
 )
 
 
