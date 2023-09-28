@@ -1,4 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
+import vitePluginSingleSpa from 'vite-plugin-single-spa';
+
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
