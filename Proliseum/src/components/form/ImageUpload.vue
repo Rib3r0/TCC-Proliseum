@@ -12,8 +12,6 @@
 
 <script setup>
 import { ref } from "vue"
-import  storage from '../../firebase/firebase.js'
-import { ref as refFB , uploadBytes } from 'firebase/storage'
 
 defineProps({
   id : {

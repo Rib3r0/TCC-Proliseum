@@ -6,32 +6,32 @@ const router = createRouter({
     {
       path: '/',
       name: 'Start',
-      component: () => import('../views/StartView.vue')
+      component: () => import('@/views/StartView.vue')
     },
     {
       path: '/login',
       name: 'Login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('@/views/LoginView.vue')
     },
     {
       path: '/recovery',
       name: 'Recovery',
-      component: () => import('../views/RecoveryView.vue')
+      component: () => import('@/views/RecoveryView.vue')
     },
     {
       path: '/home',
       name: 'Home',
-      component: () => import('../views/HomeView.vue')
+      component: () => import('@/views/HomeView.vue')
     },
     {
       path: '/register',
       name: 'Register',
-      component: () => import('../views/RegisterView.vue')
+      component: () => import('@/views/RegisterView.vue')
     },
     {
       path: '/teste',
       name: 'teste',
-      component: () => import('../views/TesteView.vue')
+      component: () => import('@/views/TesteView.vue')
     },
     {
       
