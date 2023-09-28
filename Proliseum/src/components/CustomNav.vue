@@ -8,7 +8,7 @@
       <SidebarLink to="/teste" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">TESTE</SidebarLink>
     </div>
     <div>
-      <SidebarLink to="/teste" icon="@/assets/img/logoIcon.png">PREMIUM</SidebarLink>
+      <SidebarLink to="/teste" icon="../assets/img/logoIcon.png">PREMIUM</SidebarLink>
       <SidebarLink @click="logoff" to="/" icon="https://img.icons8.com/windows/96/FFFFFF/exit.png">SAIR</SidebarLink>
     </div>
 
