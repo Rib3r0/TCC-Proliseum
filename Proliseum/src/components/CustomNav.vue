@@ -2,16 +2,20 @@
   <div class="sidebar" :style="{ width: sidebarWidth}" :class="{ 'shadow' : !collapsed } ">
     <div>
       <div class="profile">
-
+        <router-link @click="toggleSidebar"  :to="'/perfil/' + id">
+          <div class="icon">
+            <img v-if="!collapsed"  class="iconLarge" :key="src" :src="src">
+          </div>
+        </router-link>
+        <p v-if="!collapsed">{{ nome }}</p>
       </div>  
       <SidebarLink to="/home" icon="https://img.icons8.com/windows/512/FFFFFF/home.png">HOME</SidebarLink>
       <SidebarLink to="/teste" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">TESTE</SidebarLink>
     </div>
     <div>
-      <SidebarLink to="/teste" icon="../assets/img/logoIcon.png">PREMIUM</SidebarLink>
+      <SidebarLink to="/teste" icon="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/logoIcon.png?alt=media&token=46c8f5de-ecc0-4bfe-91ab-ee0ffa24f8ff&_gl=1*1s5k6l1*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk4ODg3My43LjEuMTY5NTk4ODkxNC4xOS4wLjA.">PREMIUM</SidebarLink>
       <SidebarLink @click="logoff" to="/" icon="https://img.icons8.com/windows/96/FFFFFF/exit.png">SAIR</SidebarLink>
     </div>
-
     <span 
         class="collapsed-icon"
         :class="{ 'rotate-180' : collapsed } "
@@ -25,6 +29,30 @@
 import { sidebarWidth, collapsed, toggleSidebar } from './state';
 import SidebarLink from './SidebarLink.vue';
 import { createToast } from 'mosha-vue-toastify';
+import { ref, watch } from 'vue';
+import storage from '../firebase/firebase.js'
+import { ref as refFB , getDownloadURL } from 'firebase/storage'
+import router from '../router';
+
+
+
+
+let src = ref("https://i.ibb.co/jVvMSHY/image-6.png")
+
+let nome = ref("")
+let id = ref("")
+
+watch(collapsed, (collapsedValue) => {
+  if(!collapsedValue){
+    nome = localStorage.getItem('user')
+    id = localStorage.getItem('id')
+    getDownloadURL(refFB(storage, id + '/profile')).then(
+      (download_url) => ( src.value = download_url)
+    )
+  }
+})
+
+
 
 const logoff = () => {
   localStorage.clear()
@@ -75,11 +103,45 @@ const logoff = () => {
 }
 
 .profile{
-  height: 120px;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #0005;
+  margin-bottom: 5px ;
 }
 
 .shadow{
   box-shadow: 100px 0px 50px #0009;
 }
+
+.iconLarge{
+    max-height: 7vh;
+    min-height: 7vh;
+    overflow: hidden;
+  }
+  .iconLarge:hover{
+    transform: translateY(1px);
+    filter: brightness(50%);
+  }
+  .icon:hover::after{
+    display: grid;
+    place-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #0005;
+    position: absolute;
+  }
+    .icon{
+    max-height: 7vh;
+    min-height: 7vh;
+    clip-path: circle();
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  p{
+    font-size: 20px;
+  }
 
 </style>

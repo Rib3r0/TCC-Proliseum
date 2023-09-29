@@ -55,6 +55,8 @@ const loading = ref(false)
       position : "top-center"
     })
     localStorage.setItem('token', response.data.token)
+    localStorage.setItem('user', response.data.user.nome_usuario)
+    localStorage.setItem('id', response.data.user.id)
     router.push('/home')
   })
   .catch( (error) => {
