@@ -17,7 +17,7 @@
             <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
           </div>
           <div class="jogo">
-            <img src="https://cdn3.emoji.gg/emojis/TopLane.png" alt="">
+            <img src="https://cdn3.emoji.gg/emojis/ADC.png" alt="">
           </div>
         </div>
       </div>
