@@ -14,7 +14,7 @@
         <h1 class="nomeCompleto">{{ nomeCompleto }}</h1>
         <div class="jogoInfo">
           <div class="jogo">
-            <img src="../assets/img/kisspng-league-of-legends-computer-icons-riot-games-wall-decals-5b11738fe19235 1.png" alt="">
+            <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
           </div>
           <div class="jogo">
             <img src="https://cdn3.emoji.gg/emojis/TopLane.png" alt="">
