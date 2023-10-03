@@ -25,12 +25,12 @@
         <div class="plusInfo">
           <div class="card">
             <h1>ATUALMENTE</h1>
-            <img src="@/assets/img/image 7.png" alt="">
+            <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
             <p>{{ timeAtual }}</p>
           </div>
           <div class="card">
             <h1>ELO</h1>
-            <img src="@/assets/img/image 7.png" alt="">
+            <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
             <p>{{ elo }}</p>
           </div>
         </div>
