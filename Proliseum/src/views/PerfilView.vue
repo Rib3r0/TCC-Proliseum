@@ -2,9 +2,9 @@
   <div class="body">
     <div class="header">
       <router-link to="/perfil/editar" >
-        <div class="edit">
+        <div v-if="editar" class="edit">
           <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
-          <h1 class="editar" v-if="editar">editar</h1>
+          <h1 class="editar">editar</h1>
         </div>
       </router-link>
     </div>
