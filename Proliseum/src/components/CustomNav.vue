@@ -82,7 +82,7 @@ const logoff = () => {
   gap: 2px;
 }
 .collapsed-icon{
-  top: 40px;
+  top: 4%;
   right: 20px;
   align-self: end;
   position: absolute;
@@ -103,7 +103,7 @@ const logoff = () => {
 }
 
 .profile{
-  height: 10vh;
+  padding: 20px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -116,8 +116,8 @@ const logoff = () => {
 }
 
 .iconLarge{
-    max-height: 7vh;
-    min-height: 7vh;
+    max-height: 8vh;
+    min-height: 8vh;
     overflow: hidden;
   }
   .iconLarge:hover{
@@ -132,9 +132,9 @@ const logoff = () => {
     background-color: #0005;
     position: absolute;
   }
-    .icon{
-    max-height: 7vh;
-    min-height: 7vh;
+  .icon{
+    max-height: 8vh;
+    min-height: 8vh;
     clip-path: circle();
     display: grid;
     place-items: center;

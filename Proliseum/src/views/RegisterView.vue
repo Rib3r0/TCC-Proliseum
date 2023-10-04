@@ -40,7 +40,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 40px;
+        padding: 40px 40px 0px 40px;
         background: linear-gradient(0deg, rgba(2,0,36,0) 0%, rgba(0, 0, 0, 0.427) 61%);
     }
     .title{

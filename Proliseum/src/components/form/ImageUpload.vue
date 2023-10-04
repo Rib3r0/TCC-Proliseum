@@ -69,8 +69,8 @@ function getImage(event){
     content: url(https://img.icons8.com/sf-black/64/FFFFFF/edit-image.png);
     display: grid;
     place-items: center;
-    height: 100%;
-    width: 100%;
+    height: 31%;
+    width: 20%;
     background-color: #0005;
     position: absolute;
   }
