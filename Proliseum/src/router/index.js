@@ -34,6 +34,31 @@ const router = createRouter({
       component: () => import('@/views/TesteView.vue')
     },
     {
+      path: '/chanpionships',
+      name: 'Chanpionships',
+      component: () => import('@/views/ChanpionshipsView.vue')
+    },
+    {
+      path: '/requests',
+      name: 'Requests',
+      component: () => import('@/views/RequestsView.vue')
+    },
+    {
+      path: '/teams',
+      name: 'Teams',
+      component: () => import('@/views/TeamsView.vue')
+    },
+    {
+      path: '/premium',
+      name: 'Premium',
+      component: () => import('@/views/PremiumView.vue')
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: () => import('@/views/SearchView.vue')
+    },
+    {
       path: '/perfil/editar',
       name: 'Editar',
       component: () => import('@/views/EditarUsuarioView.vue')
