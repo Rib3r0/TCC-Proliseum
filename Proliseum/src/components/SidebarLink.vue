@@ -60,7 +60,7 @@ const isActive = computed( () => router.currentRoute.value.path === pros.to)
     user-select: none;
 
     color: #fff;
-    font-size: var(--font-description);
+    font-size: var(--font-text);
     font-weight: 900;
     height: 60px;
     width: 100%;

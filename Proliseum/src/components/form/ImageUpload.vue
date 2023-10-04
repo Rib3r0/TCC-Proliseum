@@ -2,7 +2,7 @@
   <div class="container">
 
     <label class="upload" :for="id">
-      <div class="icon">
+      <div :class="capa ? 'icon2' : 'icon'">
         <img  class="iconLarge" :key="src" :src="src">
       </div>
     </label>
@@ -13,13 +13,19 @@
 <script setup>
 import { ref } from "vue"
 
-defineProps({
+const props = defineProps({
   id : {
     type : String,
     required : true
+  },
+  capa : {
+    type : Boolean,
   }
+
 })
-let src = ref("https://i.ibb.co/jVvMSHY/image-6.png")
+console.log(props.capa);
+
+let src = props.capa ? ref('https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.') : ref("https://i.ibb.co/jVvMSHY/image-6.png")
 const emit = defineEmits(['update:modelValue'])
 
 function getImage(event){
@@ -55,10 +61,25 @@ function getImage(event){
     place-items: center;
     overflow: hidden;
   }
+  .icon2{
+    clip-path: inset(30% 0 32% 0);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .icon2:hover::after{
+    content: url(https://img.icons8.com/sf-black/64/FFFFFF/edit-image.png);
+    display: grid;
+    place-items: center;
+    height: 31%;
+    width: 25%;
+    background-color: #0005;
+    position: absolute;
+  }
 
   .iconLarge{
-    max-height: 15vw;
-    min-height: 15vw;
+    max-height: 30vh;
+    max-width: 18vw;
     overflow: hidden;
   }
   .iconLarge:hover{

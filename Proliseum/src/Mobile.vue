@@ -7,7 +7,7 @@
         <div class="links">
             <img src="./assets/img/google-play-badge.png" alt="">
             <p>Google Play e o logotipo do Google Play são marcas registradas da Google LLC.</p>
-            <img src="./assets/img/Download_on_the_App_Store_Badge_PTBR_RGB_blk_092917.svg" alt="">
+            <!-- <img src="./assets/img/Download_on_the_App_Store_Badge_PTBR_RGB_blk_092917.svg" alt=""> -->
         </div>
         <p class="rodape">©2023 - TECNO CEOS</p>
     </div>

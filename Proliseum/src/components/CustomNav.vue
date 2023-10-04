@@ -10,7 +10,12 @@
         <p v-if="!collapsed">{{ nome }}</p>
       </div>  
       <SidebarLink to="/home" icon="https://img.icons8.com/windows/512/FFFFFF/home.png">HOME</SidebarLink>
+      <SidebarLink to="/requests" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">PROPOSTAS</SidebarLink>
+      <SidebarLink to="/sharch" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">BUSCAR TIME</SidebarLink>
+      <SidebarLink to="/sharch" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">CAMPEONATOS</SidebarLink>
+      <SidebarLink to="/sharch" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">MEUS TIMES</SidebarLink>
       <SidebarLink to="/teste" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">TESTE</SidebarLink>
+
     </div>
     <div>
       <SidebarLink to="/teste" icon="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/logoIcon.png?alt=media&token=46c8f5de-ecc0-4bfe-91ab-ee0ffa24f8ff&_gl=1*1s5k6l1*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk4ODg3My43LjEuMTY5NTk4ODkxNC4xOS4wLjA.">PREMIUM</SidebarLink>
@@ -41,6 +46,7 @@ let src = ref("https://i.ibb.co/jVvMSHY/image-6.png")
 
 let nome = ref("")
 let id = ref("")
+
 
 watch(collapsed, (collapsedValue) => {
   if(!collapsedValue){

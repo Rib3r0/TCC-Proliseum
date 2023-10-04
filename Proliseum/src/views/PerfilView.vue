@@ -2,7 +2,10 @@
   <div class="body">
     <div class="header">
       <router-link to="/perfil/editar" >
-        <h1 class="editar" v-if="editar">editar</h1>
+        <div class="edit">
+          <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
+          <h1 class="editar" v-if="editar">editar</h1>
+        </div>
       </router-link>
     </div>
     <div class="main">
@@ -25,21 +28,21 @@
         <div class="plusInfo">
           <div class="card">
             <h1>ATUALMENTE</h1>
-            <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+            <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
             <p>{{ timeAtual }}</p>
           </div>
           <div class="card">
             <h1>ELO</h1>
-            <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+            <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
             <p>{{ elo }}</p>
           </div>
         </div>
         <div class="descricao">
           <p>{{ descricao }}</p>
         </div>
-        <div>
+        <!-- <div>
           <h1>highlights:</h1>
-        </div>
+        </div> -->
       </div>
 
     </div>
@@ -65,13 +68,13 @@ onBeforeMount( () => {
 
 
 const src = ref('')
-const nome = ref('oi')
-const nomeCompleto = ref('oi eae blz')
-const descricao = ref('eae bl')
+const nome = ref('nome')
+const nomeCompleto = ref('nomecompleto')
+const descricao = ref('Descricao')
 const jogo = ref('eae bl')
 const funcao = ref('eae bl')
-const timeAtual = ref(0)
-const elo = ref("Diamante IV")
+const timeAtual = ref("FA")
+const elo = ref("Unranked")
 
 getDownloadURL(refFB(storage, id + '/profile')).then(
   (download_url) => ( src.value = download_url)
@@ -97,6 +100,7 @@ console.log(router.currentRoute.value.params.id)
   }
   .editar{
     color: #fff;
+    font-size: var(--font-description);
   }
   .main{
     display: grid;
@@ -118,6 +122,7 @@ console.log(router.currentRoute.value.params.id)
   }
   .icon{
     min-width: 30vh;
+    min-height: 30vh;
     clip-path: circle();
     background-color: var(--background-color);
     display: grid;
@@ -138,7 +143,7 @@ console.log(router.currentRoute.value.params.id)
     padding: 10px;
   }
   .jogo img{
-    width: 100%;
+    width: 10vh;
     filter: brightness(0) saturate(100%)
 }
 
@@ -166,7 +171,7 @@ console.log(router.currentRoute.value.params.id)
     gap: 10px;
   }
   .card img{
-    height: 10vh;
+    height: 12vh;
   }
 
   .descricao{
@@ -175,5 +180,13 @@ console.log(router.currentRoute.value.params.id)
     border-radius: 10px;
     padding: 10px;
     width: 80%;
+  }
+  .edit{
+    display: flex;
+    align-items: center;
+  }
+  .edit img{
+    width: 30px;
+    height: 30px;
   }
 </style>
