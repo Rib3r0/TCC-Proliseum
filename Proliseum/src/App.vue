@@ -2,12 +2,12 @@
   <CustomNav v-if="showNav"/>
   <div :style="showNav ? { 'margin-left' : tamanho} : { 'margin-left' : '0' } "> 
     <RouterView :key="$route.fullPath" v-slot="{ Component }">
-      <template v-if="Component">
-        <Transition mode="out-in">
-          <KeepAlive>
+        <Transition name="fade" mode="out-in">
             <Suspense>
               <!-- main content -->
-              <component :is="Component"></component>
+              <Transition name="fade">
+                <component :is="Component" :key="$route.fullPath"></component>
+              </Transition>
 
               <!-- loading state -->
               <template #fallback>
@@ -16,9 +16,7 @@
                 </div>
               </template>
             </Suspense>
-          </KeepAlive>
         </Transition>
-      </template>
     </RouterView>
   </div>
 </template>
@@ -27,7 +25,7 @@
 import { computed } from 'vue';
 import CustomNav from './components/CustomNav.vue';
 import router from './router';
-import { SIDEBAR_WIDTH_COLLAPSED } from './components/state';
+import { SIDEBAR_WIDTH_COLLAPSED } from './components/state.js';
 
 const tamanho = SIDEBAR_WIDTH_COLLAPSED + "px"
 
@@ -48,6 +46,14 @@ const showNav = computed(
   height: 100vh;
   display: grid;
   place-items: center;
+}
+
+.fade-enter-active,.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,.fade-leave-to {
+  opacity: 0;
 }
 
 </style>

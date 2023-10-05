@@ -58,8 +58,6 @@ watch(collapsed, (collapsedValue) => {
     ).catch( (erro) =>{
       src = "https://i.ibb.co/jVvMSHY/image-6.png"
     })
-    console.log(id)
-    console.log(src)
   }
 })
 

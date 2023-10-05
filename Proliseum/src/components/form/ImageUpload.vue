@@ -20,25 +20,32 @@ const props = defineProps({
   },
   capa : {
     type : Boolean,
+  },
+  image : {
+    type: String
   }
 
 })
-console.log(props.capa);
 
-let src = props.capa ? ref('https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.') : ref("https://i.ibb.co/jVvMSHY/image-6.png")
+let src = ref("")
+
+if(props.image){
+  src = props.image
+}else{
+  src = props.capa ? ref('https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.') : ref("https://i.ibb.co/jVvMSHY/image-6.png")
+}
+
 const emit = defineEmits(['update:modelValue'])
 
 function getImage(event){
   const image = event.target.files[0]
-  console.log(image);
-  
   // const storageRef = refFB(storage, 'id/profile')
   // uploadBytes(storageRef, image).then( (snapshot) => { console.log('uploaded') } )
 
   const reader = new FileReader()
   reader.readAsDataURL(image)
   reader.onload = e =>{
-    src.value = e.target.result
+    src = e.target.result
     emit('update:modelValue', event.target.files[0])
   }
 }
@@ -79,7 +86,9 @@ function getImage(event){
 
   .iconLarge{
     max-height: 30vh;
-    max-width: 18vw;
+    min-height: 30vh;
+    /* max-width: 18vw;
+    min-width: 18vw; */
     overflow: hidden;
   }
   .iconLarge:hover{

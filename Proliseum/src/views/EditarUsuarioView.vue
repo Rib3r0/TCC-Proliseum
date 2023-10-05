@@ -1,7 +1,9 @@
 <template>
-  <h1 class="title">editar</h1>
-  <EditForm/>
-  <Rodape lined/>
+  <div>
+    <h1 class="title">editar</h1>
+    <EditForm/>
+    <Rodape lined/>
+  </div>
 </template>
 
 <script setup>

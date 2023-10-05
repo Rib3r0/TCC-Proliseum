@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, onUpdated, ref, resolveDynamicComponent } from "vue";
+import { ref } from "vue";
 import router from "../router";
 import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
@@ -77,7 +77,6 @@ if(localStorage.getItem('id') == id){
 }
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
-  console.log(response.data.user);
   const profile = response.data.user
   nome = profile.nickname
   nomeCompleto = profile.nome_completo

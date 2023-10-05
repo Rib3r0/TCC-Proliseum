@@ -30,14 +30,14 @@
         <new-input-form v-model="cadastro.nickname" label="NICKNAME:" />
         <div>
           <span class="title">CAPA:</span>
-          <ImageUpload id="capaPic" v-model="cadastro.capa" capa/>
+          <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
         </div>
 
       </div>
     </div>
     <div class="second">
       <div class="submit">
-        <ImageUpload id="profilePic" v-model="cadastro.foto_perfil" />
+        <ImageUpload id="profilePic" v-model="cadastro.foto_perfil" :image="src" />
         <span class="title">BIO:</span>
         <textarea name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
       </div>
@@ -63,26 +63,61 @@ import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../../axios/axios.js";
 import router from "../../router";
 import storage from '../../firebase/firebase.js'
-import { ref as refFB , uploadBytes } from 'firebase/storage'
+import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
 
 
 const id = localStorage.getItem('id')
 const confPassword = ref("")
+let srcCapa = ref("")
+let src = ref("")
 
-let cadastro = ref({})
+const cadastro = ref({})
+
+await axiosPerfil.get('profile/' + id )
+.then( (response) => {
+  const profile = response.data.user
+  cadastro.value.nickname = profile.nickname
+  cadastro.value.nome_completo = profile.nome_completo
+  cadastro.value.biografia = profile.biografia ? profile.biografia : ""
+  cadastro.value.data_nascimento = profile.data_nascimento
+  cadastro.value.genero = profile.genero
+
+})
+await getDownloadURL(refFB(storage, id + '/capa')).then(
+  (download_url) => ( srcCapa.value = download_url)
+).catch( (erro) => {
+  srcCapa.value = "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA."
+})
+
+
+await getDownloadURL(refFB(storage, id + '/profile')).then(
+  (download_url) => ( src.value = download_url)
+).catch( (erro) => {
+  src.value =  "https://i.ibb.co/jVvMSHY/image-6.png"
+})
+
+
+
+
 
 const loading = ref(false)
 
 const errorLogin = ref(false)
 
-const form = ref({
-  souJogador : true,
-  souOrganizador : false
-})
 
 async function handleSubmit () {
-  const storageRef = refFB(storage, id + '/capa')
-  uploadBytes(storageRef, cadastro.value.capa)
+  console.log(cadastro.value.capa);
+  console.log(cadastro.value.foto_perfil);
+  const storageRefCapa = refFB(storage, id + '/capa')
+  if(cadastro.value.capa){
+    uploadBytes(storageRefCapa, cadastro.value.capa)
+  }
+  const storageRefProfile = refFB(storage, id + '/profile')
+  if(cadastro.value.foto_perfil){
+    uploadBytes(storageRefProfile, cadastro.value.foto_perfil)
+  }
+  console.log(cadastro.value);
+
 }
 
 
