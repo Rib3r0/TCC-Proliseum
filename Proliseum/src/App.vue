@@ -1,7 +1,25 @@
 <template>
   <CustomNav v-if="showNav"/>
   <div :style="showNav ? { 'margin-left' : tamanho} : { 'margin-left' : '0' } "> 
-    <router-view/>
+    <RouterView :key="$route.fullPath" v-slot="{ Component }">
+      <template v-if="Component">
+        <Transition mode="out-in">
+          <KeepAlive>
+            <Suspense>
+              <!-- main content -->
+              <component :is="Component"></component>
+
+              <!-- loading state -->
+              <template #fallback>
+                <div class="loadingScreen">
+                  <img src="./assets/img/Rolling-1s-323px.svg">
+                </div>
+              </template>
+            </Suspense>
+          </KeepAlive>
+        </Transition>
+      </template>
+    </RouterView>
   </div>
 </template>
 
@@ -26,7 +44,11 @@ const showNav = computed(
 </script>
 
 <style scoped>
-
+.loadingScreen{
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
 
 </style>
 

@@ -52,9 +52,14 @@ watch(collapsed, (collapsedValue) => {
   if(!collapsedValue){
     nome = localStorage.getItem('user')
     id = localStorage.getItem('id')
+
     getDownloadURL(refFB(storage, id + '/profile')).then(
       (download_url) => ( src.value = download_url)
-    )
+    ).catch( (erro) =>{
+      src = "https://i.ibb.co/jVvMSHY/image-6.png"
+    })
+    console.log(id)
+    console.log(src)
   }
 })
 

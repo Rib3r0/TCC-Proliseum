@@ -151,7 +151,9 @@ async function handleSubmit () {
     loading.value = false
 
     const storageRef = refFB(storage, response.data.id + '/profile')
-    uploadBytes(storageRef, cadastro.value.foto_perfil)
+    if(cadastro.value.foto_perfil){
+      uploadBytes(storageRef, cadastro.value.foto_perfil)
+    }
 
     createToast('Cadastrado com sucesso!',{
       type : 'success',

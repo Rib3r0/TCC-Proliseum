@@ -65,10 +65,11 @@ import router from "../../router";
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , uploadBytes } from 'firebase/storage'
 
+
 const id = localStorage.getItem('id')
 const confPassword = ref("")
 
-const cadastro = ref({})
+let cadastro = ref({})
 
 const loading = ref(false)
 
@@ -80,47 +81,8 @@ const form = ref({
 })
 
 async function handleSubmit () {
-  if(cadastro.value.senha != confPassword.value && confPassword.value != '' ){
-    window.scrollTo(0,0)
-  }else{
-    loading.value = true
-    errorLogin.value = false
-
-    await axiosPerfil.post('update', JSON.stringify(cadastro.value))
-  .then( (response) => {
-    loading.value = false
-
-    const storageRef = refFB(storage, response.data.id + '/profile')
-    uploadBytes(storageRef, cadastro.value.foto_perfil)
-
-    createToast('Atualizado com sucesso!',{
-      type : 'success',
-      showIcon : true,
-      position : "top-center"
-    })
-    router.push('/perfil/' + id)
-  })
-  .catch( (error) => {
-    loading.value = false
-    console.log(error);
-    if(error.response.status == 400){
-      errorLogin.value = true
-      createToast('Email ou Nome de Usuario já cadastrado!',{
-      type : 'warning',
-      showIcon : true,
-      position : "top-center"
-    })
-    }else if(error.code == "ERR_NETWORK" || error.response.status == 500 ){
-      createToast('Erro interno, Tente novamente!',{
-      type : 'danger',
-      showIcon : true,
-      position : "top-center"
-      })
-    }
-
-  })
-}
-
+  const storageRef = refFB(storage, id + '/capa')
+  uploadBytes(storageRef, cadastro.value.capa)
 }
 
 
