@@ -60,6 +60,7 @@ const buscar = ""
   filter: drop-shadow(0 0 1rem #000);
 }
 
+
 .search{
   padding: 20px;
 }

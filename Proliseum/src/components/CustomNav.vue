@@ -7,7 +7,9 @@
             <img v-if="!collapsed"  class="iconLarge" :key="src" :src="src">
           </div>
         </router-link>
-        <p v-if="!collapsed">{{ nome }}</p>
+        <div class="name">
+          <p v-if="!collapsed">{{ nome }}</p>
+        </div>
       </div>  
       <SidebarLink to="/home" icon="https://img.icons8.com/windows/512/FFFFFF/home.png">HOME</SidebarLink>
       <SidebarLink to="/teams" icon="https://img.icons8.com/material-sharp/96/FFFFFF/conference-call.png">MEUS TIMES</SidebarLink>
@@ -151,7 +153,8 @@ const logoff = () => {
     transition: 1s;
   }
   p{
-    font-size: 20px;
+    font-size: var(--font-text);
+    width: 70px;
   }
 
 </style>
