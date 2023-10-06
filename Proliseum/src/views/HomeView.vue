@@ -62,7 +62,9 @@ const buscar = ""
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  filter: drop-shadow(0 0 2rem #000);
 }
+
 
 .search{
   padding: 20px;

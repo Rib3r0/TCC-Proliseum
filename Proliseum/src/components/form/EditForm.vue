@@ -106,8 +106,7 @@ const errorLogin = ref(false)
 
 
 async function handleSubmit () {
-  console.log(cadastro.value.capa);
-  console.log(cadastro.value.foto_perfil);
+
   const storageRefCapa = refFB(storage, id + '/capa')
   if(cadastro.value.capa){
     uploadBytes(storageRefCapa, cadastro.value.capa)
@@ -116,8 +115,6 @@ async function handleSubmit () {
   if(cadastro.value.foto_perfil){
     uploadBytes(storageRefProfile, cadastro.value.foto_perfil)
   }
-  console.log(cadastro.value);
-
 }
 
 

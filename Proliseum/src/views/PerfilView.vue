@@ -165,10 +165,11 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
 }
 
   .nome{
-    font-size: var(--font-subtitle);
+    font-size: 300%;
   }
   .nomeCompleto{
     font-size: var(--font-description);
+    color: #fff5;
   }
   .main2{
     display: flex;
