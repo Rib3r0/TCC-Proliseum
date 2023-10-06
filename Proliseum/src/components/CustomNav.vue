@@ -21,12 +21,9 @@
       <SidebarLink to="/premium" icon="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/logoIcon.png?alt=media&token=46c8f5de-ecc0-4bfe-91ab-ee0ffa24f8ff&_gl=1*1s5k6l1*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk4ODg3My43LjEuMTY5NTk4ODkxNC4xOS4wLjA.">PREMIUM</SidebarLink>
       <SidebarLink @click="logoff" to="/" icon="https://img.icons8.com/windows/96/FFFFFF/exit.png">SAIR</SidebarLink>
     </div>
-    <span 
-        class="collapsed-icon"
-        :class="{ 'rotate-180' : collapsed } "
-        @click="toggleSidebar">
-        <img  src="https://img.icons8.com/ios-filled/100/FFFFFF/forward--v1.png" alt="menu--v6"/>
-      </span>
+    <img class="collapsed-icon"
+      :class="{ 'rotate-180' : collapsed } "
+      @click="toggleSidebar" src="https://img.icons8.com/ios-filled/50/FFFFFF/menu--v6.png" alt="menu--v6"/>
   </div>
 </template>
 
@@ -98,7 +95,9 @@ const logoff = () => {
   transition: 0.2s linear;
   height: 40px;
   width: 50px;
-  transform: rotate(180deg);
+  transform: scaleY(15%) ;
+  border-radius: 5px;
+  background-color: #FFF;
 }
 .collapsed-icon img{
   width:  100%;
@@ -106,9 +105,10 @@ const logoff = () => {
 }
 
 .rotate-180{
-  transform: rotate(0deg);
+  transform: scaleX(100%) ;
   align-self: center;
   transition: 0.2s linear;
+  background-color: #0000;
 }
 
 .profile{
@@ -148,6 +148,7 @@ const logoff = () => {
     display: grid;
     place-items: center;
     overflow: hidden;
+    transition: 1s;
   }
   p{
     font-size: 20px;

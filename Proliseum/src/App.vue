@@ -47,6 +47,9 @@ const showNav = computed(
   display: grid;
   place-items: center;
 }
+.loadingScreen img{
+  height: 20vh;
+}
 
 .fade-enter-active,.fade-leave-active {
   transition: opacity 0.5s ease;

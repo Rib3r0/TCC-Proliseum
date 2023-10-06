@@ -1,6 +1,6 @@
 <template>
   <div class="input-wrap">
-    <span class="title" for="">{{ label }} </span>
+    <span for="">{{ label }} </span>
     <div class="line">
       <img class="icon" :src="icon">
       <input
@@ -66,16 +66,10 @@ defineProps({
     border-bottom: 5px solid var(--red);
     transition: 0.2s;
   }
-
   input{
     outline: none;
     border: none;
     font-family: 'Poppins', sans-serif;
-    
-  }
-  .title{
-    font-weight: 900;
-    font-size: var(--font-text);
   }
   .icon{
     position: absolute;

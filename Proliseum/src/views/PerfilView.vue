@@ -4,7 +4,7 @@
           <router-link to="/perfil/editar" >
             <div v-if="editar" class="edit">
               <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
-              <h1 class="editar">editar</h1>
+              <h3 class="editar">editar</h3>
             </div>
           </router-link>
         </div>
@@ -13,8 +13,12 @@
             <div class="icon">
               <img  class="iconLarge" :key="src" :src="src">
             </div>
-            <h1 class="nome">{{ nome }}</h1>
-            <h1 class="nomeCompleto">{{ nomeCompleto }}</h1>
+            <span class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</span>
+            <p class="nomeCompleto">{{ nomeCompleto }}</p>
+            <div class="card">
+              <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
+              <p>{{ elo }}</p>
+            </div>
             <div class="jogoInfo">
               <div class="jogo">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
@@ -25,18 +29,6 @@
             </div>
           </div>
           <div class="main2">
-            <div class="plusInfo">
-              <div class="card">
-                <h1>ATUALMENTE</h1>
-                <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
-                <p>{{ timeAtual }}</p>
-              </div>
-              <div class="card">
-                <h1>ELO</h1>
-                <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
-                <p>{{ elo }}</p>
-              </div>
-            </div>
             <div class="descricao">
               <p>{{ descricao }}</p>
             </div>
@@ -106,18 +98,17 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
     justify-content: space-between;
   }
   .header{
-    height: 30vh;
+    height: 45vh;
     background-image: v-bind(srcCapa);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     display: grid;
-    padding-right: 30px;
+
     place-items: end;
   }
   .editar{
     color: #fff;
-    font-size: var(--font-description);
   }
   .main{
     display: grid;
@@ -128,7 +119,9 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: translateY(-14vh);
+    transform: translateY(-16vh);
+    gap: 10px;
+    width: 20vw;
   }
 
   .iconLarge{
@@ -165,10 +158,18 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
 }
 
   .nome{
-    font-size: var(--font-subtitle);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(-30px);
+    word-break: break-all;
+  }
+  .nome img{
+    height: 8vh;
   }
   .nomeCompleto{
     font-size: var(--font-description);
+    color: #fff5;
   }
   .main2{
     display: flex;
@@ -195,15 +196,21 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
     display: block;
     background-color: #0002;
     border-radius: 10px;
+    max-width: 50vw;
     padding: 10px;
     width: 80%;
+    word-break: break-all;
+    margin-top: 20px;
   }
   .edit{
     display: flex;
     align-items: center;
+    background: #0008;
+    margin: 0px 30px 10px 0px;
+    padding: 0px 5px 0px 5px;
   }
   .edit img{
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
   }
 </style>

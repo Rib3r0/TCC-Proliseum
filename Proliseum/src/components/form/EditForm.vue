@@ -2,7 +2,7 @@
   <form class="form" autocomplete="off" @submit.prevent="handleSubmit($event)">
     <div class="first">
       <div class="cadastro">
-        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nome_usuario" label="NOME DE USUARIO:" maxlength="30" autofocus />
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nome_usuario" label="NOME DE USUARIO:" maxlength="30"  autofocus />
         <new-input-form icon="https://img.icons8.com/ios-filled/100/new-post.png" v-model="cadastro.email" label="EMAIL:" type="email" />
         <new-input-form
           ref="senha"

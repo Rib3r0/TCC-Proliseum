@@ -2,12 +2,10 @@
   <h1>Times</h1>
 </template>
 
-<script>
-export default {
+<script setup>
 
-}
 </script>
 
-<style>
+<style scoped>
 
 </style>

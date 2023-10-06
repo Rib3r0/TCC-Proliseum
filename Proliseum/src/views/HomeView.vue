@@ -33,7 +33,6 @@ const buscar = ""
 
 <style scoped>
 .body{
-
   width: 100%;
 }
 
@@ -50,11 +49,7 @@ const buscar = ""
 }
 
 .title{
-  font-family: 'Cyberjunkies', sans-serif;
-  font-size: var(--font-title);
-  text-shadow: 0px 0.4vw red;
-  font-weight: 100;
-  text-transform: uppercase;
+  font-size: 5vw;
 }
 
 .glhf{
@@ -62,6 +57,7 @@ const buscar = ""
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  filter: drop-shadow(0 0 1rem #000);
 }
 
 .search{
@@ -70,7 +66,6 @@ const buscar = ""
 
 .logo {
   height: 10vw;
-  width: 11vw;
 }
 
 .main{

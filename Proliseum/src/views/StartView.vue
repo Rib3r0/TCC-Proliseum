@@ -3,27 +3,25 @@
     <div class="header">
       <img class="logo" src="../assets/img/logoMain.png">
       <router-link to="/login">
-        <new-custom-button label="LOGIN" size="1vw" />
-        <!-- <customised-button text="LOGIN" @buttonFunction="teste"></customised-button> -->
+        <new-custom-button label="LOGIN" size="1.2vw" />
       </router-link>
     </div>
     <div class="main">
       <div class="main1">
         <h1 class="name">proliseum</h1>
-        <h1 class="text2">a melhor plataforma para</h1>
-        <h1 class="text2">encontrar seu time dos sonhos</h1>
+        <h3>a melhor plataforma para</h3>
+        <h3>encontrar seu time dos sonhos</h3>
         <div class="games">
           <img class="icons" src="../assets/img/LOL.png" >
           <img class="icons" src="../assets/img/CSGO.png" >
           <img class="icons" src="../assets/img/Valorant.png" >
-          <h2>mais em breve...</h2>
+          <h3>mais em breve...</h3>
         </div>
       </div>
       <div class="pro">
         <img class="trofel" src="../assets/img/trofel.png">
         <router-link to="/register">
-          <new-custom-button label="TORNE-SE UM PRO" size="2.2vw" />
-          <!-- <customised-button text="TORNE-SE UM PRO" ></customised-button> -->
+          <new-custom-button label="TORNE-SE UM PRO" size="2.5vw" />
         </router-link>
       </div>
     </div>
@@ -68,25 +66,14 @@ import Rodape from '../components/Rodape.vue';
   gap: 100px;
   align-items: center;
   justify-content: center;
-  
 }
 .main1{
-  filter: drop-shadow(0 0 0.5rem #ccc);
-}
-
-.text1{
-  font-size: var(--font-description);
+  filter: drop-shadow(0 0 0.7rem #ccc);
 }
 .name{
-  font-family: 'Cyberjunkies', sans-serif;
-  font-size: var(--font-title);
-  text-shadow: 0px 10px red;
-  font-weight: 100;
+  text-shadow: 0px 10px var(--red);
 }
 
-.text2{
-  font-size: var(--font-description);
-}
 
 .trofel{
   height: 25vw;
@@ -105,10 +92,6 @@ import Rodape from '../components/Rodape.vue';
   gap: 20px;
 }
 
-.proliseum{
-  height: 15vh;
-  
-}
 .games{
   display: flex;
   align-items: center;
@@ -116,16 +99,12 @@ import Rodape from '../components/Rodape.vue';
   gap: 20px;
   color: #FFF;
   align-self: flex-start;
-
 }
 .icons{
   height: 5vw;
   filter: brightness(0) saturate(100%) invert(100%) sepia(8%) saturate(0%) hue-rotate(166deg) brightness(107%) contrast(108%);
 }
 
-h1,h2{
-  text-transform: uppercase;
-}
 
 @keyframes MoveUpDown {
   0%{
@@ -133,10 +112,8 @@ h1,h2{
     filter: drop-shadow(0 0 0.5rem var(--red));
   }
   100% {
-
     transform: translateY(-20px);
     filter: drop-shadow(0 0 2rem var(--red));
-    
   }
 }
 

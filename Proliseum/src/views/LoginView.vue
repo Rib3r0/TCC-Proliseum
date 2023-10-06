@@ -10,33 +10,20 @@
       </div>
     </div>
     <div class="background">
-      <div>
-        <h3 class="cadrastro"> Ainda não tem uma conta? </h3>
+      <div class="cadastro">
+        <span> Ainda não tem uma conta? </span>
         <router-link to="/register">  
-          <new-custom-button label="Cadastre-se" size="1.5vw" />
-          <!-- <customised-button text="Cadrastre-se" @buttonFunction="teste"/> -->
+          <new-custom-button label="CADASTRE-SE" size="1.5vw" />
         </router-link>
       </div>
-
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import LoginForm from '../components/form/loginForm.vue';
 import NewCustomButton from "../components/NewCustomButton.vue";
-export default {
-  name: "StartView",
-  components: {
-    LoginForm,
-    NewCustomButton
-},
-  methods: {
-    teste() {
-      console.log("aaaaa");
-    },
-  },
-};
+
 </script>
 
 <style scoped>
@@ -51,7 +38,7 @@ export default {
   background-image: url(../assets/img/backgroundLogin.png);
   background-repeat: no-repeat;
   background-size: cover, contain;
-  background-position: right;
+  background-position: -20vw;
   display: flex;
   align-items: flex-end;
   justify-content: end;
@@ -59,8 +46,8 @@ export default {
 }
 
 .login{
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
 }
 
 .header{
@@ -81,22 +68,14 @@ export default {
 }
 
 .logo {
-  height: 15vh;
+  height: 20vh;
 }
 .title{
-  font-family: 'Cyberjunkies', sans-serif;
-  font-size: var(--font-title);
-  text-shadow: 0px 0.4vw red;
-  font-weight: 100;
-}
-.cadrastro{
-  color: var(--red);
-  font-size: 1vw
+  text-shadow: 0px 10px var(--red);
 }
 
-.footer{
-  align-self: flex-end;
-  padding: 20px;
+.cadastro{
+  display: flex;
+  flex-direction: column;
 }
-
 </style>
