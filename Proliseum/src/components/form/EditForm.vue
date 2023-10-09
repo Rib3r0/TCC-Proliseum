@@ -27,7 +27,7 @@
             <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="cadastro.genero" :checked="cadastro.genero == 2 ? true : false"/>
           </div>
         </div>
-        <new-input-form v-model="cadastro.nickname" label="NICKNAME:" />
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nickname" label="NICKNAME:" />
         <div>
           <span class="title">CAPA:</span>
           <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
@@ -128,6 +128,8 @@ async function handleSubmit () {
   cadastroAtual.value.genero != cadastro.value.genero ? update.genero = cadastro.value.genero : false
   cadastroAtual.value.nome_usuario != cadastro.value.nome_usuario ? update.nome_usuario = cadastro.value.nome_usuario : false
   cadastroAtual.value.email != cadastro.value.email ? update.email = cadastro.value.email : false
+  cadastro.value.senha == confPassword ? update.senha = cadastro.value.senha : false
+
 
   console.log(update);
   await axiosPerfil.put('update',JSON.stringify(update))

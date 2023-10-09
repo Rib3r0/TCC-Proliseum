@@ -16,7 +16,7 @@
       <SidebarLink to="/requests" icon="https://img.icons8.com/ios-filled/100/FFFFFF/man-raising-hand-icon.png">PROPOSTAS</SidebarLink>
       <SidebarLink to="/search" icon="https://img.icons8.com/sf-black/512/FFFFFF/search.png">BUSCAR TIME</SidebarLink>
       <SidebarLink to="/chanpionships" icon="https://img.icons8.com/glyph-neue/64/FFFFFF/trophy.png">CAMPEONATOS</SidebarLink>
-      <SidebarLink to="/teste" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">TESTE</SidebarLink>
+      <SidebarLink to="/edit" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">TESTE</SidebarLink>
 
     </div>
     <div>

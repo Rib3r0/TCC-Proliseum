@@ -60,8 +60,13 @@ const router = createRouter({
     },
     {
       path: '/perfil/editar',
-      name: 'Editar',
+      name: 'EditarPerfil',
       component: () => import('@/views/EditarUsuarioView.vue')
+    },
+    {
+      path: '/edit',
+      name: 'Editar',
+      component: () => import('@/views/EditPrefsView.vue')
     },
     {
       path: '/perfil/:id',
