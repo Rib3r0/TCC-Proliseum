@@ -22,9 +22,9 @@
         <div>
           <span class="title">GÊNERO:</span>
           <div class="genero">
-            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" :value="0" v-model="cadastro.genero"/>
-            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" :value="1" v-model="cadastro.genero" />
-            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="cadastro.genero" checked/>
+            <FormRatio id="Masculino" icon="https://img.icons8.com/?size=512&id=6zILtwtIXOdA&format=png" name="genero" :value="0" v-model="cadastro.genero" :checked="cadastro.genero == 0 ? true : false"/>
+            <FormRatio id="Feminino" icon="https://img.icons8.com/?size=512&id=kkMgZBuqu205&format=png" name="genero" :value="1" v-model="cadastro.genero" :checked="cadastro.genero == 1 ? true : false" />
+            <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="cadastro.genero" :checked="cadastro.genero == 2 ? true : false"/>
           </div>
         </div>
         <new-input-form v-model="cadastro.nickname" label="NICKNAME:" />
@@ -71,7 +71,16 @@ const confPassword = ref("")
 let srcCapa = ref("")
 let src = ref("")
 
-const cadastro = ref({})
+const cadastro = ref({
+  nome_usuario: "" ,
+  nome_completo: "",
+  email: "",
+  senha: "",
+  data_nascimento: "",
+  genero: 0,
+  nickname: "",
+  biografia: ""
+})
 
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
@@ -81,7 +90,6 @@ await axiosPerfil.get('profile/' + id )
   cadastro.value.biografia = profile.biografia ? profile.biografia : ""
   cadastro.value.data_nascimento = profile.data_nascimento
   cadastro.value.genero = profile.genero
-
 })
 await getDownloadURL(refFB(storage, id + '/capa')).then(
   (download_url) => ( srcCapa.value = download_url)
@@ -115,6 +123,13 @@ async function handleSubmit () {
   if(cadastro.value.foto_perfil){
     uploadBytes(storageRefProfile, cadastro.value.foto_perfil)
   }
+
+  createToast('Cadastrado alterado com sucesso!',{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+    router.push('/perfil/'+ id)
 }
 
 

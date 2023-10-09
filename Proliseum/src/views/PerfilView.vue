@@ -4,7 +4,7 @@
           <router-link to="/perfil/editar" >
             <div v-if="editar" class="edit">
               <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
-              <h3 class="editar">editar</h3>
+              <h4 class="editar">editar</h4>
             </div>
           </router-link>
         </div>
@@ -13,8 +13,8 @@
             <div class="icon">
               <img  class="iconLarge" :key="src" :src="src">
             </div>
-            <span class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</span>
-            <p class="nomeCompleto">{{ nomeCompleto }}</p>
+            <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
+            <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
             <div class="card">
               <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
               <p>{{ elo }}</p>
@@ -168,7 +168,6 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
     height: 8vh;
   }
   .nomeCompleto{
-    font-size: var(--font-description);
     color: #fff5;
   }
   .main2{
