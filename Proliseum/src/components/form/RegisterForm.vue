@@ -102,7 +102,7 @@ const cadastro = ref({
   email: "",
   senha: "",
   data_nascimento: "",
-  genero: 0,
+  genero: 2,
   nickname: "",
   biografia: ""
 })

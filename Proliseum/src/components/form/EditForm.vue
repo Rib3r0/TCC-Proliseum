@@ -81,15 +81,21 @@ const cadastro = ref({
   nickname: "",
   biografia: ""
 })
+let cadastroAtual = ref({})
 
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
   const profile = response.data.user
+  cadastroAtual.value = response.data.user
+  cadastroAtual.value.senha = ""
+
   cadastro.value.nickname = profile.nickname
   cadastro.value.nome_completo = profile.nome_completo
   cadastro.value.biografia = profile.biografia ? profile.biografia : ""
   cadastro.value.data_nascimento = profile.data_nascimento
   cadastro.value.genero = profile.genero
+  cadastro.value.nome_usuario = profile.nome_usuario
+  cadastro.value.email = profile.email
 })
 await getDownloadURL(refFB(storage, id + '/capa')).then(
   (download_url) => ( srcCapa.value = download_url)
@@ -105,15 +111,32 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
 })
 
 
-
-
-
 const loading = ref(false)
 
 const errorLogin = ref(false)
 
 
 async function handleSubmit () {
+  loading.value = true
+
+  let update = {}
+  
+  cadastroAtual.value.nickname != cadastro.value.nickname ? update.nickname = cadastro.value.nickname : false
+  cadastroAtual.value.nome_completo != cadastro.value.nome_completo ? update.nome_completo = cadastro.value.nome_completo : false
+  cadastroAtual.value.biografia != cadastro.value.biografia ? update.biografia = cadastro.value.biografia : false
+  cadastroAtual.value.data_nascimento != cadastro.value.data_nascimento ? update.data_nascimento = cadastro.value.data_nascimento : false
+  cadastroAtual.value.genero != cadastro.value.genero ? update.genero = cadastro.value.genero : false
+  cadastroAtual.value.nome_usuario != cadastro.value.nome_usuario ? update.nome_usuario = cadastro.value.nome_usuario : false
+  cadastroAtual.value.email != cadastro.value.email ? update.email = cadastro.value.email : false
+
+  console.log(update);
+  await axiosPerfil.put('update',JSON.stringify(update))
+  .then( (response) => {
+    loading.value = false
+  })
+  .catch( (erro) => {
+  })
+
 
   const storageRefCapa = refFB(storage, id + '/capa')
   if(cadastro.value.capa){
@@ -129,7 +152,7 @@ async function handleSubmit () {
       showIcon : true,
       position : "top-center"
     })
-    router.push('/perfil/'+ id)
+  router.push('/perfil/'+ id)
 }
 
 
