@@ -5,8 +5,18 @@
             <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
         </div>
         <div class="preview">
-            <img class="elo" src="../assets/img/trofel.png" alt="" srcset="">
+            <img class="elo" src="../assets/img/elo.png" alt="" srcset="">
+            <p>DIAMOND</p>
+            <div class="jogoInfo">
+              <div class="jogoicon">
+                <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+              </div>
+              <div class="jogoicon">
+                <img src="https://cdn3.emoji.gg/emojis/ADC.png" alt="">
+              </div>
+            </div>
         </div>
+        <span>*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
         <div class="cadastro" v-if="usuario == 'jogador'">
             <div>
             <span class="title">GAME:</span>
@@ -97,5 +107,30 @@ async function handleSubmit () {
         height: 500px;
         width: 500px;
         background-color: #0005;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
+    .jogoInfo{
+        display: flex;
+        padding-top: 25px;
+        gap: 50px;
+    }
+    .jogoicon{
+        display: block;
+        background-color: var(--red);
+        border-radius: 10px;
+        height: fit-content;
+        width: fit-content;
+        padding: 10px;
+    }
+    .elo{
+        width: 17vh;
+    }
+    .jogoicon img{
+        width: 10vh;
+        filter: brightness(0) saturate(100%)
+    }
+
 </style>
