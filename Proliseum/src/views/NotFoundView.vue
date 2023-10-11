@@ -23,10 +23,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: myAnim 4s alternate infinite;
   }
   .body{
     display: grid;
     height: 100vh;
     place-items: center;
   }
+  @keyframes myAnim {
+  0%{
+    transform: rotate(5deg);
+    filter: drop-shadow(0 0 0.5rem var(--red));
+  }
+  25%{
+    transform: rotate(-5deg);
+    filter: drop-shadow(0 0 0.5rem var(--red));
+  }
+  50%{
+    transform: rotate(5deg);
+    filter: drop-shadow(0 0 0.5rem var(--red));
+  }
+  75%{
+    transform: rotate(-5deg);
+    filter: drop-shadow(0 0 2rem var(--red));
+  }
+  100% {
+    transform: rotate(5deg);
+    filter: drop-shadow(0 0 2rem var(--red));
+  }
+
+}
+
 </style>
