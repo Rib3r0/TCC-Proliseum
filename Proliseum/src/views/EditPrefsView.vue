@@ -1,8 +1,8 @@
 <template>
     <form class="body" autocomplete="off" @submit.prevent="handleSubmit($event)">
         <div class="forms">
-            <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario" checked/>
-            <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
+            <FormRatio id="jogador" label="JOGADOR" name="cadastro" value="jogador" v-model="usuario" checked/>
+            <FormRatio id="organizador" label="ORGANIZAÇÃO" name="cadastro" value="organizador" v-model="usuario"/>
         </div>
         <div class="preview" v-if="usuario == 'jogador'"  >
             <img class="elo" :src="eloSrc" alt="" srcset="">
@@ -38,13 +38,19 @@
             <SelectForm name="elo" label="ELO:" :list="Elo.map( (x) => { return x[0]})" :selected="Elo.map( (x) => { return x[0]})[jogador.elo]" default="Porfavor informe o seu elo" v-model="jogador.elo"/>
         </div>
         <div class="cadastro" v-if="usuario == 'organizador'">
-            <new-input-form v-model="organizador.nome" label="NOME DA ORGANIZAÇÃO:" required/>
+            <div class="text">
+                <new-input-form v-model="organizador.nome_organizacao" label="NOME DA ORGANIZAÇÃO:" required/>
+                <span class="title">BIO:</span>
+                <textarea name="" v-model="organizador.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+            </div>
             <div>
             <span class="title">LOGO:</span>
             <ImageUpload id="orgPic" v-model="organizador.logo" />
             </div>
         </div>
-        <NewCustomButton type="submit" label="SALVAR"/>
+        <div>
+            <NewCustomButton type="submit" label="SALVAR"/>
+        </div>
     </form>
 </template>
 
@@ -110,55 +116,65 @@ let organizador = ref({
 const loading = ref(false)
 
 async function handleSubmit () {
-    if(!loading.value && !edit.value){
-    loading.value = true
-    await axiosPerfil.post('createPlayer', JSON.stringify(jogador.value))
-  .then( (response) => {
-    loading.value = false
-    const message = 'Perfil Criado!'
-    createToast(message,{
-      type : 'success',
-      showIcon : true,
-      position : "top-center"
-    })
-  })
-  .catch( (error) => {
-    loading.value = false
-    console.log(error);
-    console.log("error");
+    if(!loading.value && !edit.value ){
+        if(usuario.value == jogador){
+            loading.value = true
+            await axiosPerfil.post('createPlayer', JSON.stringify(jogador.value))
+                .then( (response) => {
+                loading.value = false
+                const message = 'Perfil Criado!'
+                createToast(message,{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
+            })
+            .catch( (error) => {
+                loading.value = false
+                console.log(error);
+                console.log("error");
 
-    createToast('Erro!',{
-      type : 'warning',
-      showIcon : true,
-      position : "top-center"
-    })
-    }
-    )
+                createToast('Erro!',{
+                type : 'warning',
+                showIcon : true,
+                position : "top-center"
+                })
+                }
+                )
+        }else{
+            console.log(organizador.value);
+        }
+
 }else{
     if(!loading.value){
     loading.value = true
-    await axiosPerfil.post('updatePlayer', JSON.stringify(jogador.value))
-  .then( (response) => {
-    loading.value = false
-    const message = 'Perfil Criado!'
-    createToast(message,{
-      type : 'success',
-      showIcon : true,
-      position : "top-center"
-    })
-  })
-  .catch( (error) => {
-    loading.value = false
-    console.log(error);
-    console.log("error");
+    if(usuario.value == jogador){
+        await axiosPerfil.post('updatePlayer', JSON.stringify(jogador.value))
+        .then( (response) => {
+            loading.value = false
+            const message = 'Perfil Criado!'
+            createToast(message,{
+            type : 'success',
+            showIcon : true,
+            position : "top-center"
+            })
+        })
+        .catch( (error) => {
+            loading.value = false
+            console.log(error);
+            console.log("error");
 
-    createToast('Erro!',{
-      type : 'warning',
-      showIcon : true,
-      position : "top-center"
-    })
+            createToast('Erro!',{
+            type : 'warning',
+            showIcon : true,
+            position : "top-center"
+            })
+            }
+            )
+    }else{
+        console.log(organizador.value);
     }
-    )
+
 }
 
     
@@ -175,9 +191,8 @@ async function handleSubmit () {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        padding: 30px;
         gap: 20px;
-        height: 100vh;
     }
     .forms{
         display: flex;
@@ -191,13 +206,18 @@ async function handleSubmit () {
         gap: 20px;
         width: 60vw;
     }
+    .text{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
     .jogo{
         display: flex;
         gap: 20px;
     }
     .preview{
-        height: 500px;
-        width: 500px;
+        min-height: 350px;
+        min-width: 400px;
         background-color: #0005;
         display: flex;
         flex-direction: column;

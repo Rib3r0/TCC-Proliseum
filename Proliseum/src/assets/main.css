@@ -76,3 +76,25 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+textarea:focus{
+    outline: none;
+    border-bottom: 5px solid var(--red);
+    transition: 0.2s;
+  }
+  textarea:hover{
+    outline: none;
+    border-bottom: 5px solid var(--red);
+    transition: 0.2s;
+  }
+  textarea{
+    outline: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    font-size: var(--font-text);
+    resize: none;
+    padding: 10px;
+    width: 100%;
+    height: 6vw;
+  }
+

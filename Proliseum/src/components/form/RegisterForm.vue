@@ -30,39 +30,7 @@
         <new-input-form v-model="cadastro.nickname" label="NICKNAME:" required/>
 
       </div>
-      <!-- <div class="forms">
-        <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario" checked/>
-        <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
-      </div>
-      <div class="cadastro" v-if="usuario == 'jogador'">
-        <div>
-          <span class="title">GAME:</span>
-            <div class="jogo">
-              <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" :value="0" v-model="novo_cadastro.jogador.jogo" checked/>
-          </div>
-        </div>
-        <new-input-form v-model="novo_cadastro.jogador.nickname" label="NICKNAME:" required/>
-        <div>
-          <span class="title">FUNÇÃO:</span>
-            <div class="jogo">
-              <FormRatio name="funcao"  id="top" icon="https://cdn3.emoji.gg/emojis/TopLane.png" :value="0" v-model="novo_cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="jg" icon="https://cdn3.emoji.gg/emojis/Jungle.png" :value="1" v-model="novo_cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="mid" icon="https://cdn3.emoji.gg/emojis/MidLane.png" :value="2" v-model="novo_cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="adc" icon="https://cdn3.emoji.gg/emojis/ADC.png" :value="3" v-model="novo_cadastro.jogador.funcao"/>
-              <FormRatio name="funcao"  id="sup" icon="https://cdn3.emoji.gg/emojis/Support.png" :value="4" v-model="novo_cadastro.jogador.funcao"/>
-          </div>
-        </div>
-
-      </div>
       
-      <div class="cadastro" v-if="usuario == 'organizador'">
-        <new-input-form v-model="novo_cadastro.organizador.nome" label="NOME DA ORGANIZAÇÃO:" required/>
-        <div>
-          <span class="title">LOGO:</span>
-          <ImageUpload id="orgPic" v-model="novo_cadastro.organizador.logo" />
-        </div>
-        
-      </div> -->
     </div>
     <div class="second">
       <div class="submit">
@@ -242,27 +210,7 @@ async function handleSubmit () {
   .awarn{
     color: var(--red);
   }
-  textarea:focus{
-    outline: none;
-    border-bottom: 5px solid var(--red);
-    transition: 0.2s;
-  }
-  textarea:hover{
-    outline: none;
-    border-bottom: 5px solid var(--red);
-    transition: 0.2s;
-  }
-  textarea{
-    outline: none;
-    border: none;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 200;
-    font-size: var(--font-text);
-    resize: none;
-    padding: 10px;
-    width: 100%;
-    height: 6vw;
-  }
+
   .second{
     display: flex;
     flex-direction: column;

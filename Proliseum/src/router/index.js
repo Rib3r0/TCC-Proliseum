@@ -71,7 +71,12 @@ const router = createRouter({
     {
       path: '/perfil/:id',
       name: 'Perfil',
-      component: () => import('@/views/PerfilView.vue')
+      component: () => import('@/views/PerfilView.vue'),
+    },
+    {
+      path: '/perfil',
+      name: 'PerfilDefault',
+      redirect: '/perfil/' + localStorage.getItem('id'),
     },
     {
       path: '/:notFound',

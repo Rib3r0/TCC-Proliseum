@@ -211,7 +211,7 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
     gap: 10px;
   }
   .card img{
-    height: 12vh;
+    height: 20vh;
   }
 
   .descricao{
