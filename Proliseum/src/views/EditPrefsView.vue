@@ -4,19 +4,19 @@
             <FormRatio id="jogador" label="SOU JOGADOR" name="cadastro" value="jogador" v-model="usuario" checked/>
             <FormRatio id="organizador" label="SOU ORGANIZADOR" name="cadastro" value="organizador" v-model="usuario"/>
         </div>
-        <div class="preview">
-            <img class="elo" src="../assets/img/elo.png" alt="" srcset="">
-            <p>DIAMOND</p>
+        <div class="preview" v-if="usuario == 'jogador'"  >
+            <img class="elo" :src="eloSrc" alt="" srcset="">
+            <p>{{ eloName }}</p>
             <div class="jogoInfo">
               <div class="jogoicon">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
               </div>
               <div class="jogoicon">
-                <img src="https://cdn3.emoji.gg/emojis/ADC.png" alt="">
+                <img :src="funcaoSrc" alt="">
               </div>
             </div>
         </div>
-        <span>*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
+        <span v-if="usuario == 'jogador'">*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
         <div class="cadastro" v-if="usuario == 'jogador'">
             <div>
             <span class="title">GAME:</span>
@@ -28,14 +28,14 @@
             <div>
             <span class="title">FUNÇÃO:</span>
                 <div class="jogo">
-                    <FormRatio name="funcao"  id="top" icon="https://cdn3.emoji.gg/emojis/TopLane.png" :value="0" v-model="jogador.funcao"/>
-                    <FormRatio name="funcao"  id="jg" icon="https://cdn3.emoji.gg/emojis/Jungle.png" :value="1" v-model="jogador.funcao"/>
-                    <FormRatio name="funcao"  id="mid" icon="https://cdn3.emoji.gg/emojis/MidLane.png" :value="2" v-model="jogador.funcao"/>
-                    <FormRatio name="funcao"  id="adc" icon="https://cdn3.emoji.gg/emojis/ADC.png" :value="3" v-model="jogador.funcao"/>
-                    <FormRatio name="funcao"  id="sup" icon="https://cdn3.emoji.gg/emojis/Support.png" :value="4" v-model="jogador.funcao"/>
+                    <FormRatio name="funcao"  id="top" icon="https://cdn3.emoji.gg/emojis/TopLane.png" :value="0" v-model="jogador.funcao" :checked="jogador.funcao == 0 ? true : false"/>
+                    <FormRatio name="funcao"  id="jg" icon="https://cdn3.emoji.gg/emojis/Jungle.png" :value="1" v-model="jogador.funcao" :checked="jogador.funcao == 1 ? true : false"/>
+                    <FormRatio name="funcao"  id="mid" icon="https://cdn3.emoji.gg/emojis/MidLane.png" :value="2" v-model="jogador.funcao" :checked="jogador.funcao == 2 ? true : false"/>
+                    <FormRatio name="funcao"  id="adc" icon="https://cdn3.emoji.gg/emojis/ADC.png" :value="3" v-model="jogador.funcao" :checked="jogador.funcao == 3 ? true : false"/>
+                    <FormRatio name="funcao"  id="sup" icon="https://cdn3.emoji.gg/emojis/Support.png" :value="4" v-model="jogador.funcao" :checked="jogador.funcao == 4 ? true : false"/>
                 </div>
             </div>
-            <SelectForm name="elo" label="ELO:" :list="Elo" default="Porfavor informe o seu elo" v-model="jogador.elo"/>
+            <SelectForm name="elo" label="ELO:" :list="Elo.map( (x) => { return x[0]})" :selected="Elo.map( (x) => { return x[0]})[jogador.elo]" default="Porfavor informe o seu elo" v-model="jogador.elo"/>
         </div>
         <div class="cadastro" v-if="usuario == 'organizador'">
             <new-input-form v-model="organizador.nome" label="NOME DA ORGANIZAÇÃO:" required/>
@@ -53,27 +53,119 @@ import FormRatio from '../components/form/FormRatio.vue';
 import NewInputForm from '../components/form/NewInputForm.vue';
 import NewCustomButton from '../components/NewCustomButton.vue';
 import ImageUpload from '../components/form/ImageUpload.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import SelectForm from '../components/form/SelectForm.vue';
 import { Elo } from '../components/enum/Elo';
+import { Funcao } from '../components/enum/Funcao'
+import { createToast } from 'mosha-vue-toastify'
+import { axiosPerfil } from "../axios/axios.js";
 
 let usuario = ref("jogador")
+const id = localStorage.getItem('id')
 
 let jogador = ref({
-    elo: "",
+    elo: "0",
     jogo: "0",
-    funcao: "",
+    funcao: "0",
     nickname: "",
 })
+
+const edit = ref(false)
+await axiosPerfil.get('profile/' + id )
+.then( (response) => {
+    if(response.data.playerProfile){
+        edit.value = true
+        const profile = response.data.playerProfile
+
+        jogador.value.elo = profile.elo
+        jogador.value.funcao = profile.funcao
+        jogador.value.jogo = profile.jogo
+        jogador.value.nickname = profile.nickname
+    }
+
+})
+
+
+
+
+
+
+let funcaoSrc = ref(Funcao[parseInt(jogador.value.funcao)])
+let eloSrc = ref(Elo[parseInt(jogador.value.elo)][1])
+let eloName = ref(Elo[parseInt(jogador.value.elo)][0])
+
+watch(jogador.value, () => {
+    funcaoSrc.value = Funcao[parseInt(jogador.value.funcao)]
+    eloSrc.value = Elo[parseInt(jogador.value.elo)][1]
+    eloName = Elo[parseInt(jogador.value.elo)][0]
+})
+
+
 
 let organizador = ref({
     nome_organizacao: "",
     biografia: ""
 })
 
+const loading = ref(false)
+
 async function handleSubmit () {
-    console.log(jogador.value);
+    if(!loading.value && !edit.value){
+    loading.value = true
+    await axiosPerfil.post('createPlayer', JSON.stringify(jogador.value))
+  .then( (response) => {
+    loading.value = false
+    const message = 'Perfil Criado!'
+    createToast(message,{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+  })
+  .catch( (error) => {
+    loading.value = false
+    console.log(error);
+    console.log("error");
+
+    createToast('Erro!',{
+      type : 'warning',
+      showIcon : true,
+      position : "top-center"
+    })
+    }
+    )
+}else{
+    if(!loading.value){
+    loading.value = true
+    await axiosPerfil.post('updatePlayer', JSON.stringify(jogador.value))
+  .then( (response) => {
+    loading.value = false
+    const message = 'Perfil Criado!'
+    createToast(message,{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+  })
+  .catch( (error) => {
+    loading.value = false
+    console.log(error);
+    console.log("error");
+
+    createToast('Erro!',{
+      type : 'warning',
+      showIcon : true,
+      position : "top-center"
+    })
+    }
+    )
 }
+
+    
+}
+
+}
+
 
 
 </script>
@@ -126,7 +218,8 @@ async function handleSubmit () {
         padding: 10px;
     }
     .elo{
-        width: 17vh;
+        width: 10vw ;
+        position: static;
     }
     .jogoicon img{
         width: 10vh;
