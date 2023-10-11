@@ -9,32 +9,35 @@
           </router-link>
         </div>
         <div class="main">
-          <div class="info">
+          <div class="info" >
             <div class="icon">
               <img  class="iconLarge" :key="src" :src="src">
             </div>
             <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
             <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
-            <div class="card">
-              <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">
-              <p>{{ elo }}</p>
-            </div>
-            <div class="jogoInfo">
-              <div class="jogo">
-                <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+            <div v-if="jogadorExist">
+              <div class="card">
+                <img :src="srcElo" alt="">
+                <p>{{ elo }}</p>
               </div>
-              <div class="jogo">
-                <img src="https://cdn3.emoji.gg/emojis/ADC.png" alt="">
+              <div class="jogoInfo">
+                <div class="jogo">
+                  <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+                </div>
+                <div class="jogo">
+                  <img :src="srcFuncao" alt="">
+                </div>
               </div>
             </div>
+
           </div>
           <div class="main2">
             <div class="descricao">
               <p>{{ descricao }}</p>
             </div>
-            <!-- <div>
-              <h1>highlights:</h1>
-            </div> -->
+            <div>
+              <h3>highlights:</h3>
+            </div>
           </div>
         </div>
         <Rodape lined/>
@@ -48,6 +51,8 @@ import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from "../axios/axios";
 import Rodape from '../components/Rodape.vue'
+import { Elo } from '../components/enum/Elo';
+import { Funcao } from '../components/enum/Funcao'
 
 
 const editar = ref(false)
@@ -58,10 +63,15 @@ let srcCapa = ref('')
 let nome = ref('nome')
 let nomeCompleto = ref('nomecompleto')
 let descricao = ref('Descricao')
-let jogo = ref('eae bl')
-let funcao = ref('eae bl')
 let timeAtual = ref("FA")
+
+let jogadorExist = ref(false)
+
+let jogo = ref('0')
+let srcFuncao = ref(Funcao[parseInt(2)][1])
 let elo = ref("Unranked")
+let srcElo = ref(Elo[parseInt(0)][1])
+let nickname = ref("")
 
 
 if(localStorage.getItem('id') == id){
@@ -73,6 +83,19 @@ await axiosPerfil.get('profile/' + id )
   nome = profile.nickname
   nomeCompleto = profile.nome_completo
   descricao = profile.biografia ? profile.biografia : ""
+
+  if(response.data.playerProfile){
+    jogadorExist = true
+    const jogador = response.data.playerProfile
+
+    elo = Elo[parseInt(jogador.elo)][0]
+    srcFuncao = Funcao[parseInt(jogador.funcao)][1]
+    srcElo = Elo[parseInt(jogador.elo)][1]
+    jogo = jogador.jogo
+    nickname = jogador.nickname
+  }else{
+    jogadorExist = false
+  }
   
 })
 await getDownloadURL(refFB(storage, id + '/capa')).then(
@@ -196,6 +219,7 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
     background-color: #0002;
     border-radius: 10px;
     max-width: 50vw;
+    min-height: 200px;
     padding: 10px;
     width: 80%;
     word-break: break-all;

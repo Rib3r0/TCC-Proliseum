@@ -90,12 +90,12 @@ await axiosPerfil.get('profile/' + id )
 
 
 
-let funcaoSrc = ref(Funcao[parseInt(jogador.value.funcao)])
+let funcaoSrc = ref(Funcao[parseInt(jogador.value.funcao)][1])
 let eloSrc = ref(Elo[parseInt(jogador.value.elo)][1])
 let eloName = ref(Elo[parseInt(jogador.value.elo)][0])
 
 watch(jogador.value, () => {
-    funcaoSrc.value = Funcao[parseInt(jogador.value.funcao)]
+    funcaoSrc.value = Funcao[parseInt(jogador.value.funcao)][1]
     eloSrc.value = Elo[parseInt(jogador.value.elo)][1]
     eloName = Elo[parseInt(jogador.value.elo)][0]
 })
