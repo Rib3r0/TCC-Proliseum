@@ -15,10 +15,14 @@
             </div>
             <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
             <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
+            <div v-if="orgExist">
+              <p class="dono">DONO DA <router-link class="select" :to="'/org/' + id"> <span>{{ nome_organizacao }}</span> <mini-icon :image="srcLogo"/></router-link></p>
+            </div>
             <div v-if="jogadorExist">
               <div class="card">
                 <img :src="srcElo" alt="">
                 <p>{{ elo }}</p>
+                <h3>"{{ nickname }}"</h3>
               </div>
               <div class="jogoInfo">
                 <div class="jogo">
@@ -53,6 +57,7 @@ import { axiosPerfil } from "../axios/axios";
 import Rodape from '../components/Rodape.vue'
 import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
+import  miniIcon  from '../components/miniIcon.vue'
 
 
 const editar = ref(false)
@@ -66,12 +71,16 @@ let descricao = ref('Descricao')
 let timeAtual = ref("FA")
 
 let jogadorExist = ref(false)
+let orgExist = ref(false)
 
 let jogo = ref('0')
 let srcFuncao = ref(Funcao[parseInt(2)][1])
 let elo = ref("Unranked")
 let srcElo = ref(Elo[parseInt(0)][1])
 let nickname = ref("")
+
+let nome_organizacao = ref("")
+
 
 
 if(localStorage.getItem('id') == id){
@@ -89,6 +98,7 @@ await axiosPerfil.get('profile/' + id )
     const jogador = response.data.playerProfile
 
     elo = Elo[parseInt(jogador.elo)][0]
+    nickname = jogador.nickname
     srcFuncao = Funcao[parseInt(jogador.funcao)][1]
     srcElo = Elo[parseInt(jogador.elo)][1]
     jogo = jogador.jogo
@@ -96,7 +106,20 @@ await axiosPerfil.get('profile/' + id )
   }else{
     jogadorExist = false
   }
+  if(response.data.orgProfile){
+    orgExist = true
+    const org = response.data.orgProfile
+
+    nome_organizacao = org.nome_organizacao
+
+  }else{
+    orgExist = false
+  }
   
+}).catch( () => {
+
+  router.push({name: "Not_Found", params: { notFound: "perfil/" + id }})
+
 })
 await getDownloadURL(refFB(storage, id + '/capa')).then(
   (download_url) => ( srcCapa.value = "url("+download_url+")" )
@@ -105,9 +128,17 @@ await getDownloadURL(refFB(storage, id + '/capa')).then(
 })
 
 await getDownloadURL(refFB(storage, id + '/profile')).then(
-  (download_url) => ( src.value = download_url)
+  (download_url) => ( src = download_url)
 ).catch( (erro) => {
-  src.value =  "https://i.ibb.co/jVvMSHY/image-6.png"
+  src =  "https://i.ibb.co/jVvMSHY/image-6.png"
+})
+
+let srcLogo = ref("")
+
+await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
+  (download_url) => ( srcLogo = download_url)
+).catch( (erro) => {
+  srcLogo =  "https://i.ibb.co/jVvMSHY/image-6.png"
 })
   
 
@@ -235,5 +266,16 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
   .edit img{
     width: 40px;
     height: 40px;
+  }
+  .dono{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .select{
+    color: #fff;
+    display: flex;
+    align-items: center;
   }
 </style>

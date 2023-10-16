@@ -58,6 +58,9 @@ const showNav = computed(
 .fade-enter-from,.fade-leave-to {
   opacity: 0;
 }
+router-link{
+    color: #fff;
+}
 
 </style>
 

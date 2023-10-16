@@ -10,10 +10,13 @@
       </div>
       <div class="main">
         <div class="info" >
+          <router-link :to="'/perfil/' + id">
+            <miniIcon class="dono" :image="srcDono"/>
+          </router-link>
           <div class="icon">
             <img  class="iconLarge" :key="src" :src="src">
           </div>
-          <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
+          <h3 class="nome"> <mini-icon :image="src"/>{{ nome }}</h3>
           <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
           <div v-if="jogadorExist">
             <div class="card">
@@ -53,12 +56,13 @@ import { axiosPerfil } from "../axios/axios";
 import Rodape from '../components/Rodape.vue'
 import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
-
+import miniIcon from "../components/miniIcon.vue";
 
 const editar = ref(false)
 const id = router.currentRoute.value.params.id
 
 let src = ref('')
+let srcDono = ref('')
 let srcCapa = ref('')
 let nome = ref('nome')
 let nomeCompleto = ref('nomecompleto')
@@ -67,11 +71,6 @@ let timeAtual = ref("FA")
 
 let jogadorExist = ref(false)
 
-let jogo = ref('0')
-let srcFuncao = ref(Funcao[parseInt(2)][1])
-let elo = ref("Unranked")
-let srcElo = ref(Elo[parseInt(0)][1])
-let nickname = ref("")
 
 
 if(localStorage.getItem('id') == id){
@@ -79,35 +78,32 @@ editar.value = true
 }
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
-const profile = response.data.user
-nome = profile.nickname
-nomeCompleto = profile.nome_completo
-descricao = profile.biografia ? profile.biografia : ""
+  if(response.data.orgProfile == false){
+    router.push({name: "Not_Found", params: { notFound: "org/" + id }})
+  }
+  const profile = response.data.orgProfile
+  nome = profile.nome_organizacao
+  nomeCompleto = profile.nome_completo
+  descricao = profile.biografia ? profile.biografia : ""
 
-if(response.data.playerProfile){
-  jogadorExist = true
-  const jogador = response.data.playerProfile
-
-  elo = Elo[parseInt(jogador.elo)][0]
-  srcFuncao = Funcao[parseInt(jogador.funcao)][1]
-  srcElo = Elo[parseInt(jogador.elo)][1]
-  jogo = jogador.jogo
-  nickname = jogador.nickname
-}else{
-  jogadorExist = false
-}
 
 })
-await getDownloadURL(refFB(storage, id + '/capa')).then(
+await getDownloadURL(refFB(storage, id + '/orgcapa')).then(
 (download_url) => ( srcCapa.value = "url("+download_url+")" )
 ).catch( (erro) => {
 srcCapa.value = "url(https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.)"
 })
 
-await getDownloadURL(refFB(storage, id + '/profile')).then(
-(download_url) => ( src.value = download_url)
+await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
+  (download_url) => ( src = download_url)
 ).catch( (erro) => {
-src.value =  "https://i.ibb.co/jVvMSHY/image-6.png"
+  src =  "https://i.ibb.co/jVvMSHY/image-6.png"
+})
+
+await getDownloadURL(refFB(storage, id + '/profile')).then(
+  (download_url) => ( srcDono = download_url)
+).catch( (erro) => {
+  srcDono =  "https://i.ibb.co/jVvMSHY/image-6.png"
 })
 
 
@@ -235,5 +231,11 @@ src.value =  "https://i.ibb.co/jVvMSHY/image-6.png"
 .edit img{
   width: 40px;
   height: 40px;
+}
+
+.dono{
+  position: absolute;
+  z-index: 10;
+  transform: translate(50px);
 }
 </style>

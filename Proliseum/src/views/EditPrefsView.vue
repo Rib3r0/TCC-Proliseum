@@ -7,6 +7,7 @@
         <div class="preview" v-if="usuario == 'jogador'"  >
             <img class="elo" :src="eloSrc" alt="" srcset="">
             <p>{{ eloName }}</p>
+            <h3>"{{ jogador.nickname }}"</h3>
             <div class="jogoInfo">
               <div class="jogoicon">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
@@ -298,6 +299,7 @@ async function handleSubmit () {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 20px;
     }
     .jogoInfo{
         display: flex;

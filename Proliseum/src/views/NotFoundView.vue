@@ -2,7 +2,7 @@
   <div class="body">
     <div class="titulo">
       <h1 class="title">Page not found!</h1>
-      <router-link to="/"><a>retornar a home</a></router-link>
+      <router-link to="/home">retornar a home</router-link>
     </div>
   </div>
 </template>
