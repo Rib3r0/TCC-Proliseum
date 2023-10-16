@@ -12,6 +12,10 @@
   const props = defineProps({
     image : {
       type: String
+    },
+    size : {
+      type: String,
+      default: '70px'
     }
   
   })
@@ -65,8 +69,8 @@
     }
   
     .iconLarge{
-      max-height: 70px;
-      min-height: 70px;
+      max-height: v-bind(size);
+      min-height: v-bind(size);
       /* max-width: 18vw;
       min-width: 18vw; */
       overflow: hidden;
@@ -75,7 +79,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 70px;
-      gap: 20px;
+      width: v-bind(size);
+      gap: 0px;
     }
   </style>

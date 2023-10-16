@@ -4,7 +4,7 @@
           <div class="icon">
             <img  class="iconLarge" :key="logosrc" :src="logosrc">
           </div>
-            <p>{{ time.nome }}</p>
+            <h3>{{ time.nome }}</h3>
             <div class="jogoInfo">
               <div class="jogoicon">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
@@ -22,7 +22,29 @@
             <new-input-form v-model="time.nome" label="NOME:" required/>
             <div>
             <span class="title">LOGO:</span>
-                <image-upload id="teamPic" v-model="time.foto_perfil" />
+                <image-upload id="teamPic" v-model="time.foto_perfil" :image="logosrc" />
+            </div>
+            <div>
+                <span class="title">BIO:</span>
+                <textarea name="" v-model="time.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+            </div>
+            <div class="list">
+                <new-input-form label="convidar jogador" icon="https://img.icons8.com/ios-filled/250/search--v1.png"/>
+                <h4>JOGADORES [1/10]:</h4>
+                <div class="jogador">
+                    <mini-icon image="" />
+                    <span>nome</span>
+                    <img class="exclude" src="https://img.icons8.com/ios-filled/50/FFFFFF/multiply.png" alt="">
+                </div>
+            </div>
+            <div class="list">
+                <new-input-form label="mover jogador" icon="https://img.icons8.com/ios-glyphs/90/user--v1.png"/>
+                <h4>JOGADORES ATIVOS [1/5]:</h4>
+                <div class="jogador">
+                    <mini-icon image="" />
+                    <span>nome</span>
+                    <img class="exclude" src="https://img.icons8.com/ios-filled/50/FFFFFF/multiply.png" alt="">
+                </div>
             </div>
         </div>
         <div>
@@ -42,7 +64,7 @@ import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
 import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../axios/axios.js";
-
+import miniIcon from '../components/miniIcon.vue';
 
 
 
@@ -53,12 +75,13 @@ let time = ref({
     jogo: "0",
     nome: "",
     foto_perfil: "",
+    biografia: ""
 })
 
 
 
 const edit = ref(false)
-await axiosPerfil.get('profile/' + id )
+await axiosPerfil.get('team/' + id )
 .then( (response) => {
     if(response.data.playerProfile){
         edit.value = true
@@ -72,10 +95,9 @@ await axiosPerfil.get('profile/' + id )
 
 })
 
-let logosrc = ref(Elo[parseInt(time.value.elo)][1])
+let logosrc = ref("https://i.ibb.co/jVvMSHY/image-6.png")
 
 watch(time.value , () => {
-  console.log(time.value.foto_perfil);
   const reader = new FileReader()
   reader.readAsDataURL(time.value.foto_perfil)
   reader.onload = e =>{
@@ -230,5 +252,19 @@ async function handleSubmit () {
     /* max-width: 18vw;
     min-width: 18vw; */
     overflow: hidden;
-  }
+    }
+
+    .jogador{
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .list{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .exclude:hover{
+        filter: opacity(50%);
+    }
 </style>
