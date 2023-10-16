@@ -45,7 +45,7 @@
             </div>
             <div>
             <span class="title">LOGO:</span>
-            <ImageUpload id="orgPic" v-model="organizador.logo" />
+            <ImageUpload id="orgPic" v-model="organizador.logo" :image="srcLogo"/>
             </div>
         </div>
         <div>
@@ -65,6 +65,10 @@ import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
 import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../axios/axios.js";
+import storage from '../firebase/firebase.js'
+import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
+import { async } from '@firebase/util';
+
 
 let usuario = ref("jogador")
 const id = localStorage.getItem('id')
@@ -76,11 +80,11 @@ let jogador = ref({
     nickname: "",
 })
 
-const edit = ref(false)
+const editJogador = ref(false)
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
     if(response.data.playerProfile){
-        edit.value = true
+        editJogador.value = true
         const profile = response.data.playerProfile
 
         jogador.value.elo = profile.elo
@@ -88,7 +92,27 @@ await axiosPerfil.get('profile/' + id )
         jogador.value.jogo = profile.jogo
         jogador.value.nickname = profile.nickname
     }
+})
+let organizador = ref({
+    nome_organizacao: "",
+    biografia: ""
+})
 
+const editOrg = ref(false)
+let srcLogo = ref("")
+await axiosPerfil.get('profile/' + id )
+.then( async (response) => {
+    if(response.data.orgProfile){
+        editOrg.value = true
+        const profile = response.data.orgProfile
+        organizador.value.nome_organizacao = profile.nome_organizacao
+        organizador.value.biografia = profile.biografia
+    }
+    await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
+    (download_url) => ( srcLogo.value = download_url)
+    ).catch( (erro) => {
+        srcLogo.value = "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA."
+    })
 })
 
 
@@ -108,21 +132,42 @@ watch(jogador.value, () => {
 
 
 
-let organizador = ref({
-    nome_organizacao: "",
-    biografia: ""
-})
+
 
 const loading = ref(false)
 
 async function handleSubmit () {
-    if(!loading.value && !edit.value ){
-        if(usuario.value == jogador){
+    if(!loading.value){
+        if(usuario.value == "jogador" && !editJogador.value){
             loading.value = true
             await axiosPerfil.post('createPlayer', JSON.stringify(jogador.value))
                 .then( (response) => {
                 loading.value = false
                 const message = 'Perfil Criado!'
+                createToast(message,{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
+            })
+            .catch( (error) => {
+                loading.value = false
+                console.log("error");
+
+                createToast('Erro!',{
+                type : 'warning',
+                showIcon : true,
+                position : "top-center"
+                })
+                }
+                )
+        }else{
+        loading.value = true
+        if(usuario.value == "jogador"){
+            await axiosPerfil.put('updatePlayer', JSON.stringify(jogador.value))
+            .then( (response) => {
+                loading.value = false
+                const message = 'Perfil Atualizado!'
                 createToast(message,{
                 type : 'success',
                 showIcon : true,
@@ -144,40 +189,70 @@ async function handleSubmit () {
         }else{
             console.log(organizador.value);
         }
+        }
+        if(usuario.value == "organizador" && !editOrg.value ){
+            console.log("oi");
+            loading.value = true
+            await axiosPerfil.post('createOrganizer', JSON.stringify(organizador.value))
+                .then( (response) => {
+                loading.value = false
+                const message = 'Perfil Criado!'
+                const storageRef = refFB(storage, id + '/orgprofile')
+                if(organizador.value.logo){
+                    uploadBytes(storageRef, organizador.value.logo)
+                }
 
-}else{
-    if(!loading.value){
-    loading.value = true
-    if(usuario.value == jogador){
-        await axiosPerfil.post('updatePlayer', JSON.stringify(jogador.value))
-        .then( (response) => {
-            loading.value = false
-            const message = 'Perfil Criado!'
-            createToast(message,{
-            type : 'success',
-            showIcon : true,
-            position : "top-center"
+                createToast(message,{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
             })
-        })
-        .catch( (error) => {
-            loading.value = false
-            console.log(error);
-            console.log("error");
+            .catch( (error) => {
+                loading.value = false
+                console.log(error);
+                console.log("error");
 
-            createToast('Erro!',{
-            type : 'warning',
-            showIcon : true,
-            position : "top-center"
+                createToast('Erro!',{
+                type : 'warning',
+                showIcon : true,
+                position : "top-center"
+                })
+                }
+                )
+        }else{
+            console.log("oi");
+            loading.value = true
+            await axiosPerfil.put('updateOrganizer', JSON.stringify(organizador.value))
+                .then( (response) => {
+                loading.value = false
+                const message = 'Perfil Atualizado!'
+                const storageRef = refFB(storage, id + '/orgprofile')
+                if(organizador.value.logo){
+                    uploadBytes(storageRef, organizador.value.logo)
+                }
+
+                createToast(message,{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
             })
-            }
-            )
+            .catch( (error) => {
+                loading.value = false
+                console.log(error);
+                console.log("error");
+
+                createToast('Erro!',{
+                type : 'warning',
+                showIcon : true,
+                position : "top-center"
+                })
+                }
+                )
+        }
     }else{
-        console.log(organizador.value);
-    }
-
-}
-
-    
+        
 }
 
 }

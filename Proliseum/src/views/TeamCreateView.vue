@@ -2,7 +2,7 @@
       <form class="body" autocomplete="off" @submit.prevent="handleSubmit($event)">
         <div class="preview">
           <div class="icon">
-            <img  class="iconLarge" :key="eloSrc" :src="eloSrc">
+            <img  class="iconLarge" :key="logosrc" :src="logosrc">
           </div>
             <p>{{ time.nome }}</p>
             <div class="jogoInfo">
@@ -72,21 +72,14 @@ await axiosPerfil.get('profile/' + id )
 
 })
 
-
-
-
-
-
-let funcaoSrc = ref(Funcao[parseInt(time.value.funcao)][1])
-let eloSrc = ref(Elo[parseInt(time.value.elo)][1])
-let eloName = ref(Elo[parseInt(time.value.elo)][0])
+let logosrc = ref(Elo[parseInt(time.value.elo)][1])
 
 watch(time.value , () => {
   console.log(time.value.foto_perfil);
   const reader = new FileReader()
   reader.readAsDataURL(time.value.foto_perfil)
   reader.onload = e =>{
-  eloSrc.value =  e.target.result
+  logosrc.value =  e.target.result
   }
 })
 
