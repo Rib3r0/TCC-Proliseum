@@ -49,6 +49,11 @@ const router = createRouter({
       component: () => import('@/views/TeamsView.vue')
     },
     {
+      path: '/teams/create',
+      name: 'Teams',
+      component: () => import('@/views/TeamCreateView.vue')
+    },
+    {
       path: '/teams/:id',
       name: 'Team',
       component: () => import('@/views/ProfileTeamView.vue')
@@ -56,10 +61,10 @@ const router = createRouter({
     {
       path: '/myorg',
       name: 'MyOrg',
-      redirect: '/perfil/' + localStorage.getItem('id'),
+      redirect: '/org/' + localStorage.getItem('id'),
     },
     {
-      path: '/Org/:id',
+      path: '/org/:id',
       name: 'Org',
       component: () => import('@/views/ProfileOrgView.vue')
     },
