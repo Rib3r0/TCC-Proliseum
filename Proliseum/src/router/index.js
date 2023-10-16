@@ -50,7 +50,7 @@ const router = createRouter({
     },
     {
       path: '/teams/create',
-      name: 'Teams',
+      name: 'TeamsCreate',
       component: () => import('@/views/TeamCreateView.vue')
     },
     {
