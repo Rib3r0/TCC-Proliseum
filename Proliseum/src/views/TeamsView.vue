@@ -5,9 +5,13 @@
     </div>
     <div class="main">
       <div class="filter">
+        <div>
+
+        </div>
         <div class="manege">
           <NewCustomButton label="MEUS TIMES"/>
           <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
+          <router-link to="/teams/create"><NewCustomButton label="DELETAR TIME"/></router-link>
         </div>
       </div>
       <template v-if="loading">
@@ -76,6 +80,7 @@ await axiosPerfil.get('team').then( (response) => {
 .filter{
   display: flex;
   padding: 20px;
+  justify-content: space-between;
 }
 
 .manege{
