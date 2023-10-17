@@ -10,86 +10,20 @@
           <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
         </div>
       </div>
-      <div class="teams">
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
+      <template v-if="loading">
+        <h1>teste</h1>
+      </template>
+      <template v-else>
+        <div class="teams">
+          <div v-for="card in listOfTeams.teams" :key="card.id" class="card">
+            <router-link class="router" :to="`/teams/${card.id}`">
+              <miniIcon :image="src[card.id]" size="200px"/>
+              <h3>{{ card.nome_time }}</h3>
+              <p>gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
+            </router-link>
+          </div>
         </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        <div class="card">
-          <router-link class="router" to="/teams/1">
-            <miniIcon image="" size="200px"/>
-            <h3>NOME TIME</h3>
-            <p>by Fulano</p>
-          </router-link>
-        </div>
-        
-      </div>
+      </template>
     </div>
     <rodape lined/>
   </div>
@@ -99,6 +33,22 @@
 import NewCustomButton from "../components/NewCustomButton.vue";
 import rodape from "../components/Rodape.vue"
 import miniIcon from "../components/miniIcon.vue";
+import { axiosPerfil } from "../axios/axios.js";
+import { ref } from "vue";
+
+let loading = ref(true)
+
+let listOfTeams = ref({})
+let src = ref([])
+
+await axiosPerfil.get('team').then( (response) => {
+  listOfTeams = response.data
+  console.log(listOfTeams);
+  loading = false
+})
+
+
+
 
 </script>
 

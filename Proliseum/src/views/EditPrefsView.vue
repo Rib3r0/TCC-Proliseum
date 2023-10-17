@@ -45,11 +45,16 @@
                 <textarea name="" v-model="organizador.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
             </div>
             <div>
-            <span class="title">LOGO:</span>
-            <ImageUpload id="orgPic" v-model="organizador.logo" :image="srcLogo"/>
+                <span class="title">LOGO:</span>
+                <ImageUpload id="orgPic" v-model="organizador.logo" :image="srcLogo"/>
+            </div>
+            <div>
+                <span class="title">CAPA:</span>
+                <ImageUpload id="capaPic" v-model="organizador.capa" :image="srcCapa" capa/>
             </div>
         </div>
-        <div>
+        <div class="button_div">
+            <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
             <NewCustomButton type="submit" label="SALVAR"/>
         </div>
     </form>
@@ -68,7 +73,6 @@ import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../axios/axios.js";
 import storage from '../firebase/firebase.js'
 import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
-import { async } from '@firebase/util';
 
 
 let usuario = ref("jogador")
@@ -96,11 +100,13 @@ await axiosPerfil.get('profile/' + id )
 })
 let organizador = ref({
     nome_organizacao: "",
-    biografia: ""
+    biografia: "",
+    capa: ""
 })
 
 const editOrg = ref(false)
 let srcLogo = ref("")
+let srcCapa = ref("")
 await axiosPerfil.get('profile/' + id )
 .then( async (response) => {
     if(response.data.orgProfile){
@@ -113,6 +119,11 @@ await axiosPerfil.get('profile/' + id )
     (download_url) => ( srcLogo.value = download_url)
     ).catch( (erro) => {
         srcLogo.value = "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA."
+    })
+    await getDownloadURL(refFB(storage, id + '/orgcapa')).then(
+    (download_url) => ( srcCapa.value = download_url)
+    ).catch( (erro) => {
+        srcCapa.value = "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA."
     })
 })
 
@@ -139,9 +150,10 @@ const loading = ref(false)
 
 async function handleSubmit () {
     if(!loading.value){
+        loading.value = true
         if(usuario.value == "jogador" && !editJogador.value){
-            loading.value = true
-            await axiosPerfil.post('createPlayer', JSON.stringify(jogador.value))
+            
+            await axiosPerfil.post('player', JSON.stringify(jogador.value))
                 .then( (response) => {
                 loading.value = false
                 const message = 'Perfil Criado!'
@@ -153,7 +165,6 @@ async function handleSubmit () {
             })
             .catch( (error) => {
                 loading.value = false
-                console.log("error");
 
                 createToast('Erro!',{
                 type : 'warning',
@@ -163,9 +174,8 @@ async function handleSubmit () {
                 }
                 )
         }else{
-        loading.value = true
         if(usuario.value == "jogador"){
-            await axiosPerfil.put('updatePlayer', JSON.stringify(jogador.value))
+            await axiosPerfil.put('player', JSON.stringify(jogador.value))
             .then( (response) => {
                 loading.value = false
                 const message = 'Perfil Atualizado!'
@@ -192,15 +202,20 @@ async function handleSubmit () {
         }
         }
         if(usuario.value == "organizador" && !editOrg.value ){
+            console.log(usuario.value == "organizador");
             console.log("oi");
             loading.value = true
-            await axiosPerfil.post('createOrganizer', JSON.stringify(organizador.value))
+            await axiosPerfil.post('organizer', JSON.stringify(organizador.value))
                 .then( (response) => {
                 loading.value = false
                 const message = 'Perfil Criado!'
                 const storageRef = refFB(storage, id + '/orgprofile')
                 if(organizador.value.logo){
                     uploadBytes(storageRef, organizador.value.logo)
+                }
+                const storageRefcapa = refFB(storage, id + '/orgcapa')
+                if(organizador.value.capa){
+                    uploadBytes(storageRefcapa, organizador.value.capa)
                 }
 
                 createToast(message,{
@@ -221,16 +236,19 @@ async function handleSubmit () {
                 })
                 }
                 )
-        }else{
-            console.log("oi");
+        }else if(usuario.value == "organizador"){
             loading.value = true
-            await axiosPerfil.put('updateOrganizer', JSON.stringify(organizador.value))
+            await axiosPerfil.put('organizer', JSON.stringify(organizador.value))
                 .then( (response) => {
                 loading.value = false
                 const message = 'Perfil Atualizado!'
                 const storageRef = refFB(storage, id + '/orgprofile')
                 if(organizador.value.logo){
                     uploadBytes(storageRef, organizador.value.logo)
+                }
+                const storageRefcapa = refFB(storage, id + '/orgcapa')
+                if(organizador.value.capa){
+                    uploadBytes(storageRefcapa, organizador.value.capa)
                 }
 
                 createToast(message,{
@@ -242,7 +260,6 @@ async function handleSubmit () {
             .catch( (error) => {
                 loading.value = false
                 console.log(error);
-                console.log("error");
 
                 createToast('Erro!',{
                 type : 'warning',
@@ -321,6 +338,13 @@ async function handleSubmit () {
     .jogoicon img{
         width: 10vh;
         filter: brightness(0) saturate(100%)
+    }
+
+    .button_div{
+        display: flex;
+    }
+    .button_div img{
+        height: 50px;
     }
 
 </style>

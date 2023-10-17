@@ -71,6 +71,7 @@ const confPassword = ref("")
 let srcCapa = ref("")
 let src = ref("")
 
+
 const cadastro = ref({
   nome_usuario: "" ,
   nome_completo: "",
@@ -132,7 +133,7 @@ async function handleSubmit () {
 
 
   console.log(update);
-  await axiosPerfil.put('update',JSON.stringify(update))
+  await axiosPerfil.put('profile',JSON.stringify(update))
   .then( (response) => {
     loading.value = false
   })

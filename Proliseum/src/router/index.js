@@ -69,6 +69,11 @@ const router = createRouter({
       component: () => import('@/views/ProfileOrgView.vue')
     },
     {
+      path: '/org/editar',
+      name: 'OrgEdit',
+      redirect: '/edit',
+    },
+    {
       path: '/premium',
       name: 'Premium',
       component: () => import('@/views/PremiumView.vue')

@@ -39,7 +39,18 @@
             <p>{{ descricao }}</p>
           </div>
           <div>
-            <h3>highlights:</h3>
+            <h3>TIMES:</h3>
+            <div>
+              <div class="teams">
+                <div class="card">
+                  <router-link class="router" to="/teams/1">
+                    <miniIcon image="" size="200px"/>
+                    <h3>NOME TIME</h3>
+                    <p>by Fulano</p>
+                  </router-link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -237,5 +248,32 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
   position: absolute;
   z-index: 10;
   transform: translate(50px);
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  padding: 20px;
+  background-color: #0005;
+  border-radius: 20px;
+  
+}
+.router{
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  border-radius: 20px;
+}
+
+.teams{
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 40px;
 }
 </style>
