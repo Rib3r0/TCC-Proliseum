@@ -271,6 +271,7 @@ await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap: 10px;
   }
   .select{

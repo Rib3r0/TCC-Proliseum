@@ -12,45 +12,83 @@
       </div>
       <div class="teams">
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
         <div class="card">
-          <miniIcon image="" size="200px"/>
-          <h3>NOME TIME</h3>
-          <p>by Fulano</p>
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
         </div>
+        <div class="card">
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
+        </div>
+        <div class="card">
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
+        </div>
+        <div class="card">
+          <router-link class="router" to="/teams/1">
+            <miniIcon image="" size="200px"/>
+            <h3>NOME TIME</h3>
+            <p>by Fulano</p>
+          </router-link>
+        </div>
+        
       </div>
     </div>
     <rodape lined/>
@@ -82,7 +120,7 @@ import miniIcon from "../components/miniIcon.vue";
 
 
 .main{
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .filter{
@@ -103,6 +141,15 @@ import miniIcon from "../components/miniIcon.vue";
   width: fit-content;
   padding: 20px;
   background-color: #0005;
+  border-radius: 20px;
+  
+}
+.router{
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
   border-radius: 20px;
 }
 

@@ -4,7 +4,7 @@
           <div class="icon">
             <img  class="iconLarge" :key="logosrc" :src="logosrc">
           </div>
-            <h3>{{ time.nome }}</h3>
+            <h3>"{{ nome_time }}"</h3>
             <div class="jogoInfo">
               <div class="jogoicon">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
@@ -19,7 +19,7 @@
                 <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" :value="0" v-model="time.jogo" checked/>
             </div>
             </div>
-            <new-input-form v-model="time.nome" label="NOME:" required/>
+            <new-input-form v-model="nome_time" label="NOME:" required/>
             <div>
             <span class="title">LOGO:</span>
                 <image-upload id="teamPic" v-model="time.foto_perfil" :image="logosrc" />
@@ -71,6 +71,8 @@ import miniIcon from '../components/miniIcon.vue';
 let usuario = ref("jogador")
 const id = localStorage.getItem('id')
 
+let nome_time = ref("")
+
 let time = ref({
     jogo: "0",
     nome: "",
@@ -78,22 +80,6 @@ let time = ref({
     biografia: ""
 })
 
-
-
-const edit = ref(false)
-await axiosPerfil.get('team/' + id )
-.then( (response) => {
-    if(response.data.playerProfile){
-        edit.value = true
-        const profile = response.data.playerProfile
-
-        time.value.elo = profile.elo
-        time.value.funcao = profile.funcao
-        time.value.jogo = profile.jogo
-        time.value.nome = profile.nickname
-    }
-
-})
 
 let logosrc = ref("https://i.ibb.co/jVvMSHY/image-6.png")
 
@@ -103,6 +89,7 @@ watch(time.value , () => {
   reader.onload = e =>{
   logosrc.value =  e.target.result
   }
+
 })
 
 

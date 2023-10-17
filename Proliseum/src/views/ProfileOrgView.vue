@@ -1,7 +1,7 @@
 <template>
     <div class="body">
       <div class="header">
-        <router-link to="/perfil/editar" >
+        <router-link to="/org/editar" >
           <div v-if="editar" class="edit">
             <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
             <h4 class="editar">editar</h4>
