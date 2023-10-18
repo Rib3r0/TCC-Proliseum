@@ -4,14 +4,14 @@
           <div class="icon">
             <img  class="iconLarge" :key="logosrc" :src="logosrc">
           </div>
-            <h3>"{{ nome_time }}"</h3>
+            <h3>"{{ time.nome_time }}"</h3>
             <div class="jogoInfo">
               <div class="jogoicon">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
               </div>
             </div>
         </div>
-        <span v-if="usuario == 'jogador'">*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
+        <span>*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
         <div class="cadastro">
             <div>
             <span class="title">GAME:</span>
@@ -19,14 +19,14 @@
                 <FormRatio name="jogo"  id="League of Legends" icon="https://img.icons8.com/?size=512&id=57606&format=png" :value="0" v-model="time.jogo" checked/>
             </div>
             </div>
-            <new-input-form v-model="nome_time" label="NOME:" required/>
+            <new-input-form v-model="time.nome_time" label="NOME:" required/>
             <div>
             <span class="title">LOGO:</span>
-                <image-upload id="teamPic" v-model="time.foto_perfil" :image="logosrc" />
+                <image-upload id="teamPic" v-model="foto_perfil" :image="logosrc" />
             </div>
             <div>
                 <span class="title">BIO:</span>
-                <textarea name="" v-model="time.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+                <textarea name="a" v-model="time.biografia" id="a" maxlength="300" placeholder="Bio..."></textarea>
             </div>
             <div class="list">
                 <new-input-form label="convidar jogador" icon="https://img.icons8.com/ios-filled/250/search--v1.png"/>
@@ -47,7 +47,8 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="button_div">
+            <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
             <NewCustomButton type="submit" label="SALVAR"/>
         </div>
     </form>
@@ -59,12 +60,11 @@ import NewInputForm from '../components/form/NewInputForm.vue';
 import NewCustomButton from '../components/NewCustomButton.vue';
 import ImageUpload from '../components/form/ImageUpload.vue';
 import { ref, watch } from 'vue';
-import SelectForm from '../components/form/SelectForm.vue';
-import { Elo } from '../components/enum/Elo';
-import { Funcao } from '../components/enum/Funcao'
 import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../axios/axios.js";
 import miniIcon from '../components/miniIcon.vue';
+import storage from '../firebase/firebase.js'
+import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
 
 
 
@@ -75,17 +75,18 @@ let nome_time = ref("")
 
 let time = ref({
     jogo: "0",
-    nome: "",
-    foto_perfil: "",
+    nome_time: "",
     biografia: ""
 })
+
+let foto_perfil = ref("")
 
 
 let logosrc = ref("https://i.ibb.co/jVvMSHY/image-6.png")
 
-watch(time.value , () => {
+watch(foto_perfil , () => {
   const reader = new FileReader()
-  reader.readAsDataURL(time.value.foto_perfil)
+  reader.readAsDataURL(foto_perfil.value)
   reader.onload = e =>{
   logosrc.value =  e.target.result
   }
@@ -94,77 +95,34 @@ watch(time.value , () => {
 
 
 
-let organizador = ref({
-    nome_organizacao: "",
-    biografia: ""
-})
-
 const loading = ref(false)
 
 async function handleSubmit () {
-    if(!loading.value && !edit.value ){
-        if(usuario.value == time){
-            loading.value = true
-            await axiosPerfil.post('createPlayer', JSON.stringify(time.value))
-                .then( (response) => {
-                loading.value = false
-                const message = 'Perfil Criado!'
-                createToast(message,{
-                type : 'success',
-                showIcon : true,
-                position : "top-center"
-                })
-            })
-            .catch( (error) => {
-                loading.value = false
-                console.log(error);
-                console.log("error");
-
-                createToast('Erro!',{
-                type : 'warning',
-                showIcon : true,
-                position : "top-center"
-                })
-                }
-                )
-        }else{
-            console.log(organizador.value);
-        }
-
-}else{
     if(!loading.value){
-    loading.value = true
-    if(usuario.value == time){
-        await axiosPerfil.post('updatePlayer', JSON.stringify(time.value))
+        loading.value = true
+        await axiosPerfil.post('team', JSON.stringify(time.value))
         .then( (response) => {
             loading.value = false
-            const message = 'Perfil Criado!'
+            const message = 'Time Foi criado com sucesso!'
+            console.log("oi");
+            const storageRefProfile = refFB(storage,'team/' + response.data.id + '/profile')
+            if(foto_perfil.value != ""){
+                uploadBytes(storageRefProfile, foto_perfil.value)
+            }
             createToast(message,{
             type : 'success',
             showIcon : true,
             position : "top-center"
             })
-        })
-        .catch( (error) => {
-            loading.value = false
-            console.log(error);
-            console.log("error");
-
-            createToast('Erro!',{
-            type : 'warning',
+        }).catch( (erro) => {
+            const message = 'Erro!'
+            createToast(message,{
+            type : 'danger',
             showIcon : true,
             position : "top-center"
             })
-            }
-            )
-    }else{
-        console.log(organizador.value);
+        })
     }
-
-}
-
-    
-}
 
 }
 
@@ -253,5 +211,12 @@ async function handleSubmit () {
     }
     .exclude:hover{
         filter: opacity(50%);
+    }
+
+    .button_div{
+        display: flex;
+    }
+    .button_div img{
+        height: 50px;
     }
 </style>

@@ -14,7 +14,7 @@
             <img  class="iconLarge" :key="src" :src="src">
           </div>
           <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
-          <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
+          <h4 class="nomeCompleto">gerenciado por {{ nomeCompleto }}</h4>
           <div v-if="jogadorExist">
             <div class="card">
               <img :src="srcElo" alt="">
@@ -77,34 +77,35 @@ let nickname = ref("")
 if(localStorage.getItem('id') == id){
 editar.value = true
 }
-await axiosPerfil.get('profile/' + id )
+await axiosPerfil.get('team/' + id )
 .then( (response) => {
-const profile = response.data.user
-nome = profile.nickname
-nomeCompleto = profile.nome_completo
+  console.log(response.data.teams[0]);
+const profile = response.data.teams[0]
+nome = profile.nome_time
+nomeCompleto = profile.organizacao.nome_organizacao
 descricao = profile.biografia ? profile.biografia : ""
 
-if(response.data.playerProfile){
-  jogadorExist = true
-  const jogador = response.data.playerProfile
+// if(response.data.playerProfile){
+//   jogadorExist = true
+//   const jogador = response.data.playerProfile
 
-  elo = Elo[parseInt(jogador.elo)][0]
-  srcFuncao = Funcao[parseInt(jogador.funcao)][1]
-  srcElo = Elo[parseInt(jogador.elo)][1]
-  jogo = jogador.jogo
-  nickname = jogador.nickname
-}else{
-  jogadorExist = false
-}
+//   elo = Elo[parseInt(jogador.elo)][0]
+//   srcFuncao = Funcao[parseInt(jogador.funcao)][1]
+//   srcElo = Elo[parseInt(jogador.elo)][1]
+//   jogo = jogador.jogo
+//   nickname = jogador.nickname
+// }else{
+//   jogadorExist = false
+// }
 
 })
-await getDownloadURL(refFB(storage, id + '/capa')).then(
+await getDownloadURL(refFB(storage,'team/'+ id + '/capa')).then(
 (download_url) => ( srcCapa.value = "url("+download_url+")" )
 ).catch( (erro) => {
 srcCapa.value = "url(https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.)"
 })
 
-await getDownloadURL(refFB(storage, id + '/profile')).then(
+await getDownloadURL(refFB(storage, 'team/'+ id + '/profile')).then(
 (download_url) => ( src.value = download_url)
 ).catch( (erro) => {
 src.value =  "https://i.ibb.co/jVvMSHY/image-6.png"

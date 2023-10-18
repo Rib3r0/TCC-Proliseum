@@ -9,21 +9,21 @@
 
         </div>
         <div class="manege">
-          <NewCustomButton label="MEUS TIMES"/>
+          <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
           <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
           <router-link to="/teams/create"><NewCustomButton label="DELETAR TIME"/></router-link>
         </div>
       </div>
-      <template v-if="loading">
-        <h1>teste</h1>
+      <template v-if="loading" >
+        <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
       </template>
       <template v-else>
         <div class="teams">
-          <div v-for="card in listOfTeams.teams" :key="card.id" class="card">
+          <div v-for="card in listOfTeams" :key="card.id" class="card">
             <router-link class="router" :to="`/teams/${card.id}`">
-              <miniIcon :image="src[card.id]" size="200px"/>
+              <miniIcon :image="getImage(card.id)"  :size="sizeImg"/>
               <h3>{{ card.nome_time }}</h3>
-              <p>gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
+              <p v-if="!myteams">gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
             </router-link>
           </div>
         </div>
@@ -39,17 +39,53 @@ import rodape from "../components/Rodape.vue"
 import miniIcon from "../components/miniIcon.vue";
 import { axiosPerfil } from "../axios/axios.js";
 import { ref } from "vue";
+import storage from '../firebase/firebase.js'
+import { ref as refFB , getDownloadURL } from 'firebase/storage'
 
-let loading = ref(true)
+const loading = ref(true)
+const myteams = ref(false)
+const sizeImg = ref("15vw")
 
-let listOfTeams = ref({})
-let src = ref([])
+const listOfTeams = ref({})
 
 await axiosPerfil.get('team').then( (response) => {
-  listOfTeams = response.data
-  console.log(listOfTeams);
-  loading = false
+  listOfTeams.value = response.data.teams
+
+
+  console.log(listOfTeams.value);
+  loading.value = false
 })
+
+const getImage = async (id) =>{
+
+  let image
+
+  await getDownloadURL(refFB(storage, 'team/'+ id + '/profile')).then(
+  (download_url) => ( image = download_url)
+  ).catch( (erro) => {
+    image =  "https://i.ibb.co/jVvMSHY/image-6.png"
+  })
+
+  return image
+  
+
+}
+
+
+
+
+const getMyTimes = async () => {
+  loading.value = true
+  myteams.value = true
+  await axiosPerfil.get('team/myteams').then( (response) => {
+  listOfTeams.value = response.data.time
+
+  console.log(listOfTeams.value);
+  loading.value = false
+})
+
+}
+
 
 
 
@@ -97,6 +133,7 @@ await axiosPerfil.get('team').then( (response) => {
   padding: 20px;
   background-color: #0005;
   border-radius: 20px;
+  max-width: 18vw;
   
 }
 .router{
@@ -106,6 +143,7 @@ await axiosPerfil.get('team').then( (response) => {
   align-items: center;
   width: fit-content;
   border-radius: 20px;
+  text-align: center;
 }
 
 .teams{

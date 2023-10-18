@@ -41,15 +41,19 @@
           <div>
             <h3>TIMES:</h3>
             <div>
-              <div class="teams">
-                <div class="card">
-                  <router-link class="router" to="/teams/1">
-                    <miniIcon image="" size="200px"/>
-                    <h3>NOME TIME</h3>
-                    <p>by Fulano</p>
-                  </router-link>
+              <template v-if="loading">
+                <h1>teste</h1>
+              </template>
+              <template v-else>
+                <div class="teams" v-if="listOfTeams.teams.length > 0">
+                  <div v-for="card in listOfTeams.teams" :key="card.id" class="card">
+                    <router-link class="router" :to="`/teams/${card.id}`">
+                      <miniIcon :image="srcTeams[card.id]" size="200px"/>
+                      <h3>{{ card.nome_time }}</h3>
+                    </router-link>
+                  </div>
                 </div>
-              </div>
+              </template>
             </div>
           </div>
         </div>
@@ -71,6 +75,22 @@ import miniIcon from "../components/miniIcon.vue";
 
 const editar = ref(false)
 const id = router.currentRoute.value.params.id
+
+
+let loading = ref(true)
+
+let listOfTeams = ref({})
+let srcTeams = ref([])
+
+await axiosPerfil.get('team/org/' + id).then( (response) => {
+  listOfTeams = response.data
+  console.log(listOfTeams);
+  loading = false
+})
+
+
+
+
 
 let src = ref('')
 let srcDono = ref('')
