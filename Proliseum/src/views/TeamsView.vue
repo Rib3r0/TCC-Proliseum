@@ -6,7 +6,7 @@
     <div class="main">
       <div class="filter">
         <div>
-
+          <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca"/>
         </div>
         <div class="manege">
           <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
@@ -38,9 +38,10 @@ import NewCustomButton from "../components/NewCustomButton.vue";
 import rodape from "../components/Rodape.vue"
 import miniIcon from "../components/miniIcon.vue";
 import { axiosPerfil } from "../axios/axios.js";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
+import NewInputForm from "../components/form/NewInputForm.vue";
 
 const loading = ref(true)
 const myteams = ref(false)
@@ -50,31 +51,44 @@ const listOfTeams = ref({})
 
 await axiosPerfil.get('team').then( (response) => {
   listOfTeams.value = response.data.teams
-
-
+  
+  
   console.log(listOfTeams.value);
   loading.value = false
 })
 
 const getImage = async (id) =>{
-
-  let image
-
-  await getDownloadURL(refFB(storage, 'team/'+ id + '/profile')).then(
-  (download_url) => ( image = download_url)
-  ).catch( (erro) => {
-    image =  "https://i.ibb.co/jVvMSHY/image-6.png"
-  })
-
-  return image
   
+  let image
+  
+  await getDownloadURL(refFB(storage, 'team/'+ id + '/profile')).then(
+    (download_url) => ( image = download_url)
+    ).catch( (erro) => {
+      image =  "https://i.ibb.co/jVvMSHY/image-6.png"
+    })
+    
+    return image
+    
+    
+  }
 
-}
 
+  
+  let busca = ref("")
+  watch(busca, async () => {
+    loading.value = true
+    await axiosPerfil.get('team',{ params: { name: busca.value } }).then( (response) => {
+      console.log(response);
+      listOfTeams.value = response.data.teams
 
-
-
-const getMyTimes = async () => {
+      console.log(listOfTeams.value);
+      loading.value = false
+    })
+})
+  
+  
+  
+  const getMyTimes = async () => {
   loading.value = true
   myteams.value = true
   await axiosPerfil.get('team/myteams').then( (response) => {
