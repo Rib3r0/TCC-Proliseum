@@ -34,6 +34,9 @@
         </div>
       </template>
     </div>
+    <div class="pagination">
+        
+    </div>
     <rodape lined/>
   </div>
 </template>
@@ -50,17 +53,23 @@ import NewInputForm from "../components/form/NewInputForm.vue";
 
 const loading = ref(true)
 const myteams = ref(false)
+const page = ref(1)
 const sizeImg = ref("15vw")
 
 const listOfTeams = ref({})
 
-await axiosPerfil.get('team').then( (response) => {
+await axiosPerfil.get('team',{ params: { perPage: "4", page: "1" } }).then( (response) => {
   listOfTeams.value = response.data.teams
   
   
   console.log(listOfTeams.value);
   loading.value = false
 })
+
+const paginate = (e) => {
+  alert(e)
+}
+
 
 const getImage = async (id) =>{
   
@@ -161,6 +170,7 @@ const getImage = async (id) =>{
   width: fit-content;
   border-radius: 20px;
   text-align: center;
+  word-break: break-all;
 }
 
 .teams{
@@ -183,4 +193,9 @@ const getImage = async (id) =>{
     width: 10vh;
     filter: brightness(0) saturate(100%)
 }
+ul{
+  display: flex;
+}
+
+
 </style>

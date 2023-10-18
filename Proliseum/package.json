@@ -14,7 +14,7 @@
     "mosha-vue-toastify": "^1.0.23",
     "notiwind": "^2.0.2",
     "systemjs-webpack-interop": "^2.3.7",
-    "vercel": "^32.3.1",
+    "vercel": "^32.3.0",
     "vite-plugin-single-spa": "^0.2.0",
     "volar-service-vetur": "^0.0.13",
     "vue": "^3.3.4",
