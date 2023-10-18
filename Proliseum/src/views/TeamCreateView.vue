@@ -28,24 +28,6 @@
                 <span class="title">BIO:</span>
                 <textarea name="a" v-model="time.biografia" id="a" maxlength="300" placeholder="Bio..."></textarea>
             </div>
-            <div class="list">
-                <new-input-form label="convidar jogador" icon="https://img.icons8.com/ios-filled/250/search--v1.png"/>
-                <h4>JOGADORES [1/10]:</h4>
-                <div class="jogador">
-                    <mini-icon image="" />
-                    <span>nome</span>
-                    <img class="exclude" src="https://img.icons8.com/ios-filled/50/FFFFFF/multiply.png" alt="">
-                </div>
-            </div>
-            <div class="list">
-                <new-input-form label="mover jogador" icon="https://img.icons8.com/ios-glyphs/90/user--v1.png"/>
-                <h4>JOGADORES ATIVOS [1/5]:</h4>
-                <div class="jogador">
-                    <mini-icon image="" />
-                    <span>nome</span>
-                    <img class="exclude" src="https://img.icons8.com/ios-filled/50/FFFFFF/multiply.png" alt="">
-                </div>
-            </div>
         </div>
         <div class="button_div">
             <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
@@ -67,11 +49,6 @@ import storage from '../firebase/firebase.js'
 import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
 
 
-
-let usuario = ref("jogador")
-const id = localStorage.getItem('id')
-
-let nome_time = ref("")
 
 let time = ref({
     jogo: "0",

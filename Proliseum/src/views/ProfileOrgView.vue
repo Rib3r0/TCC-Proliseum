@@ -48,7 +48,7 @@
                 <div class="teams" v-if="listOfTeams.teams.length > 0">
                   <div v-for="card in listOfTeams.teams" :key="card.id" class="card">
                     <router-link class="router" :to="`/teams/${card.id}`">
-                      <miniIcon :image="srcTeams[card.id]" size="200px"/>
+                      <miniIcon :image="getImage(card.id)" size="200px"/>
                       <h3>{{ card.nome_time }}</h3>
                     </router-link>
                   </div>
@@ -137,6 +137,21 @@ await getDownloadURL(refFB(storage, id + '/profile')).then(
   srcDono =  "https://i.ibb.co/jVvMSHY/image-6.png"
 })
 
+
+const getImage = async (id) =>{
+  
+  let image
+  
+  await getDownloadURL(refFB(storage, 'team/'+ id + '/profile')).then(
+    (download_url) => ( image = download_url)
+    ).catch( (erro) => {
+      image =  "https://i.ibb.co/jVvMSHY/image-6.png"
+    })
+    
+    return image
+    
+    
+}
 
 </script>
 

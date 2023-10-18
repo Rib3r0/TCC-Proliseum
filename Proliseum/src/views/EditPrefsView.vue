@@ -54,8 +54,9 @@
             </div>
         </div>
         <div class="button_div">
-            <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
             <NewCustomButton type="submit" label="SALVAR"/>
+            <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
+            
         </div>
     </form>
 </template>

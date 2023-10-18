@@ -31,7 +31,7 @@ const isCollapsed = computed( () => {
 
 })
 
-const isActive = computed( () => router.currentRoute.value.path === pros.to)
+const isActive = computed( () => router.currentRoute.value.path.startsWith(pros.to))
 
 
 

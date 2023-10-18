@@ -6,10 +6,12 @@
     <div class="main">
       <div class="filter">
         <div>
-          <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca"/>
+          <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca" @keyup.enter="buscar"/>
         </div>
         <div class="manege">
-          <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
+          <a>
+            <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
+          </a>
           <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
           <router-link to="/teams/create"><NewCustomButton label="DELETAR TIME"/></router-link>
         </div>
@@ -23,6 +25,9 @@
             <router-link class="router" :to="`/teams/${card.id}`">
               <miniIcon :image="getImage(card.id)"  :size="sizeImg"/>
               <h3>{{ card.nome_time }}</h3>
+              <div class="jogo">
+                <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+              </div>
               <p v-if="!myteams">gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
             </router-link>
           </div>
@@ -75,16 +80,15 @@ const getImage = async (id) =>{
 
   
   let busca = ref("")
-  watch(busca, async () => {
+  const buscar = async () => {
     loading.value = true
     await axiosPerfil.get('team',{ params: { name: busca.value } }).then( (response) => {
       console.log(response);
       listOfTeams.value = response.data.teams
-
-      console.log(listOfTeams.value);
+      myteams.value = false
       loading.value = false
     })
-})
+}
   
   
   
@@ -93,8 +97,6 @@ const getImage = async (id) =>{
   myteams.value = true
   await axiosPerfil.get('team/myteams').then( (response) => {
   listOfTeams.value = response.data.time
-
-  console.log(listOfTeams.value);
   loading.value = false
 })
 
@@ -147,7 +149,8 @@ const getImage = async (id) =>{
   padding: 20px;
   background-color: #0005;
   border-radius: 20px;
-  max-width: 18vw;
+  gap: 10px;
+  width: 18vw;
   
 }
 .router{
@@ -166,5 +169,18 @@ const getImage = async (id) =>{
   flex-direction: row;
   flex-wrap: wrap;
   gap: 40px;
+}
+
+.jogo{
+    display: block;
+    background-color: var(--red);
+    border-radius: 10px;
+    height: fit-content;
+    width: fit-content;
+    padding: 10px;
+  }
+  .jogo img{
+    width: 10vh;
+    filter: brightness(0) saturate(100%)
 }
 </style>

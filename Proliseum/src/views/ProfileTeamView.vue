@@ -1,7 +1,7 @@
 <template>
     <div class="body">
       <div class="header">
-        <router-link to="/perfil/editar" >
+        <router-link :to="'/teams/editar/'+ id" >
           <div v-if="editar" class="edit">
             <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
             <h4 class="editar">editar</h4>
@@ -74,16 +74,18 @@ let srcElo = ref(Elo[parseInt(0)][1])
 let nickname = ref("")
 
 
-if(localStorage.getItem('id') == id){
-editar.value = true
+if(localStorage.getItem('id') == await axiosPerfil.get('team')){
+
 }
 await axiosPerfil.get('team/' + id )
 .then( (response) => {
-  console.log(response.data.teams[0]);
-const profile = response.data.teams[0]
-nome = profile.nome_time
-nomeCompleto = profile.organizacao.nome_organizacao
-descricao = profile.biografia ? profile.biografia : ""
+  const profile = response.data.teams[0]
+  nome = profile.nome_time
+  nomeCompleto = profile.organizacao.nome_organizacao
+  if(localStorage.getItem('id') == profile.organizacao.dono_id.id){
+    editar.value = true
+  }
+  descricao = profile.biografia ? profile.biografia : ""
 
 // if(response.data.playerProfile){
 //   jogadorExist = true
