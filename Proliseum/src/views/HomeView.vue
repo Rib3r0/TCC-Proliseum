@@ -20,7 +20,7 @@ import { onBeforeMount } from 'vue';
 import NewInputForm from '../components/form/NewInputForm.vue';
 import Rodape from '../components/Rodape.vue';
 import router from '../router';
-import Carrosel from '../components/carrosel.vue';
+import Carrosel from '../components/Carrosel.vue';
 
 onBeforeMount( () => {
   if(!localStorage.getItem('token')){
