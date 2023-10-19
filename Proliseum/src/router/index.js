@@ -111,7 +111,7 @@ const router = createRouter({
     {
       path: '/players',
       name: 'Players',
-      component: () => import('@/views/playersView.vue'),
+      component: () => import('@/views/PlayersView.vue'),
     },
     {
       path: '/:notFound',
