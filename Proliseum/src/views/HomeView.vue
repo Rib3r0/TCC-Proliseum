@@ -8,7 +8,8 @@
       </div>
     </div>
     <div class="main">
-
+      <h3>Campeonatos:</h3>
+      <Carrosel/>
     </div>
     <rodape lined/>
   </div>
@@ -19,6 +20,7 @@ import { onBeforeMount } from 'vue';
 import NewInputForm from '../components/form/NewInputForm.vue';
 import Rodape from '../components/Rodape.vue';
 import router from '../router';
+import Carrosel from '../components/carrosel.vue';
 
 onBeforeMount( () => {
   if(!localStorage.getItem('token')){
