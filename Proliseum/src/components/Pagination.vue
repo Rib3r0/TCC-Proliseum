@@ -8,6 +8,7 @@
 
 <script setup>
 import { ref } from "vue"
+import { computed } from 'vue'
 
 const props = defineProps({
     elements: {
@@ -18,20 +19,34 @@ const props = defineProps({
         type: Number,
         required: true
     },
-    page: {
-        type: Number,
-        required: true
+    modelValue: {
+      type: Number,
+      required: true
     }
 })
+const emit = defineEmits(['update:modelValue'])
 
-const elements = ref(50) //props.elements
-const elementsPerPage = ref(5) //props.perPage
-const page = ref(1) //props.page
-const pageMax = ref( elements.value / elementsPerPage.value )
+
+const elements = props.elements
+const elementsPerPage = props.perPage
+const page = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
+const pageMax = Math.ceil(elements / elementsPerPage)
+const pageMin = 1
 
 const changePage = (n) => {
-    console.log(n);
-    page.value = n
+    if(n < pageMin || n > pageMax){
+    }else{
+      console.log(page.value)
+      emit('update:modelValue', n)
+      
+    }
 }
 
 

@@ -15,6 +15,9 @@
           </div>
           <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
           <h4 class="nomeCompleto">gerenciado por {{ nomeCompleto }}</h4>
+          <div class="jogo">
+            <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
+          </div>
           <div v-if="jogadorExist">
             <div class="card">
               <img :src="srcElo" alt="">

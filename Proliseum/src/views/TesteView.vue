@@ -1,15 +1,14 @@
 <template>
-  <pagination/>
+  <pagination :elements="elements" :per-page="perPage" :page="page"/>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import NewInputForm from '../components/form/NewInputForm.vue';
-import NewCustomButtonVue from '../components/NewCustomButton.vue';
 import Pagination from '../components/Pagination.vue';
 
-const nome = ref("")
-const senha = ref("")
+const elements= ref(50)
+const perPage= ref(20)
+const page= ref(1)
 
 function login(){
   console.log(nome.value)

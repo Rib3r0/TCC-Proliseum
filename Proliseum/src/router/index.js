@@ -109,6 +109,11 @@ const router = createRouter({
       redirect: '/perfil/' + localStorage.getItem('id'),
     },
     {
+      path: '/players',
+      name: 'Players',
+      component: () => import('@/views/playersView.vue'),
+    },
+    {
       path: '/:notFound',
       name: 'Not_Found',
       component: () => import('@/views/NotFoundView.vue')

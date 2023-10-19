@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="header">
-      <h1>Times</h1>
+      <h1>jogadores</h1>
     </div>
     <div class="main">
       <div class="filter">
@@ -21,14 +21,14 @@
       </template>
       <template v-else>
         <div class="teams">
-          <div v-for="card in listOfTeams" :key="card.id" class="card">
-            <router-link class="router" :to="`/teams/${card.id}`">
-              <miniIcon :image="getImage(card.id)"  :size="sizeImg"/>
-              <h3>{{ card.nome_time }}</h3>
+          <div v-for="card in listOfTeams" :key="card.perfil_id.id" class="card">
+            <router-link class="router" :to="`/perfil/${card.perfil_id.id}`">
+              <miniIcon :image="getImage(card.perfil_id.id)"  :size="sizeImg"/>
+              <h3>{{ card.nickname }}</h3>
               <div class="jogo">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
               </div>
-              <p v-if="!myteams">gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
+              <p v-if="!myteams">jogando pela</p>
             </router-link>
           </div>
         </div>
@@ -63,16 +63,16 @@ const page= ref(1)
 
 watch(page, async() => {
   loading.value = true
-  await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
-    listOfTeams.value = response.data.teams
+  await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+    listOfTeams.value = response.data.players
     loading.value = false
 })
 } )
 
 const listOfTeams = ref({})
 
-await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
-  listOfTeams.value = response.data.teams
+await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+  listOfTeams.value = response.data.players
   console.log(response.data);
   elements.value = response.data.limit
   
@@ -85,7 +85,7 @@ const getImage = async (id) =>{
   
   let image
   
-  await getDownloadURL(refFB(storage, 'team/'+ id + '/profile')).then(
+  await getDownloadURL(refFB(storage, id + '/profile')).then(
     (download_url) => ( image = download_url)
     ).catch( (erro) => {
       image =  "https://i.ibb.co/jVvMSHY/image-6.png"
@@ -102,9 +102,9 @@ const getImage = async (id) =>{
   const buscar = async () => {
     console.log("oi");
     loading.value = true
-    await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+    await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
       console.log(response);
-      listOfTeams.value = response.data.teams
+      listOfTeams.value = response.data.players
       elements.value = response.data.limit
       myteams.value = false
       loading.value = false
@@ -117,7 +117,7 @@ const getImage = async (id) =>{
   loading.value = true
   myteams.value = true
   await axiosPerfil.get('team/myteams').then( (response) => {
-  listOfTeams.value = response.data.time
+  listOfTeams.value = response.data.players
   loading.value = false
 })
 
