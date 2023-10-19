@@ -20,8 +20,8 @@
 <script setup>
 import { ref } from "vue"
 
-const current = ref(null)
-let currentItem = ref(current)
+const current = ref(0)
+let currentItem = ref(null)
 
 
 
@@ -68,7 +68,7 @@ const change = (e) => {
       current.value = maxItems - 1;
     }
     
-    console.log(currentItem._rawValue);
+    console.log(current.value);
     currentItem.value[current.value].scrollIntoView({ behavior: 'smooth', inline: "center" });
 }
 
