@@ -5,8 +5,8 @@
     <button id="front" v-on:click="change"  hidden>front</button>
     <label for="front" class="arrow-right"><img src="https://img.icons8.com/ios-filled/100/FFFFFF/forward--v1.png"></label>
     <div class="gallery-wrapper">
-        <div class="gallery">
-            <div class="card" v-for="card in items" :key="card.id">
+        <div class="gallery" :key="current" >
+            <div :ref="items.indexOf(card) == current ? 'currentItem' : 'item' " class="card" v-for="card in items" :key="card.id">
                 <p>{{ card.name }}</p>
                 <img  src="https://source.unsplash.com/random/250x400/?animal" :class="items.indexOf(card) == current ? 'item current-item' : 'item'  " alt="">
                 <span>VEJA MAIS</span>
@@ -50,7 +50,6 @@ const maxItems = items.length
 
 
 const change = (e) => {
-    console.log(e.srcElement.id)
 
     if(e.srcElement.id == 'front'){
         current.value += 1 
@@ -66,11 +65,13 @@ const change = (e) => {
     if (current.value < 0) {
       current.value = maxItems - 1;
     }
-
-    currentItem.value?.scrollIntoView({behavior: "smooth"})
+    
+    currentItem.value[currentItem.value.length -1].scrollIntoView({ behavior: 'smooth', inline: "center" });
     console.log(currentItem.value);
-
 }
+
+
+
 
 </script>
 
