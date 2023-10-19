@@ -9,11 +9,9 @@
           <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca" @keyup.enter="buscar"/>
         </div>
         <div class="manege">
-          <a>
-            <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
-          </a>
-          <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
-          <router-link to="/teams/create"><NewCustomButton label="DELETAR TIME"/></router-link>
+
+          <router-link to="/edit"><NewCustomButton label="CRIAR PERFIL DE JOGADOR"/></router-link>
+          <router-link to="/teams/create"><NewCustomButton label="DELETAR PERFIL"/></router-link>
         </div>
       </div>
       <template v-if="loading" >
@@ -24,10 +22,23 @@
           <div v-for="card in listOfTeams" :key="card.perfil_id.id" class="card">
             <router-link class="router" :to="`/perfil/${card.perfil_id.id}`">
               <miniIcon :image="getImage(card.perfil_id.id)"  :size="sizeImg"/>
-              <h3>{{ card.nickname }}</h3>
+              <h3>"{{ card.nickname }}"</h3>
               <div class="jogo">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
               </div>
+              <div class="info">
+                <div class="cardElo">
+                  <p>ELO:</p>
+                  <img :src="Elo[parseInt(card.elo)][1]" alt="">
+                  <p>{{ Elo[parseInt(card.elo)][0] }}</p>
+                </div>
+                <div class="cardElo">
+                  <p>FUNÇÃO:</p>
+                  <img class="funcao" :src="Funcao[parseInt(card.funcao)][1]" alt="">
+                  <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
+                </div>
+              </div>
+
               <p v-if="!myteams">jogando pela</p>
             </router-link>
           </div>
@@ -51,6 +62,8 @@ import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import NewInputForm from "../components/form/NewInputForm.vue";
 import Pagination from "../components/Pagination.vue";
+import { Elo } from "../components/enum/Elo"
+import { Funcao } from "../components/enum/Funcao"
 
 const loading = ref(true)
 const myteams = ref(false)
@@ -58,7 +71,7 @@ const sizeImg = ref("15vw")
 let busca = ref("")
 
 const elements= ref(0)
-const perPage= ref(8)
+const perPage= ref(20)
 const page= ref(1)
 
 watch(page, async() => {
@@ -170,17 +183,32 @@ const getImage = async (id) =>{
   padding: 20px;
   background-color: #0005;
   border-radius: 20px;
+  height: fit-content;
+  max-height: 90vh;
   gap: 10px;
   width: 18vw;
   
 }
+.cardElo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .cardElo img{
+    height: 5vh;
+    max-height: 500px;
+  }
+
 .router{
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: fit-content;
+  max-width: 15vw;
   border-radius: 20px;
+  gap: 10px;
   text-align: center;
   word-break: break-all;
 }
@@ -209,5 +237,11 @@ ul{
   display: flex;
 }
 
+.info{
+  display: flex;
+}
+.funcao{
+  filter: brightness(100%) grayscale(100%)
+}
 
 </style>

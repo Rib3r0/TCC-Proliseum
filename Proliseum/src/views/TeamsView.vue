@@ -58,7 +58,7 @@ const sizeImg = ref("15vw")
 let busca = ref("")
 
 const elements= ref(0)
-const perPage= ref(8)
+const perPage= ref(20)
 const page= ref(1)
 
 watch(page, async() => {

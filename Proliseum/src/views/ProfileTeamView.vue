@@ -14,7 +14,7 @@
             <img  class="iconLarge" :key="src" :src="src">
           </div>
           <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
-          <h4 class="nomeCompleto">gerenciado por {{ nomeCompleto }}</h4>
+          <h4 class="nomeCompleto">gerenciado por<router-link :to="'/org/'+ idOrg"> {{ nomeCompleto }}</router-link></h4>
           <div class="jogo">
             <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
           </div>
@@ -67,6 +67,7 @@ let nome = ref('nome')
 let nomeCompleto = ref('nomecompleto')
 let descricao = ref('Descricao')
 let timeAtual = ref("FA")
+let idOrg = ref("")
 
 let jogadorExist = ref(false)
 
@@ -83,9 +84,11 @@ if(localStorage.getItem('id') == await axiosPerfil.get('team')){
 await axiosPerfil.get('team/' + id )
 .then( (response) => {
   const profile = response.data.teams[0]
+  console.log(profile);
   nome = profile.nome_time
   nomeCompleto = profile.organizacao.nome_organizacao
-  if(localStorage.getItem('id') == profile.organizacao.dono_id.id){
+  idOrg = profile.organizacao.dono_id.id
+  if(localStorage.getItem('id') == idOrg){
     editar.value = true
   }
   descricao = profile.biografia ? profile.biografia : ""
