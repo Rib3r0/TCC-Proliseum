@@ -37,7 +37,6 @@ import { createToast } from 'mosha-vue-toastify';
 import { ref, watch } from 'vue';
 import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
-import router from '../router';
 
 
 
