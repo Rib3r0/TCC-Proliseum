@@ -37,7 +37,8 @@ const handleClick = (event) => {
         line-height: 1.5;
         display: inline-block;
         margin: 0;
-        width: fit-content;
+        min-width: fit-content;
+        height: fit-content;
         outline: none;
         padding: 15px 30px 15px 30px;
         overflow: hidden;

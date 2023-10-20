@@ -34,9 +34,9 @@ const router = createRouter({
       component: () => import('@/views/TesteView.vue')
     },
     {
-      path: '/championships',
+      path: '/chanpionships',
       name: 'Chanpionships',
-      component: () => import('@/views/ChampionshipsView.vue')
+      component: () => import('@/views/ChanpionshipsView.vue')
     },
     {
       path: '/requests',
@@ -89,7 +89,7 @@ const router = createRouter({
       component: () => import('@/views/SearchView.vue')
     },
     {
-      path: '/search/post',
+      path: '/search/editar',
       name: 'SearchEdit',
       component: () => import('@/views/PostEditView.vue')
     },
@@ -119,16 +119,12 @@ const router = createRouter({
       component: () => import('@/views/PlayersView.vue'),
     },
     {
-      path: '/:notFound(.*)',
+      path: '/:notFound',
       name: 'Not_Found',
       component: () => import('@/views/NotFoundView.vue')
     }
 
-  ],
-  scrollBehavior(to, from, savedPosition) {
-    return { top: 0 };
-  },
-
+  ]
 })
 
 export default router

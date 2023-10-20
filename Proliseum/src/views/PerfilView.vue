@@ -2,7 +2,7 @@
       <div class="body">
         <div class="header">
           <div v-if="editar" class="edit">
-            <router-link to="/search/editar" >
+            <router-link to="/search/post" >
               <NewCustomButton label="MINHA POSTAGEM"/>
             </router-link>
             <router-link to="/perfil/editar" >

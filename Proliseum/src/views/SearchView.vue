@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="header">
-      <h1>Vagas Disponiveis:</h1>
+      <h1>Jogares Disponiveis</h1>
     </div>
     <div class="main">
       <div class="main_header">
@@ -21,9 +21,12 @@
           <h4>REMUNERAÇÃO</h4>
           <select-form default="remuneração" :list="['sim','não']" v-model="remuneracao"/>
         </div>
-        <Newcustombutton label="BUSCAR"/>
+        <Newcustombutton label="BUSCAR" size="0.5vw"/>
       </div>
       <div class="main_main">
+        <router-link to="/search/post">
+          <Newcustombutton class="new" label="MINHA POSTAGEM"/>
+        </router-link>
         <div class="card_props" v-for="card in cards" :key="card.id">
           <div class="profile">
             <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw"/>
@@ -44,7 +47,7 @@
               </div>
               <div class="info_card">
                 <h3>HORARIO</h3>
-                <H4>{{ card.horario }}</H4>
+                <h4>{{ card.horario }}</h4>
               </div>
               <div class="info_card">
                 <h3>PROS</h3>
@@ -149,12 +152,16 @@ const getImage = async (id) =>{
   display: flex;
   gap: 20px;
   padding: 20px;
+  max-width: 50%;
 }
 
-/* .main_main{
-  display: grid;
-  place-items: center start;
-} */
+
+
+.main_main{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 
 .card_props{
   display: flex;
@@ -199,6 +206,10 @@ const getImage = async (id) =>{
 
 .info_card img{
   height: 5vw;
+}
+
+.new{
+  padding: 20px;
 }
 
 </style>

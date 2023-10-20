@@ -42,6 +42,7 @@ const buscar = ""
   background-image: url(../assets/img/backgroundHome.png);
   background-repeat: no-repeat;
   background-size: cover, contain;
+  background-attachment: fixed;
   background-position: center;
   height: 60vh;
   display: flex;
