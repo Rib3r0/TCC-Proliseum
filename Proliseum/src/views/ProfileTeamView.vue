@@ -1,12 +1,12 @@
 <template>
     <div class="body">
       <div class="header">
-        <router-link :to="'/teams/editar/'+ id" >
-          <div v-if="editar" class="edit">
-            <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
-            <h4 class="editar">editar</h4>
-          </div>
-        </router-link>
+        <div v-if="editar" class="edit">
+        <NewCustomButton label="MINHA POSTAGEM"/>
+          <router-link :to="'/teams/editar/'+ id" >
+            <NewCustomButton class="editar" label="EDITAR PERFIL"></NewCustomButton>
+          </router-link>
+        </div>
       </div>
       <div class="main">
         <div class="info" >
@@ -56,6 +56,7 @@ import { axiosPerfil } from "../axios/axios";
 import Rodape from '../components/Rodape.vue'
 import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
+import NewCustomButton from "../components/NewCustomButton.vue";
 
 
 const editar = ref(false)
@@ -240,6 +241,7 @@ src.value =  "https://i.ibb.co/jVvMSHY/image-6.png"
   background: #0008;
   margin: 0px 30px 10px 0px;
   padding: 0px 5px 0px 5px;
+  gap: 20px;
 }
 .edit img{
   width: 40px;

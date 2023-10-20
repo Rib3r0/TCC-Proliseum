@@ -61,11 +61,13 @@
       place-items: center;
       overflow: hidden;
     }
+
     .icon2{
       clip-path: inset(30% 0 32% 0);
       display: grid;
       place-items: center;
       overflow: hidden;
+      position: absolute;
     }
   
     .iconLarge{

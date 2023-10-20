@@ -6,7 +6,7 @@
     <label for="front" class="arrow-right"><img src="https://img.icons8.com/ios-filled/100/FFFFFF/forward--v1.png"></label>
     <div class="gallery-wrapper">
         <div class="gallery" >
-            <div  class="card" v-for="card in items" :key="card.id">
+            <div :class="items.indexOf(card) == current ? 'card current-item' : 'card'  " v-for="card in items" :key="card.id">
                 <p>{{ card.name }}</p>
                 <img  src="https://source.unsplash.com/random/250x400/?leagueoflegends " :class="items.indexOf(card) == current ? 'item current-item' : 'item'  " alt="">
                 <span>VEJA MAIS</span>
@@ -45,6 +45,22 @@ const items = [
         name: "ola5",
         id: 20
     },
+    {   
+        name: "ola6",
+        id: 20
+    },
+    {   
+        name: "ola7",
+        id: 20
+    },
+    {   
+        name: "ola8",
+        id: 20
+    },
+    {   
+        name: "ola9",
+        id: 20
+    },
 
 ]
 const maxItems = items.length
@@ -59,18 +75,18 @@ const change = async (e) => {
         current.value -= 1 
     }
 
-    if (current.value >= maxItems) {
-      current.value = 0;
+    if (current.value >= maxItems -1) {
+      current.value = 1;
     }
 
-    if (current.value < 0) {
-      current.value = maxItems - 1;
+    if (current.value < 1) {
+      current.value = maxItems - 2;
     }
 
     await nextTick();
     
     console.log(document.querySelector('.current-item'));
-    document.querySelector('.current-item').scrollIntoView({ behavior: 'smooth', inline: "center"});
+    document.querySelector('.current-item').scrollIntoView({behavior: 'smooth',inline:   'center', block:    'nearest',});
 }
 
 
@@ -136,17 +152,12 @@ const change = async (e) => {
 }
 
 .item{
-    width:400px;
-    height:250px;
+    width: 27vw;
+    height: 14vw;
     flex-shrink: 0;
     transition: all 600ms ease-in-out;
-    opacity: 0.5;
 }
 
-.current-item {
-  opacity: 1;
-
-}
 
 .gallery-wrapper::-webkit-scrollbar {
   display: none;
@@ -155,10 +166,17 @@ const change = async (e) => {
 .card{
     display: flex;
     flex-direction: column;
+    min-width: 30vw;
     align-items: center;
-    background-color: #0005;
+    background-color: #000;
+    color: #FFF;
     padding: 10px;
     border-radius: 30px;
+    transition: 1s;
+    opacity: 0.5;
+}
+.card:hover{
+  opacity:1;
 }
 
 </style>

@@ -1,12 +1,11 @@
 <template>
     <div class="body">
       <div class="header">
+        <div v-if="editar" class="edit">
         <router-link to="/org/editar" >
-          <div v-if="editar" class="edit">
-            <img src="https://img.icons8.com/material-rounded/96/ffffff/create-new.png" alt="">
-            <h4 class="editar">editar</h4>
-          </div>
-        </router-link>
+          <NewCustomButton class="editar" label="EDITAR ORG"></NewCustomButton>
+          </router-link>
+        </div>
       </div>
       <div class="main">
         <div class="info" >
@@ -72,6 +71,7 @@ import Rodape from '../components/Rodape.vue'
 import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
 import miniIcon from "../components/miniIcon.vue";
+import NewCustomButton from "../components/NewCustomButton.vue";
 
 const editar = ref(false)
 const id = router.currentRoute.value.params.id
@@ -273,6 +273,7 @@ const getImage = async (id) =>{
   background: #0008;
   margin: 0px 30px 10px 0px;
   padding: 0px 5px 0px 5px;
+  gap: 20px;
 }
 .edit img{
   width: 40px;
