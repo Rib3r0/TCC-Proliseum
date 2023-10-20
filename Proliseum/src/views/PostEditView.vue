@@ -79,6 +79,7 @@ const id = localStorage.getItem('id');
 const perfilExist = ref(false);
 
 let card = ref({
+  name: "",
   elo: '0',
   funcao: '0',
   horario: '00:00',
@@ -113,7 +114,7 @@ await axiosPerfil.get('profile/' + id).then(async (response) => {
     const jogador = response.data.playerProfile
     console.log(jogador);
     
-    
+    card.value.name = response.data.user.nickname
     card.value.elo = jogador.elo
     card.value.funcao = jogador.funcao
   }
