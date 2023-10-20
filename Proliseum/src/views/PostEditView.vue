@@ -47,17 +47,13 @@
     <span>*ISSO PODERÁ SER VISUALIZADO NO POST*</span>
     <div class="cadastro">
       <div class="text">
-        <new-input-form  label="NOME DA ORGANIZAÇÃO:" required />
-        <span class="title">BIO:</span>
-        <textarea name=""  id="" maxlength="300" placeholder="Bio..."></textarea>
+        <span class="title">DESCRIÇÃO:</span>
+        <textarea name=""  id="" maxlength="300" placeholder="olá..."></textarea>
       </div>
-      <div>
-        <span class="title">LOGO:</span>
-        <ImageUpload id="orgPic"   />
-      </div>
-      <div>
-        <span class="title">CAPA:</span>
-        <ImageUpload id="capaPic"   capa />
+      <NewInputForm label="horario" type="time"/>
+      <div class="text">
+        <span class="title">Prós:</span>
+        <textarea name=""  id="" maxlength="300" placeholder="Tranquilo..."></textarea>
       </div>
     </div>
     <div class="button_div">
@@ -77,6 +73,7 @@ import { axiosPerfil } from '../axios/axios.js';
 import storage from '../firebase/firebase.js';
 import { ref as refFB, getDownloadURL } from 'firebase/storage';
 import miniIcon from '../components/miniIcon.vue';
+import NewInputForm from '../components/form/NewInputForm.vue';
 
 const id = localStorage.getItem('id');
 const perfilExist = ref(false);
