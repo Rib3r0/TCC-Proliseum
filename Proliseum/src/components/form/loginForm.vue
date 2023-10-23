@@ -22,9 +22,6 @@ import NewInputForm from './NewInputForm.vue';
 import { axiosPerfil } from '../../axios/axios';
 
 onBeforeMount( () => {
-  if(localStorage.getItem('token')){
-    router.push('home')
-  }
 })
 
 

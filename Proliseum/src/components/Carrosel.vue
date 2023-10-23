@@ -20,7 +20,7 @@
 <script setup>
 import { ref, nextTick } from "vue"
 
-const current = ref(0)
+const current = ref(1)
 
 
 
