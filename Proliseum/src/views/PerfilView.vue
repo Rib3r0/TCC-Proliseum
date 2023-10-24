@@ -1,6 +1,17 @@
 <template>
       <div class="body">
         <div class="header">
+          <div class="edit" v-if="!editar">  
+            <Modal class="proposta" :open="isOpen" @close="isOpen = !isOpen">
+              <form class="form" autocomplete="on">
+                <SelectForm label="TIME:" default="Selecione o time"/>
+                <span class="title">mensage:</span>
+                <textarea name=""  id="" maxlength="300" placeholder="Olá..."></textarea>
+                <NewCustomButton label="ENVIAR" />
+            </form>
+            </Modal>
+            <NewCustomButton label="ENVIAR PROPOSTA" @onClick="isOpen = true"/>
+          </div>
           <div v-if="editar" class="edit">
             <router-link to="/search/post" >
               <NewCustomButton label="MINHA POSTAGEM"/>
@@ -61,8 +72,11 @@ import { Elo } from '../components/enum/Elo';
 import { Funcao } from '../components/enum/Funcao'
 import  miniIcon  from '../components/miniIcon.vue'
 import NewCustomButton from "../components/NewCustomButton.vue";
+import NewInputForm from "../components/form/NewInputForm.vue";
+import Modal from "../components/popup/Modal.vue";
+import SelectForm from "../components/form/SelectForm.vue";
 
-
+const isOpen = ref(false)
 const editar = ref(false)
 const id = router.currentRoute.value.params.id
 
@@ -283,4 +297,5 @@ await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
     display: flex;
     align-items: center;
   }
+
 </style>

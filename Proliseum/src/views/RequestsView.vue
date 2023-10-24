@@ -34,6 +34,13 @@ import miniIcon from '../components/miniIcon.vue';
 import { ref } from 'vue';
 import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
+import { axiosPerfil } from '../axios/axios';
+import router from '../router';
+
+// await axiosPerfil.post('offer')
+//   .then( (response) => {
+//     console.log(response.data);
+//   })
 
 
 
@@ -57,28 +64,22 @@ let cards = ref([
 {
   name: "team Rib3r0",
   id_dono: id,
-  elo: '0',
   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
-  funcao: '0',
-  horario: '00:00',
-  pros: ''
 },
 {
   name: "team Rib3r0 2",
   id_dono: 25,
-  elo: '0',
   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
-  funcao: '0',
-  horario: '00:00',
-  pros: ''
 }
 ]);
 
 function accept(id) {
   console.log(id);
+  router.go(router.currentRoute)
 }
 function reject(id){
   console.log(id)
+  router.go(router.currentRoute)
 }
 
 </script>

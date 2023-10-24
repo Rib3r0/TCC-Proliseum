@@ -41,7 +41,7 @@ defineProps({
 
 .vue-modal-inner {
   min-width: 500px;
-  max-width: 90%;
+  max-width: fit-content;
   margin: 2rem auto;
 }
 
