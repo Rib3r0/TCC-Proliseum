@@ -38,7 +38,7 @@
             <div class="preview">
               <div class="card_props">
                 <div class="profile">
-                  <miniIcon class="icon" :image="getImage()" size="10vw" />
+                  <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw" />
                   <p>{{ card.name }}</p>
                 </div>
                 <div class="info">

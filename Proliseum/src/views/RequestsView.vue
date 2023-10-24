@@ -4,13 +4,82 @@
       <h1>Propostas</h1>
     </div>
     <div class="main">
-
+      <div class="preview">
+      <div class="card_props" v-for="card in cards" :key="card.id_dono">
+        <div class="profile">
+          <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw" />
+          <p>{{ card.name }}</p>
+        </div>
+        <div class="info">
+          <div class="description">
+            <p>{{ card.description }}</p>
+          </div>
+          <div class="info_buttons">
+            <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.id_dono)" />
+            <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.id_dono)" />
+          </div>
+        </div>
+      </div>
+      </div>
+            
     </div>
     <rodape lined/>
   </div>
 </template>
 
 <script setup>
+import Rodape from '../components/Rodape.vue';
+import Newcustombutton from '../components/NewCustomButton.vue';
+import miniIcon from '../components/miniIcon.vue';
+import { ref } from 'vue';
+import storage from '../firebase/firebase.js'
+import { ref as refFB , getDownloadURL } from 'firebase/storage'
+
+
+
+const id = localStorage.getItem('id');
+const getImage = async (id) =>{
+  
+  let image
+  
+  await getDownloadURL(refFB(storage, id + '/profile')).then(
+    (download_url) => ( image = download_url)
+    ).catch( (erro) => {
+      image =  "https://i.ibb.co/jVvMSHY/image-6.png"
+    })
+    
+    return image
+    
+    
+  }
+
+let cards = ref([
+{
+  name: "team Rib3r0",
+  id_dono: id,
+  elo: '0',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
+  funcao: '0',
+  horario: '00:00',
+  pros: ''
+},
+{
+  name: "team Rib3r0 2",
+  id_dono: 25,
+  elo: '0',
+  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
+  funcao: '0',
+  horario: '00:00',
+  pros: ''
+}
+]);
+
+function accept(id) {
+  console.log(id);
+}
+function reject(id){
+  console.log(id)
+}
 
 </script>
 
@@ -32,6 +101,56 @@
 
 
 .main{
-  height: 100vh;
+  min-height: 100vh;
+}
+
+.card_props{
+  display: flex;
+  padding: 20px;
+  align-items: center;
+}
+.profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+
+
+.info{
+  background-color: #0005;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 70vw;
+  min-height: 16vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.info_buttons{
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  gap: 20px;
+}
+.info_main{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.info_card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info_card img{
+  height: 5vw;
+}
+
+.new{
+  padding: 20px;
 }
 </style>

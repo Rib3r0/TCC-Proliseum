@@ -80,7 +80,7 @@ const id = router.currentRoute.value.params.id
 let loading = ref(true)
 
 let listOfTeams = ref({})
-let srcTeams = ref([])
+let listOfPlayers = ref({ })
 
 await axiosPerfil.get('team/org/' + id).then( (response) => {
   listOfTeams = response.data
