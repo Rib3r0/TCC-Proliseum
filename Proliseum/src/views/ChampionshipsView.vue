@@ -1,10 +1,10 @@
 <template>
   <div class="body">
-    <div class="header">
-      <h1>Campeonatos</h1>
-    </div>
     <div class="main">
-
+      <h1 class="em">Em breve</h1>
+      <h1 class="um">.</h1>
+      <h1 class="dois">.</h1>
+      <h1 class="tres">.</h1>
     </div>
     <rodape lined/>
   </div>
@@ -33,5 +33,61 @@
 
 .main{
   height: 100vh;
+  background-image: url(../assets/img/Background_Champions.png);
+  background-repeat: no-repeat;
+  background-size: cover, contain;
+  background-position: 50% 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.main .em{
+  animation: MoveUpDown 1s alternate infinite;
+}
+
+@keyframes MoveUpDown {
+  0%{
+    filter: drop-shadow(0 0 0.5rem #fff);
+  }
+  100% {
+    filter: drop-shadow(0 0 2rem #fff);
+  }
+}
+
+@keyframes MoveUpDown1 {
+  0%{
+    transform: translateY(-10px);
+  }
+  33% {
+    transform: translateY(0px);
+  }
+}
+@keyframes MoveUpDown2 {
+  33%{
+    transform: translateY(-10px);
+  }
+  66% {
+    transform: translateY(0);
+  }
+}
+@keyframes MoveUpDown3 {
+  66%{
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.um{
+  animation: MoveUpDown1 1s alternate infinite;
+}
+.dois{
+  animation: MoveUpDown2 1s alternate infinite;
+}
+.tres{
+  animation: MoveUpDown3 1s alternate infinite;
 }
 </style>
