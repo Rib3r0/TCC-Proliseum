@@ -6,27 +6,27 @@ const router = createRouter({
     {
       path: '/',
       name: 'Start',
-      component: () => import('@/views/StartView.vue')
+      component: () => import('@/views/Start/StartView.vue')
     },
     {
       path: '/login',
       name: 'Login',
-      component: () => import('@/views/LoginView.vue')
+      component: () => import('@/views/Start/LoginView.vue')
     },
     {
       path: '/recovery',
       name: 'Recovery',
-      component: () => import('@/views/RecoveryView.vue')
+      component: () => import('@/views/Start/RecoveryView.vue')
     },
     {
       path: '/home',
       name: 'Home',
-      component: () => import('@/views/HomeView.vue')
+      component: () => import('@/views/Start/HomeView.vue')
     },
     {
       path: '/register',
       name: 'Register',
-      component: () => import('@/views/RegisterView.vue')
+      component: () => import('@/views/Start/RegisterView.vue')
     },
     {
       path: '/teste',
@@ -36,32 +36,32 @@ const router = createRouter({
     {
       path: '/championships',
       name: 'Chanpionships',
-      component: () => import('@/views/ChampionshipsView.vue')
+      component: () => import('@/views/Championship/ChampionshipsView.vue')
     },
     {
       path: '/requests',
       name: 'Requests',
-      component: () => import('@/views/RequestsView.vue')
+      component: () => import('@/views/profile/RequestsView.vue')
     },
     {
       path: '/teams',
       name: 'Teams',
-      component: () => import('@/views/TeamsView.vue')
+      component: () => import('@/views/Team/TeamsView.vue')
     },
     {
       path: '/teams/create',
       name: 'TeamsCreate',
-      component: () => import('@/views/TeamCreateView.vue')
+      component: () => import('@/views/Team/TeamCreateView.vue')
     },
     {
       path: '/teams/editar/:id',
       name: 'TeamEdit',
-      component: () => import('@/views/EditTeamView.vue')
+      component: () => import('@/views/Team/EditTeamView.vue')
     },
     {
       path: '/teams/:id',
       name: 'Team',
-      component: () => import('@/views/ProfileTeamView.vue')
+      component: () => import('@/views/Team/ProfileTeamView.vue')
     },
     {
       path: '/myorg',
@@ -71,7 +71,7 @@ const router = createRouter({
     {
       path: '/org/:id',
       name: 'Org',
-      component: () => import('@/views/ProfileOrgView.vue')
+      component: () => import('@/views/org/ProfileOrgView.vue')
     },
     {
       path: '/org/editar',
@@ -91,22 +91,22 @@ const router = createRouter({
     {
       path: '/offers',
       name: 'Offers',
-      component: () => import('@/views/SearchTeamView.vue')
+      component: () => import('@/views/Team/SearchTeamView.vue')
     },
     {
       path: '/perfil/editar',
       name: 'EditarPerfil',
-      component: () => import('@/views/EditarUsuarioView.vue')
+      component: () => import('@/views/profile/EditarUsuarioView.vue')
     },
     {
       path: '/edit',
       name: 'Editar',
-      component: () => import('@/views/EditPrefsView.vue')
+      component: () => import('@/views/profile/EditPrefsView.vue')
     },
     {
       path: '/perfil/:id',
       name: 'Perfil',
-      component: () => import('@/views/PerfilView.vue'),
+      component: () => import('@/views/profile/PerfilView.vue'),
     },
     {
       path: '/perfil',
@@ -116,7 +116,7 @@ const router = createRouter({
     {
       path: '/players',
       name: 'Players',
-      component: () => import('@/views/PlayersView.vue'),
+      component: () => import('@/views/profile/PlayersView.vue'),
     },
     {
       path: '/:notFound(.*)',
@@ -128,6 +128,7 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return { top: 0 };
   },
+  
 
 })
 

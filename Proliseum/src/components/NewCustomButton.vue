@@ -24,7 +24,6 @@ const handleClick = (event) => {
 
 <style scoped>
     button{
-        filter: drop-shadow(0 10px 0.5rem #000);
         background-color: var(--red);
         border-radius: 10px;
         border-style: none;
@@ -49,7 +48,6 @@ const handleClick = (event) => {
     }
     button:hover{
         transform: translateY(1px);
-        filter: drop-shadow(0 5px 0.5rem #000);
     }
     button:active{
         background-color: #fff;

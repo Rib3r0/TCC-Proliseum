@@ -1,12 +1,12 @@
 <template>
-  <CustomNav v-if="showNav" />
+  <CustomNav v-show="showNav" />
   <div :style="showNav ? { 'margin-left' : tamanho } : { 'margin-left' : '0' } ">
     <RouterView :key="$route.fullPath" v-slot="{ Component }">
       <Transition name="fade" mode="out-in">
         <Suspense>
           <!-- main content -->
           <Transition name="fade">
-            <component :is="Component" :key="$route.fullPath"></component>
+            <component :is="Component" :key="$route.fullPath"/>
           </Transition>
 
           <!-- loading state -->

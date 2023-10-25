@@ -8,7 +8,7 @@
         <div class="gallery" >
             <div :class="items.indexOf(card) == current ? 'card current-item' : 'card'  " v-for="card in items" :key="card.id">
                 <p>{{ card.name }}</p>
-                <img  src="https://source.unsplash.com/random/250x400/?leagueoflegends " :class="items.indexOf(card) == current ? 'item current-item' : 'item'  " alt="">
+                <img  src="../assets/img/Background_Champions.png" :class="items.indexOf(card) == current ? 'item current-item' : 'item'  " alt="">
                 <span>VEJA MAIS</span>
             </div>
         </div>
@@ -98,7 +98,7 @@ const change = async (e) => {
 .container{
     position: relative;
     padding: 15px;
-    max-width: 95%;
+    max-width: 100%;
     margin: 0 auto;
 }
 .gallery{
