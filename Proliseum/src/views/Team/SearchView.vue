@@ -145,6 +145,7 @@ import Modal from '../../components/popup/Modal.vue';
 import { axiosPerfil } from '../../axios/axios.js';
 
 
+
 const id = localStorage.getItem('id');
 const isOpen= ref(false)
 const perfilExist = ref(false);

@@ -76,6 +76,7 @@ import NewCustomButton from "../../components/NewCustomButton.vue";
 import NewInputForm from "../../components/form/NewInputForm.vue";
 import Modal from "../../components/popup/Modal.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
+import { createToast } from 'mosha-vue-toastify';
 
 const isOpen = ref(false)
 const editar = ref(false)
