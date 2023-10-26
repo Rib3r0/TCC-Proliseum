@@ -1,7 +1,7 @@
 <template >
     <div class="container">
         <div class="icon">
-          <img   :style=" {  maxHeight : size, minHeight : size}" :key="src" :src="src">
+          <img class="image"  :style=" {  maxHeight : size, minHeight : size}" :key="src" :src="src">
         </div>
     </div>
   </template>
@@ -83,5 +83,8 @@
       align-items: center;
       width: v-bind(size);
       gap: 0px;
+    }
+    .image{
+      overflow: hidden;
     }
   </style>

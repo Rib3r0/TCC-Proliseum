@@ -14,7 +14,7 @@
           <div class="icon">
             <img  class="iconLarge" :key="src" :src="src">
           </div>
-          <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
+          <h3 class="nome"> <router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="src"/></router-link>{{ nome }}</h3>
           <h4 class="nomeCompleto">gerenciado por<router-link :to="'/org/'+ idOrg"> {{ nomeCompleto }}</router-link></h4>
           <div class="jogo">
             <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
@@ -36,8 +36,10 @@
             <div class="list">
               <h4>JOGADORES [{{ jogadores.length }}/10]:</h4>
               <div class="jogador" v-for="jogador in jogadores" :key="jogador.id">
-                  <mini-icon :image="getImage(jogador.perfil_id.id)" />
-                  <span>{{ jogador.nickname }}</span>
+                  <router-link class="jogador" :to="'/perfil/' + jogador.perfil_id.id ">
+                    <mini-icon :image="getImage(jogador.perfil_id.id)" />
+                    <span class="nick"><img class="funcao" :src="Funcao[parseInt(jogador.funcao)][1]" alt=""> {{ jogador.nickname }}  </span>
+                  </router-link>
               </div>
           </div>
         </div>
@@ -241,12 +243,8 @@ const getImage = async (id) =>{
 .nome{
   display: flex;
   align-items: center;
-  gap: 10px;
   transform: translateX(-30px);
   word-break: break-all;
-}
-.nome img{
-  height: 8vh;
 }
 .nomeCompleto{
   color: #fff5;
@@ -300,10 +298,23 @@ const getImage = async (id) =>{
     display: flex;
     align-items: center;
     gap: 20px;
+    color: #FFF;
 }
 .list{
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.funcao{
+  filter: brightness(100%) grayscale(100%)
+}
+
+.nick{
+  display: flex;
+  align-items: center;
+}
+.nick img{
+  height: 5vh;
 }
 </style>

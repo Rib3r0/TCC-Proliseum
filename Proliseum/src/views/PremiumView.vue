@@ -6,7 +6,7 @@
       <div>
         <h3>assine o premium pra desbloquear todas as funcionalidades da nossa plataforma!</h3>
         <BR></BR>
-        <NewCustomButton label="TORNAR-SE UMA LENDA!"/>
+        <NewCustomButton class="button" label="TORNAR-SE UMA LENDA!"/>
       </div>
     </div>
 
@@ -32,12 +32,16 @@ import Rodape from '../components/Rodape.vue';
   background-repeat: no-repeat;
 }
 
+.button{
+  animation: fire 1s infinite alternate;
+}
+
 @keyframes fire {
   0%{
-    background-color: var(--red);
+    filter: drop-shadow(0 0px 0.1rem #FFF);
   }
   100% {
-
+    filter: drop-shadow(0 0px 1rem #FFF);
   }
 }
 
