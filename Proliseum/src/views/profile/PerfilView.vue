@@ -102,7 +102,8 @@ async function proposta(){
         position : "top-center"
       })
       console.log(response.data);
-    }).catch(() => {
+    }).catch((erro) => {
+      console.log(erro);
       const message = 'Erro ao enviar!'
       loading = false
       createToast(message,{

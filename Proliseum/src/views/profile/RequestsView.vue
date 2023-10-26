@@ -92,8 +92,9 @@ async function accept (id)  {
             position : "top-center"
           })
         router.go(router.currentRoute)
-      }).catch( () => {
+      }).catch( (erro) => {
         loading = false
+        console.log(erro);
         const message = 'Erro!'
           createToast(message,{
             type : 'danger',
