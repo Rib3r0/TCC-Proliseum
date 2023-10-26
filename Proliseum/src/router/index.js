@@ -36,7 +36,7 @@ const router = createRouter({
     {
       path: '/championships',
       name: 'Chanpionships',
-      component: () => import('@/views/Championship/ChampionshipsView.vue')
+      component: () => import('@/views/championship/ChampionshipsView.vue')
     },
     {
       path: '/requests',
