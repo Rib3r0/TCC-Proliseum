@@ -46,7 +46,7 @@
     </div>
     <div class="button_div">
       <NewCustomButton type="submit" label="SALVAR"/>
-      <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
+      <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
       <NewCustomButton label="DELETAR" @on-click="deleteTeam"/>
     </div>
 </form>
