@@ -85,7 +85,7 @@
             </div>
             <div class="button_div">
               <Newcustombutton type="submit" label="SALVAR" />
-              <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg" />
+              <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
             </div>
           </form>
         </Modal>
