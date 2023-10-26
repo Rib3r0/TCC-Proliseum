@@ -14,7 +14,7 @@
         </div>
       </div>
       <template v-if="loading" >
-        <img v-if="loading" src="../assets/img/Rolling-1s-323px.svg">
+        <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
       </template>
       <template v-else>
         <div class="teams">
