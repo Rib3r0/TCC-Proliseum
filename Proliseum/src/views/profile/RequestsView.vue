@@ -79,10 +79,10 @@ await axiosPerfil.get('offer')
 
 
 
-async function accept (id)  {
+async function accept (id2)  {
   if(!loading.value){ 
       loading = true 
-      await axiosPerfil.delete('offer/' + id,JSON.stringify({ aceitar: true}))
+      await axiosPerfil.delete('offer/' + id2 + '/' + id ,JSON.stringify({ aceitar: true}))
       .then( (response) => {
         loading = false 
         const message = 'Proposta Aceita!'
@@ -108,7 +108,7 @@ async function accept (id)  {
 async function reject(id){
   if(!loading){ 
       loading = true 
-      await axiosPerfil.delete('offer/' + id,JSON.stringify({ aceitar: false}))
+      await axiosPerfil.delete('offer/' + id2 + '/' + id,JSON.stringify({ aceitar: false}))
       .then( (response) => {
         loading = false 
         const message = 'Proposta Aceita!'
