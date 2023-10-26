@@ -4,10 +4,10 @@
           <div class="edit" v-if="!editar">  
             <Modal class="proposta" :open="isOpen" @close="isOpen = !isOpen">
               <form class="form" autocomplete="on">
-                <SelectForm label="TIME:" default="Selecione o time"/>
+                <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
                 <span class="title">mensage:</span>
-                <textarea name=""  id="" maxlength="300" placeholder="Olá..."></textarea>
-                <NewCustomButton label="ENVIAR" />
+                <textarea name="" v-model="message"  id="" maxlength="300" placeholder="Olá..."></textarea>
+                <NewCustomButton label="ENVIAR" @onClick="proposta" />
             </form>
             </Modal>
             <NewCustomButton label="ENVIAR PROPOSTA" @onClick="isOpen = true"/>
@@ -26,7 +26,8 @@
             <div class="icon">
               <img  class="iconLarge" :key="src" :src="src">
             </div>
-            <h3 class="nome"> <img src="https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/default%2FTime.png?alt=media&token=577f8c90-3552-414a-9d11-a1313d2303a7" alt="">{{ nome }}</h3>
+            
+            <h3 class="nome"><router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="image"/></router-link>{{ nome }}</h3>
             <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
             <div v-if="orgExist">
               <p class="dono">DONO DA <router-link class="select" :to="'/org/' + id"> <span>{{ nome_organizacao }}</span> <mini-icon :image="srcLogo"/></router-link></p>
@@ -75,17 +76,52 @@ import NewCustomButton from "../components/NewCustomButton.vue";
 import NewInputForm from "../components/form/NewInputForm.vue";
 import Modal from "../components/popup/Modal.vue";
 import SelectForm from "../components/form/SelectForm.vue";
+import { createToast } from "mosha-vue-toastify";
 
 const isOpen = ref(false)
 const editar = ref(false)
 const id = router.currentRoute.value.params.id
+const idLocal = localStorage.getItem('id')
+let list = ref([])
+let selectedTeam = ref(0)
+let message = ref('')
+let loading = ref(false)
+
+async function proposta(){
+  if(!loading.value){  
+    loading = true
+    console.log(list[selectedTeam.value]);
+    console.log(message.value);
+    await axiosPerfil.post('offer/' + list[selectedTeam.value].id +'/'+ id, JSON.stringify({ menssage: message.value }))
+    .then( (response) => {
+      loading = false
+      const message = 'Proposta Enviada!'
+      createToast(message,{
+        type : 'success',
+        showIcon : true,
+        position : "top-center"
+      })
+      console.log(response.data);
+    }).catch(() => {
+      const message = 'Erro ao enviar!'
+      loading = false
+      createToast(message,{
+        type : 'danger',
+        showIcon : true,
+        position : "top-center"
+      })
+    })}
+}
+
+
 
 let src = ref('')
 let srcCapa = ref('')
 let nome = ref('nome')
 let nomeCompleto = ref('nomecompleto')
 let descricao = ref('Descricao')
-let timeAtual = ref("FA")
+let timeAtual = ref("")
+let image = ref("")
 
 let jogadorExist = ref(false)
 let orgExist = ref(false)
@@ -106,6 +142,11 @@ if(localStorage.getItem('id') == id){
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
   const profile = response.data.user
+
+  if(response.data.playerProfile.time_atual){
+    timeAtual = response.data.playerProfile.time_atual.id
+  }
+
   nome = profile.nickname
   nomeCompleto = profile.nome_completo
   descricao = profile.biografia ? profile.biografia : ""
@@ -133,7 +174,9 @@ await axiosPerfil.get('profile/' + id )
     orgExist = false
   }
   
-}).catch( () => {
+}).catch( (erro) => {
+
+  console.log(erro);
 
   router.push({name: "Not_Found", params: { notFound: "perfil/" + id }})
 
@@ -157,6 +200,24 @@ await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
 ).catch( (erro) => {
   srcLogo =  "https://i.ibb.co/jVvMSHY/image-6.png"
 })
+
+await getDownloadURL(refFB(storage,'team/'+ timeAtual + '/profile')).then(
+  (download_url) => ( image = download_url)
+).catch( (erro) => {
+  image =  ""
+})
+
+if(!editar.value){
+
+  await axiosPerfil.get('team/org/' + idLocal )
+  .then( (response) => {
+      list = response.data.teams
+  })
+
+}
+
+
+
   
 
 </script>

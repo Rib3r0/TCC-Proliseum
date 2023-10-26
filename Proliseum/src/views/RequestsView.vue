@@ -5,18 +5,18 @@
     </div>
     <div class="main">
       <div class="preview">
-      <div class="card_props" v-for="card in cards" :key="card.id_dono">
+      <div class="card_props" v-for="card in cards" :key="card.id">
         <div class="profile">
-          <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw" />
-          <p>{{ card.name }}</p>
+          <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
+          <p>{{ card.de.nome_time }}</p>
         </div>
         <div class="info">
           <div class="description">
-            <p>{{ card.description }}</p>
+            <p>{{ card.menssagem }}</p>
           </div>
           <div class="info_buttons">
-            <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.id_dono)" />
-            <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.id_dono)" />
+            <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.de.id)" />
+            <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.de.id)" />
           </div>
         </div>
       </div>
@@ -35,21 +35,19 @@ import { ref } from 'vue';
 import storage from '../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from '../axios/axios';
-import router from '../router';
+import router from '../router'
+import { createToast } from 'mosha-vue-toastify';
 
-// await axiosPerfil.post('offer')
-//   .then( (response) => {
-//     console.log(response.data);
-//   })
 
 
 
 const id = localStorage.getItem('id');
+let loading = ref(false)
 const getImage = async (id) =>{
   
   let image
   
-  await getDownloadURL(refFB(storage, id + '/profile')).then(
+  await getDownloadURL(refFB(storage,'team/'+ id + '/profile')).then(
     (download_url) => ( image = download_url)
     ).catch( (erro) => {
       image =  "https://i.ibb.co/jVvMSHY/image-6.png"
@@ -64,22 +62,71 @@ let cards = ref([
 {
   name: "team Rib3r0",
   id_dono: id,
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
+  menssage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
 },
 {
   name: "team Rib3r0 2",
   id_dono: 25,
-  description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
+  menssage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
 }
 ]);
+await axiosPerfil.get('offer')
+  .then( (response) => {
+    console.log(response.data.propostas);
+    cards = response.data.propostas
+  })
 
-function accept(id) {
-  console.log(id);
-  router.go(router.currentRoute)
+
+
+
+async function accept (id)  {
+  if(!loading.value){ 
+      loading = true 
+      await axiosPerfil.delete('offer/' + id,JSON.stringify({ aceitar: true}))
+      .then( (response) => {
+        loading = false 
+        const message = 'Proposta Aceita!'
+          createToast(message,{
+            type : 'success',
+            showIcon : true,
+            position : "top-center"
+          })
+        router.go(router.currentRoute)
+      }).catch( () => {
+        loading = false
+        const message = 'Erro!'
+          createToast(message,{
+            type : 'danger',
+            showIcon : true,
+            position : "top-center"
+          })
+      })
+    }
+  
 }
-function reject(id){
-  console.log(id)
-  router.go(router.currentRoute)
+async function reject(id){
+  if(!loading){ 
+      loading = true 
+      await axiosPerfil.delete('offer/' + id,JSON.stringify({ aceitar: false}))
+      .then( (response) => {
+        loading = false 
+        const message = 'Proposta Aceita!'
+          createToast(message,{
+            type : 'success',
+            showIcon : true,
+            position : "top-center"
+          })
+        router.go(router.currentRoute)
+      }).catch( () => {
+        loading = false
+        const message = 'Erro!'
+          createToast(message,{
+            type : 'danger',
+            showIcon : true,
+            position : "top-center"
+          })
+      })
+    }
 }
 
 </script>
