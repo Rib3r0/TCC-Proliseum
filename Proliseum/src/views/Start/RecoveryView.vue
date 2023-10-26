@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="header">
-      <img class="logo" src="../assets/img/logoIcon.png" />
+      <img class="logo" src="../../assets/img/logoIcon.png" />
       <h1 class="titulo">Recuperar senha</h1>
     </div>
     <div class="main">
