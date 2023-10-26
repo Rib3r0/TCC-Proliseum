@@ -45,7 +45,7 @@ const loading = ref(false)
     await axiosPerfil.post('login', JSON.stringify(login.value))
   .then( (response) => {
     loading.value = false
-    const message = 'Bem Vindo ' + response.data.user.nome_completo.split(" ")[0] + "!"
+    const message = 'Bem Vindo(a) ' + response.data.user.nome_completo.split(" ")[0] + "!"
     createToast(message,{
       type : 'success',
       showIcon : true,

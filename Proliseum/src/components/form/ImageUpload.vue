@@ -79,7 +79,7 @@ function getImage(event){
     display: grid;
     place-items: center;
     height: 31%;
-    width: 25%;
+    width: 100%;
     background-color: #0005;
     position: absolute;
   }

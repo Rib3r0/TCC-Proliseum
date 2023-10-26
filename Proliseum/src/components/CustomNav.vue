@@ -82,7 +82,7 @@ const logoff = () => {
 }
 .collapsed-icon {
   top: 4%;
-  right: 20px;
+  right: 11px;
   align-self: end;
   position: absolute;
   transition: 0.2s linear;
@@ -139,8 +139,8 @@ const logoff = () => {
   overflow: hidden;
   transition: 1s;
 }
-p {
-  font-size: var(--font-text);
-  width: 70px;
+
+.name{
+  min-width: 50%;
 }
 </style>
