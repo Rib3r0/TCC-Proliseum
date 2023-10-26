@@ -92,7 +92,7 @@ async function proposta(){
     loading = true
     console.log(list[selectedTeam.value]);
     console.log(message.value);
-    await axiosPerfil.post('offer/' + list[selectedTeam.value].id +'/'+ id, JSON.stringify({ menssagenpm: message.value }))
+    await axiosPerfil.post('offer/' + list[selectedTeam.value].id +'/'+ id, JSON.stringify({ menssage: message.value }))
     .then( (response) => {
       loading = false
       const message = 'Proposta Enviada!'

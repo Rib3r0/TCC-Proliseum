@@ -84,6 +84,7 @@ async function accept (id2)  {
       loading = true 
       await axiosPerfil.delete('offer/' + id2 + '/' + id ,JSON.stringify({ aceitar: true}))
       .then( (response) => {
+        
         loading = false 
         const message = 'Proposta Aceita!'
           createToast(message,{
