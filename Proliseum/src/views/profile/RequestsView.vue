@@ -1,10 +1,18 @@
 <template>
+  <div class="loading_div" v-if="loading">
+    <img class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+  </div>
   <div class="body">
     <div class="header">
       <h1>Propostas</h1>
     </div>
     <div class="main">
       <div class="preview">
+        <div class="card_props" v-if="cards.length < 1">
+          <div class="info_sem">
+            <h2>NENHUMA PROPOSTA ATIVA</h2>
+          </div>
+        </div>
       <div class="card_props" v-for="card in cards" :key="card.id">
         <div class="profile">
           <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
@@ -16,15 +24,18 @@
           </div>
           <div class="info_buttons">
             <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.de.id)" />
+            
             <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.de.id)" />
           </div>
         </div>
       </div>
       </div>
-            
+          
+     
     </div>
     <rodape lined/>
   </div>
+  
 </template>
 
 <script setup>
@@ -58,18 +69,8 @@ const getImage = async (id) =>{
     
   }
 
-let cards = ref([
-{
-  name: "team Rib3r0",
-  id_dono: id,
-  menssage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
-},
-{
-  name: "team Rib3r0 2",
-  id_dono: 25,
-  menssage: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, libero nesciunt repellat cum sint voluptas aspernatur pariatur ipsum vero laboriosam nihil aut at consectetur aperiam optio ad? Enim, quaerat veritatis?',
-}
-]);
+let cards = ref([]);
+
 await axiosPerfil.get('offer')
   .then( (response) => {
     console.log(response.data.propostas);
@@ -86,13 +87,13 @@ async function accept (id2)  {
       .then( (response) => {
         console.log(response.data);
         loading = false 
+        router.go(router.currentRoute)
         const message = 'Proposta Aceita!'
           createToast(message,{
             type : 'success',
             showIcon : true,
             position : "top-center"
           })
-        router.go(router.currentRoute)
       }).catch( (erro) => {
         loading = false
         console.log(erro);
@@ -106,19 +107,20 @@ async function accept (id2)  {
     }
   
 }
-async function reject(id){
+async function reject(id2){
   if(!loading){ 
       loading = true 
       await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
         loading = false 
+        router.go(router.currentRoute)
         const message = 'Proposta Aceita!'
           createToast(message,{
             type : 'success',
             showIcon : true,
             position : "top-center"
           })
-        router.go(router.currentRoute)
+       
       }).catch( () => {
         loading = false
         const message = 'Erro!'
@@ -158,6 +160,7 @@ async function reject(id){
   display: flex;
   padding: 20px;
   align-items: center;
+  justify-content: center;
 }
 .profile{
   display: flex;
@@ -177,6 +180,18 @@ async function reject(id){
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.info_sem{
+  background-color: #0005;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 70vw;
+  min-height: 16vw;
+  display: grid;
+  place-items: center;
+  filter: opacity(20%);
+  place-self: center;
 }
 
 .info_buttons{
@@ -202,5 +217,17 @@ async function reject(id){
 
 .new{
   padding: 20px;
+}
+
+.loading{
+  height: 10vh;
+}
+.loading_div{
+  display: grid;
+  background-color: #0005;
+  place-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
 }
 </style>

@@ -45,7 +45,7 @@
       </template>
     </div>
     <div class="pagination">
-        <pagination :elements="elements" :per-page="perPage" v-model="page"/>
+        <pagination :elements="elements" :key="elements" :per-page="perPage" v-model="page"/>
     </div>
     <rodape lined/>
   </div>
@@ -112,15 +112,27 @@ const getImage = async (id) =>{
   
   
   const buscar = async () => {
-    console.log("oi");
     loading.value = true
-    await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+    if(busca.value == ""){
+      await axiosPerfil.get('player',{ params: { name: busca.value,perPage: perPage.value , page: page.value } }).then( (response) => {
       console.log(response);
       listOfTeams.value = response.data.players
       elements.value = response.data.limit
+
       myteams.value = false
       loading.value = false
     })
+    }else{
+      await axiosPerfil.get('player',{ params: { name: busca.value } }).then( (response) => {
+      console.log(response);
+      listOfTeams.value = response.data.players
+      elements.value = response.data.limit
+
+      myteams.value = false
+      loading.value = false
+    })
+    }
+
 }
   
   

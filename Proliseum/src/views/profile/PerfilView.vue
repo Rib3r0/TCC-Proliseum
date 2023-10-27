@@ -7,7 +7,11 @@
                 <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
                 <span class="title">mensage:</span>
                 <textarea name="" v-model="message"  id="" maxlength="300" placeholder="Olá..."></textarea>
-                <NewCustomButton label="ENVIAR" @onClick="proposta" />
+                <div class="boton">
+                  <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+                  <NewCustomButton label="ENVIAR" @onClick="proposta"  />
+                </div>
+
             </form>
             </Modal>
             <NewCustomButton label="ENVIAR PROPOSTA" @onClick="isOpen = true"/>
@@ -90,12 +94,12 @@ let loading = ref(false)
 
 async function proposta(){
   if(!loading.value){  
-    loading = true
+    loading.value = true
     console.log(list[selectedTeam.value]);
     console.log(message.value);
     await axiosPerfil.post('offer/' + list[selectedTeam.value].id +'/'+ id, JSON.stringify({ menssage: message.value }))
     .then( (response) => {
-      loading = false
+      loading.value = false
       const message = 'Proposta Enviada!'
       createToast(message,{
         type : 'success',
@@ -105,8 +109,8 @@ async function proposta(){
       console.log(response.data);
     }).catch((erro) => {
       console.log(erro);
-      const message = 'Erro ao enviar!'
-      loading = false
+      const message = 'Não foi possivel enviar a proposta!'
+      loading.value = false
       createToast(message,{
         type : 'danger',
         showIcon : true,
@@ -382,4 +386,20 @@ if(!editar.value){
     align-items: center;
   }
 
+  .loading{
+  height: 20vw;
+}
+.loading_div{
+  display: grid;
+  background-color: #0005;
+  place-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+}
+.boton{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 </style>
