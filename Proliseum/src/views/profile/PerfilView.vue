@@ -1,7 +1,7 @@
 <template>
       <div class="body">
         <div class="header">
-          <div class="edit" v-if="!editar">  
+          <div class="edit" v-if="!editar && canProposta">  
             <Modal class="proposta" :open="isOpen" @close="isOpen = !isOpen">
               <form class="form" autocomplete="on">
                 <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
@@ -79,6 +79,7 @@ import SelectForm from "../../components/form/SelectForm.vue";
 import { createToast } from 'mosha-vue-toastify';
 
 const isOpen = ref(false)
+let canProposta = ref(false)
 const editar = ref(false)
 const id = router.currentRoute.value.params.id
 const idLocal = localStorage.getItem('id')
@@ -144,10 +145,11 @@ await axiosPerfil.get('profile/' + id )
 .then( (response) => {
   const profile = response.data.user
 
-  if(response.data.playerProfile.time_atual){
-    timeAtual = response.data.playerProfile.time_atual.id
+  if(response.data.playerProfile){
+    if(response.data.playerProfile.time_atual){
+      timeAtual = response.data.playerProfile.time_atual.id
+    }
   }
-
   nome = profile.nickname
   nomeCompleto = profile.nome_completo
   descricao = profile.biografia ? profile.biografia : ""
@@ -182,6 +184,26 @@ await axiosPerfil.get('profile/' + id )
   router.push({name: "Not_Found", params: { notFound: "perfil/" + id }})
 
 })
+
+await axiosPerfil.get('profile/' + idLocal )
+.then( (response) => {
+  if(response.data.orgProfile){
+    canProposta = true
+  }else{
+    canProposta = false
+  }
+  
+}).catch( (erro) => {
+
+  console.log(erro);
+
+  router.push({name: "Not_Found", params: { notFound: "perfil/" + id }})
+
+})
+
+
+
+
 await getDownloadURL(refFB(storage, id + '/capa')).then(
   (download_url) => ( srcCapa.value = "url("+download_url+")" )
 ).catch( (erro) => {

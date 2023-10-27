@@ -82,9 +82,9 @@ await axiosPerfil.get('offer')
 async function accept (id2)  {
   if(!loading.value){ 
       loading = true 
-      await axiosPerfil.delete('offer/' + id2 + '/' + id ,JSON.stringify({ aceitar: true}))
+      await axiosPerfil.delete('offer/' + id2 + '/1')
       .then( (response) => {
-        
+        console.log(response.data);
         loading = false 
         const message = 'Proposta Aceita!'
           createToast(message,{
@@ -109,7 +109,7 @@ async function accept (id2)  {
 async function reject(id){
   if(!loading){ 
       loading = true 
-      await axiosPerfil.delete('offer/' + id2 + '/' + id,JSON.stringify({ aceitar: false}))
+      await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
         loading = false 
         const message = 'Proposta Aceita!'
