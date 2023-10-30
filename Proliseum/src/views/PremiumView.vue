@@ -3,7 +3,7 @@
     <h1>Premium</h1>
     <div class="main">
       <img class="logo" src="../assets/img/logoIcon.png" />
-      <div>
+      <div class="box">
         <h3>assine o premium pra desbloquear todas as funcionalidades da nossa plataforma!</h3>
         <BR></BR>
         <NewCustomButton class="button" label="TORNAR-SE UMA LENDA!"/>
@@ -54,5 +54,9 @@ import Rodape from '../components/Rodape.vue';
 }
 .logo{
   filter: drop-shadow(0 20px 0.5rem #000);
+}
+
+.box{
+  width: 650px;
 }
 </style>

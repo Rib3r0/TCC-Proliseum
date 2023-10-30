@@ -104,6 +104,11 @@ const router = createRouter({
       component: () => import('@/views/profile/EditPrefsView.vue')
     },
     {
+      path: '/notifications',
+      name: 'Notifications',
+      component: () => import('@/views/profile/NotificationsView.vue')
+    },
+    {
       path: '/perfil/:id',
       name: 'Perfil',
       component: () => import('@/views/profile/PerfilView.vue'),

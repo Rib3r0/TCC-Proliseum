@@ -1,7 +1,10 @@
 <template>
   <div class="body">
     <div class="titulo">
-      <h1 class="title">Page not found!</h1>
+      <div class="div">
+        <h1 class="title">Page not found!</h1>
+        <p class="icon">&#128565;</p>
+      </div>
       <router-link to="/home">retornar a home</router-link>
     </div>
   </div>
@@ -18,12 +21,16 @@
     text-shadow: 0px 10px red;
     font-weight: 100;
   }
+  .icon{
+    animation: myAnim 4s linear infinite;
+    font-size: 100px;
+  }
 
   .titulo{
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: myAnim 4s alternate infinite;
+    
   }
   .body{
     display: grid;
@@ -32,26 +39,15 @@
   }
   @keyframes myAnim {
   0%{
-    transform: rotate(5deg);
-    filter: drop-shadow(0 0 0.5rem var(--red));
-  }
-  25%{
-    transform: rotate(-5deg);
-    filter: drop-shadow(0 0 0.5rem var(--red));
-  }
-  50%{
-    transform: rotate(5deg);
-    filter: drop-shadow(0 0 0.5rem var(--red));
-  }
-  75%{
-    transform: rotate(-5deg);
-    filter: drop-shadow(0 0 2rem var(--red));
+    transform: rotate(0deg);
   }
   100% {
-    transform: rotate(5deg);
-    filter: drop-shadow(0 0 2rem var(--red));
+    transform: rotate(360deg);
   }
 
+}
+.div{
+  display: flex;
 }
 
 </style>

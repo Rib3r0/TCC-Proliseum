@@ -32,6 +32,7 @@
           <span class="title">CAPA:</span>
           <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
         </div>
+        <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" />
 
       </div>
     </div>

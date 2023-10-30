@@ -9,6 +9,9 @@
         </router-link>
         <div class="name">
           <p v-if="!collapsed">{{ nome }}</p>
+          <router-link v-if="!collapsed" to="/notifications">
+            <Notifications />
+          </router-link>
         </div>
       </div>
       <!-- SidebarLink components -->
@@ -38,6 +41,7 @@ import { ref as refFB, getDownloadURL } from 'firebase/storage';
 import SidebarLink from './SidebarLink.vue';
 import { createToast } from 'mosha-vue-toastify';
 import { sidebarWidth, collapsed, toggleSidebar } from './state';
+import Notifications from './Notifications.vue';
 
 let src = ref("https://i.ibb.co/jVvMSHY/image-6.png");
 let nome = ref("");
@@ -142,5 +146,8 @@ const logoff = () => {
 
 .name{
   min-width: 50%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 </style>

@@ -10,7 +10,7 @@
       <div class="preview">
         <div class="card_props" v-if="cards.length < 1">
           <div class="info_sem">
-            <h2>NENHUMA PROPOSTA ATIVA</h2>
+            <h2>NENHUMA PROPOSTA ATIVA &#128533;</h2>
           </div>
         </div>
       <div class="card_props" v-for="card in cards" :key="card.id">

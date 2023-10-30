@@ -1,4 +1,17 @@
 <template>
+  <Modal class="proposta" :open="isOpenProps" @close="isOpenProps = !isOpenProps">
+    <form class="form" autocomplete="on">
+      <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
+      <span class="title">mensage:</span>
+      <textarea name="" v-model="message"  id="" maxlength="300" placeholder="Olá..."></textarea>
+      <div class="boton">
+        <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+        <Newcustombutton label="ENVIAR" @onClick="proposta"  />
+      </div>
+
+    </form>
+  </Modal>
+
   <div class="body">
     <div class="header">
       <h1>Jogares Disponiveis</h1>
@@ -122,9 +135,7 @@
 
               </div>
               <div class="info_buttons">
-                <RouterLink :to="'/search/send/' + card.id_dono">
-                  <Newcustombutton label="ENVIAR PROPOSTA"/>
-                </RouterLink>
+                <Newcustombutton label="ENVIAR PROPOSTA" @onClick="toProposta(card.dono_id.id)"/>
               </div>
             </div>
           </div>
@@ -316,8 +327,50 @@ async function handleSubmit () {
 
 
 
+let idLocal = ref("")
+let list = ref([])
+let selectedTeam = ref(0)
+let message = ref('')
+let isOpenProps = ref(false)
 
 
+function toProposta(idr){
+  isOpenProps.value = true
+  idLocal.value = idr
+}
+
+
+async function proposta(){
+  if(!loading.value){  
+    loading.value = true
+    console.log(list[selectedTeam.value]);
+    console.log(message.value);
+    await axiosPerfil.post('offer/' + list[selectedTeam.value].id +'/'+ idLocal.value, JSON.stringify({ menssage: message.value }))
+    .then( (response) => {
+      loading.value = false
+      const message = 'Proposta Enviada!'
+      createToast(message,{
+        type : 'success',
+        showIcon : true,
+        position : "top-center"
+      })
+      console.log(response.data);
+    }).catch((erro) => {
+      console.log(erro);
+      const message = 'Não foi possivel enviar a proposta!'
+      loading.value = false
+      createToast(message,{
+        type : 'danger',
+        showIcon : true,
+        position : "top-center"
+      })
+    })}
+}
+
+await axiosPerfil.get('team/org/' + id )
+  .then( (response) => {
+      list = response.data.teams
+  })
 
 </script>
 
