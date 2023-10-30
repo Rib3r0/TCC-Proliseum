@@ -37,8 +37,7 @@
                   <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
                 </div>
               </div>
-
-              <p v-if="!myteams">jogando pela</p>
+              <p v-if="card.time_atual">jogando no {{ card.time_atual.nome_time  }}</p>
             </router-link>
           </div>
         </div>

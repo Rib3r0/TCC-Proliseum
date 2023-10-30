@@ -38,12 +38,12 @@
             <div class="preview">
               <div class="card_props">
                 <div class="profile">
-                  <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw" />
-                  <p>{{ card.name }}</p>
+                  <miniIcon class="icon" :image="getImage(id)" size="10vw" />
+                  <p>{{ card.nickname }}</p>
                 </div>
                 <div class="info">
                   <div class="description">
-                    <p>{{ card.description }}</p>
+                    <p>{{ card.descricao }}</p>
                   </div>
                   <div class="info_main">
                     <div class="info_card">
@@ -58,7 +58,7 @@
                     </div>
                     <div class="info_card">
                       <h3>HORARIO</h3>
-                      <h4>{{ card.horario }}</h4>
+                      <h4>{{ card.hora }}</h4>
                     </div>
                     <div class="info_card">
                       <h3>PROS</h3>
@@ -75,9 +75,9 @@
             <div class="cadastro">
               <div class="text">
                 <span class="title">DESCRIÇÃO:</span>
-                <textarea name="desc" v-model="card.description"  id="desc" maxlength="300" placeholder="olá..."></textarea>
+                <textarea name="desc" v-model="card.descricao"  id="desc" maxlength="300" placeholder="olá..."></textarea>
               </div>
-              <NewInputForm label="horario" v-model="card.horario" type="time"/>
+              <NewInputForm label="horario" v-model="card.hora" type="time"/>
               <div class="text">
                 <span class="title">Prós:</span>
                 <textarea name="pros" v-model="card.pros"  id="pros" maxlength="300" placeholder="Tranquilo..."></textarea>
@@ -89,40 +89,48 @@
             </div>
           </form>
         </Modal>
-        <div class="card_props" v-for="card in cards" :key="card.id">
-          <div class="profile">
-            <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw"/>
-            <p>{{ card.name }}</p>
-          </div>
-          <div class="info">
-            <div class="description"><p>{{ card.description }}</p></div>
-            <div class="info_main">
-              <div class="info_card">
-                <h3>ELO</h3>
-                <img :src="Elo[parseInt(card.elo)][1]" alt="">
-                <p>{{ Elo[parseInt(card.elo)][0] }}</p>
-              </div>
-              <div class="info_card">
-                <h3>FUNÇÃO</h3>
-                <img :src="Funcao[parseInt(card.funcao)][1]" alt="">
-                <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
-              </div>
-              <div class="info_card">
-                <h3>HORARIO</h3>
-                <h4>{{ card.horario }}</h4>
-              </div>
-              <div class="info_card">
-                <h3>PROS</h3>
-                <p>{{ card.pros }}</p>
-              </div>
+        <template v-if="loading" >
+          <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
+        </template>
+        <template v-else>
+          <div class="card_props" v-for="card in cards" :key="card.id">
+            <div class="profile">
+              <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
+              <p>{{ card.dono_id.nickname }}</p>
+            </div>
+            <div class="info">
+              <div class="description"><p>{{ card.descricao }}</p></div>
+              <div class="info_main">
+                <div class="info_card">
+                  <h3>ELO</h3>
+                  <img :src="Elo[parseInt(card.elo)][1]" alt="">
+                  <p>{{ Elo[parseInt(card.elo)][0] }}</p>
+                </div>
+                <div class="info_card">
+                  <h3>FUNÇÃO</h3>
+                  <img :src="Funcao[parseInt(card.funcao)][1]" alt="">
+                  <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
+                </div>
+                <div class="info_card">
+                  <h3>HORARIO</h3>
+                  <h4>{{ card.hora }}</h4>
+                </div>
+                <div class="info_card">
+                  <h3>PROS</h3>
+                  <p>{{ card.pros }}</p>
+                </div>
 
-            </div>
-            <div class="info_buttons">
-              <RouterLink :to="'/search/send/' + card.id_dono">
-                <Newcustombutton label="ENVIAR PROPOSTA"/>
-              </RouterLink>
+              </div>
+              <div class="info_buttons">
+                <RouterLink :to="'/search/send/' + card.id_dono">
+                  <Newcustombutton label="ENVIAR PROPOSTA"/>
+                </RouterLink>
+              </div>
             </div>
           </div>
+        </template>
+        <div class="pagination">
+          <pagination :elements="limit" :key="cards" :per-page="perPage" v-model="page"/>
         </div>
       </div>
     </div>
@@ -138,11 +146,13 @@ import { Funcao } from '../../components/enum/Funcao'
 import NewInputForm from '../../components/form/NewInputForm.vue'
 import Newcustombutton from '../../components/NewCustomButton.vue';
 import miniIcon from '../../components/miniIcon.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import Modal from '../../components/popup/Modal.vue';
 import { axiosPerfil } from '../../axios/axios.js';
+import Pagination from '../../components/Pagination.vue';
+import { createToast } from 'mosha-vue-toastify';
 
 
 
@@ -153,12 +163,17 @@ const elo = ref('')
 const horario = ref('')
 const funcao = ref('')
 const remuneracao = ref('')
+const perPage = ref(5)
+const page = ref(1)
+let limit = ref(0)
 
-const cards = ref([
+let loading = ref(false);
+
+let cards = ref([
   {
     id: 1,
     id_dono: '7',
-    name: "a",
+    name: "aaaaaa" ,
     description: "a",
     elo: "0",
     funcao: "0",
@@ -194,18 +209,36 @@ const getImage = async (id) =>{
   }
 
 
-  let card = ref({
-  name: "",
-  id_dono: id,
-  elo: '0',
-  description: '',
+
+
+watch(page, async() => {
+  loading.value = true
+  await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } }).then( (response) => {
+    cards = response.data.post
+    loading.value = false
+})
+} )
+
+await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+.then(async (response) => {
+  console.log(response.data.post)
+  cards = response.data.post
+  limit = response.data.limit
+})
+
+
+
+
+
+let card = ref({
+  descricao: '',
+  jogo: '0',
   funcao: '0',
-  horario: '00:00',
+  elo: '0',
+  hora: '00:00',
+  tipo: false,
   pros: ''
 });
-
-
-
 
 
 await axiosPerfil.get('profile/' + id).then(async (response) => {
@@ -214,17 +247,71 @@ await axiosPerfil.get('profile/' + id).then(async (response) => {
   }else{
     const jogador = response.data.playerProfile
     console.log(jogador);
-    
-    card.value.name = response.data.user.nickname
+  
     card.value.elo = jogador.elo
     card.value.funcao = jogador.funcao
   }
-});
+})
 
-const loading = ref(false);
+const editPost = ref(false)
 
 
 
+async function handleSubmit () {
+    if(!loading.value){
+        loading.value = true
+        if(!editPost.value){
+            await axiosPerfil.post('post', JSON.stringify(card.value))
+                .then( (response) => {
+                  console.log(card.value);
+                loading.value = false
+                const message = 'Post Criado!'
+                createToast(message,{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
+            })
+            .catch( (error) => {
+                loading.value = false
+                console.log(error);
+                createToast('Erro!',{
+                type : 'warning',
+                showIcon : true,
+                position : "top-center"
+                })
+                }
+                )
+        }else{
+            await axiosPerfil.put('post', JSON.stringify(card.value))
+            .then( (response) => {
+                loading.value = false
+                console.log(card.value);
+                const message = 'Post Atualizado!'
+                createToast(message,{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
+            })
+            .catch( (error) => {
+                loading.value = false
+                console.log(error);
+                console.log("error");
+
+                createToast('Erro!',{
+                type : 'warning',
+                showIcon : true,
+                position : "top-center"
+                })
+                }
+                )
+        }
+    }else{
+        
+}
+
+}
 
 
 
