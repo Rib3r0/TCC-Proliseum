@@ -203,8 +203,10 @@ if(!loading.value){
 }
 
 async function deleteJogador(idJogador){
+  loading = true
     await axiosPerfil.delete('team/'+ id + '/' + idJogador)
         .then( (response) => {
+          loading = false
             const message = 'Jogador foi excluido!(espere alguns segundos!!!)'
             createToast(message,{
             type : 'success',

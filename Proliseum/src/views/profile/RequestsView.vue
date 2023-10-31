@@ -87,7 +87,7 @@ async function accept (id2)  {
       .then( (response) => {
         console.log(response.data);
         loading = false 
-        router.push('/requests')
+        router.go(router.currentRoute)
         const message = 'Proposta Aceita!'
           createToast(message,{
             type : 'success',
@@ -113,7 +113,7 @@ async function reject(id2){
       await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
         loading = false 
-        router.push('/requests')
+        router.go(router.currentRoute)
         const message = 'Proposta Recusada!'
           createToast(message,{
             showIcon : true,

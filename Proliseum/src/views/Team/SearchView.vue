@@ -51,8 +51,10 @@
             <div class="preview">
               <div class="card_props">
                 <div class="profile">
-                  <miniIcon class="icon" :image="getImage(id)" size="10vw" />
-                  <p>{{ card.nickname }}</p>
+                  <router-link :to="'/perfil/' + id">
+                    <miniIcon class="icon" :image="getImage(id)" size="10vw" />
+                    <p>{{ card.nickname }}</p>
+                  </router-link>
                 </div>
                 <div class="info">
                   <div class="description">
@@ -109,8 +111,10 @@
         <template v-else>
           <div class="card_props" v-for="card in cards" :key="card.id">
             <div class="profile">
-              <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
-              <p>{{ card.dono_id.nickname }}</p>
+              <router-link class="profile" :to="'/perfil/' + id"> 
+                <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
+                <p>{{ card.dono_id.nickname }}</p>
+              </router-link>
             </div>
             <div class="info">
               <div class="description"><p>{{ card.descricao }}</p></div>
@@ -427,6 +431,7 @@ await axiosPerfil.get('team/org/' + id )
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  color: #fff;
 }
 
 
