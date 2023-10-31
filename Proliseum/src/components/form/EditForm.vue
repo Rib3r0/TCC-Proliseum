@@ -27,12 +27,12 @@
             <FormRatio id="Outro" icon="https://img.icons8.com/?size=512&id=51Tr6obvkPgA&format=png" name="genero" :value="2" v-model="cadastro.genero" :checked="cadastro.genero == 2 ? true : false"/>
           </div>
         </div>
-        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nickname" label="NICKNAME:" />
+        <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nickname" label="NICKNAME:"/>
         <div>
           <span class="title">CAPA:</span>
           <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
         </div>
-        <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" />
+        <!-- <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" @onClick="leaveTeam" /> -->
 
       </div>
     </div>
@@ -158,6 +158,14 @@ async function handleSubmit () {
     })
   router.push('/perfil/'+ id)
 }
+
+
+// async function leaveTeam(){
+//   await axiosPerfil.put('profile',JSON.stringify(update)).then( (response) =>{
+
+//   })
+
+// }
 
 
 </script>

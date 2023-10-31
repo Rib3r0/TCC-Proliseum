@@ -98,6 +98,7 @@
             </div>
             <div class="button_div">
               <Newcustombutton type="submit" label="SALVAR" />
+              <Newcustombutton type="submit" label="RETIRAR" />
               <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
             </div>
           </form>
@@ -258,9 +259,16 @@ await axiosPerfil.get('profile/' + id).then(async (response) => {
   }else{
     const jogador = response.data.playerProfile
     console.log(jogador);
-  
-    card.value.elo = jogador.elo
     card.value.funcao = jogador.funcao
+    card.value.elo = jogador.elo
+
+
+    //AQUI EDITAR TBM
+    await axiosPerfil.get('post/mypost').then(async (response) => {
+      console.log(response.data);
+    })
+
+
   }
 })
 

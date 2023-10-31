@@ -14,7 +14,7 @@
         <h3>VAGAS:</h3>
         <div class="card_props" v-for="card in cards" :key="card.id">
           <div class="profile">
-            <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw"/>
+            <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
             <p>{{ card.name }}</p>
           </div>
           <div class="info">
@@ -32,7 +32,7 @@
               </div>
               <div class="info_card">
                 <h3>HORARIO</h3>
-                <h4>{{ card.horario }}</h4>
+                <h4>{{ card.hora }}</h4>
               </div>
               <div class="info_card">
                 <h3>PROS</h3>
@@ -65,6 +65,7 @@ import Newcustombutton from '../../components/NewCustomButton.vue';
 import miniIcon from '../../components/miniIcon.vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
+import { axiosPerfil } from '../../axios/axios';
 
 onBeforeMount( () => {
   if(!localStorage.getItem('token')){
@@ -76,7 +77,7 @@ onBeforeMount( () => {
 const buscar = ""
 
 
-const cards = ref([
+let cards = ref([
   {
     id: 1,
     id_dono: '7',
@@ -114,6 +115,12 @@ const getImage = async (id) =>{
     
     
 }
+
+await axiosPerfil.get('post/0',{ params: { perPage: 3 , page: 1 } })
+.then(async (response) => {
+  console.log(response.data.post)
+  cards = response.data.post
+})
 
 
 </script>
