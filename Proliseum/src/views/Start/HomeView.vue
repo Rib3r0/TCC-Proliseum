@@ -10,7 +10,10 @@
     <div class="main">
       <h3>Campeonatos:</h3>
       <Carrosel/>
-      <div>
+      <template v-if="loading" >
+            <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
+      </template>
+      <template v-else>
         <h3>VAGAS:</h3>
         <div class="card_props" v-for="card in cards" :key="card.id">
           <div class="profile">
@@ -47,14 +50,15 @@
             </div>
           </div>
         </div>
-      </div>
+      </template>
+
     </div>
     <rodape lined/>
   </div>
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { nextTick, onBeforeMount, ref } from 'vue';
 import NewInputForm from '../../components/form/NewInputForm.vue';
 import Rodape from '../../components/Rodape.vue';
 import router from '../../router';
@@ -75,6 +79,7 @@ onBeforeMount( () => {
 })
 
 const buscar = ""
+const loading = ref(true)
 
 
 let cards = ref([
@@ -116,11 +121,17 @@ const getImage = async (id) =>{
     
 }
 
-await axiosPerfil.get('post/0',{ params: { perPage: 3 , page: 1 } })
-.then(async (response) => {
-  console.log(response.data.post)
-  cards = response.data.post
+nextTick( async () => {
+  
+    await axiosPerfil.get('post/0',{ params: { perPage: 3 , page: 1 } })
+  .then(async (response) => {
+    console.log(response.data.post)
+    cards = response.data.post
+  })
+  loading.value = false
 })
+
+
 
 
 </script>
