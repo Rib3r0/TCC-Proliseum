@@ -190,6 +190,7 @@ if(!loading.value){
         position : "top-center"
         })
     }).catch( (erro) => {
+        console.log(erro);
         loading.value = false
         const message = 'Erro!'
         createToast(message,{
@@ -203,10 +204,10 @@ if(!loading.value){
 }
 
 async function deleteJogador(idJogador){
-  loading = true
+  loading.value = true
     await axiosPerfil.delete('team/'+ id + '/' + idJogador)
         .then( (response) => {
-          loading = false
+          loading.value = false
             const message = 'Jogador foi excluido!(espere alguns segundos!!!)'
             createToast(message,{
             type : 'success',

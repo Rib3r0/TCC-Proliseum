@@ -13,7 +13,6 @@
             <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
           </a>
           <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
-          <router-link to="/teams/create"><NewCustomButton label="DELETAR TIME"/></router-link>
         </div>
       </div>
       <template v-if="loading" >

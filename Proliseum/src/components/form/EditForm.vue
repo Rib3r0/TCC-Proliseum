@@ -137,8 +137,10 @@ async function handleSubmit () {
   await axiosPerfil.put('profile',JSON.stringify(update))
   .then( (response) => {
     loading.value = false
+    console.log(response);
   })
   .catch( (erro) => {
+    console.log(erro);
   })
 
 
@@ -156,7 +158,7 @@ async function handleSubmit () {
       showIcon : true,
       position : "top-center"
     })
-  router.push('/perfil/'+ id)
+  //router.push('/perfil/'+ id)
 }
 
 

@@ -56,7 +56,7 @@
         <div class="button_div">
             <NewCustomButton type="submit" label="SALVAR"/>
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
-            
+            <NewCustomButton @onClick="deleteProfile" :label="'EXCLUIR '+ usuario.toUpperCase()"/>
         </div>
     </form>
 </template>
@@ -276,6 +276,45 @@ async function handleSubmit () {
 
 }
 
+async function deleteProfile () {
+    if(!loading.value){
+        loading.value = true
+        if(usuario.value == "jogador"){
+            await axiosPerfil.delete('player').then( () => {
+                loading.value = false
+                createToast('Perfil Deletado com sucesso!',{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
+            }).catch( (erro) => {
+                createToast(erro.response.data.error,{
+                type : 'danger',
+                showIcon : true,
+                position : "top-center"
+                })
+            })
+            loading.value = false
+        }else{
+            await axiosPerfil.delete('organizer').then( () => {
+                loading.value = false
+                createToast('Perfil Deletado com sucesso!',{
+                type : 'success',
+                showIcon : true,
+                position : "top-center"
+                })
+            }).catch( (erro) => {
+                createToast(erro.response.data.error,{
+                type : 'danger',
+                showIcon : true,
+                position : "top-center"
+                })
+            })
+            loading.value = false
+        }
+    }
+}
+
 
 
 </script>
@@ -343,6 +382,7 @@ async function handleSubmit () {
 
     .button_div{
         display: flex;
+        gap: 20px;
     }
     .button_div img{
         height: 50px;
