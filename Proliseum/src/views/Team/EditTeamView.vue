@@ -190,6 +190,7 @@ if(!loading.value){
         position : "top-center"
         })
     }).catch( (erro) => {
+        console.log(erro);
         loading.value = false
         const message = 'Erro!'
         createToast(message,{
