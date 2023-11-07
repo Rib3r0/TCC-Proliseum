@@ -55,7 +55,7 @@ import NewCustomButton from "../../components/NewCustomButton.vue";
 import rodape from "../../components/Rodape.vue"
 import miniIcon from "../../components/miniIcon.vue";
 import { axiosPerfil } from "../../axios/axios.js";
-import { ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import NewInputForm from "../../components/form/NewInputForm.vue";
@@ -82,7 +82,8 @@ watch(page, async() => {
 
 const listOfTeams = ref({})
 
-await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+nextTick(async () => {
+  await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
   listOfTeams.value = response.data.players
   console.log(response.data);
   elements.value = response.data.limit
@@ -90,6 +91,9 @@ await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.v
   console.log(listOfTeams.value);
   loading.value = false
 })
+})
+
+
 
 
 const getImage = async (id) =>{

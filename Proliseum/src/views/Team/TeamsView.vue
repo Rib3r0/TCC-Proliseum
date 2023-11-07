@@ -34,7 +34,7 @@
       </template>
     </div>
     <div class="pagination">
-        <pagination :elements="elements" :per-page="perPage" v-model="page"/>
+        <pagination :elements="elements" :per-page="perPage" v-model="page" :key="elements"/>
     </div>
     <rodape lined/>
   </div>
@@ -56,7 +56,7 @@ const myteams = ref(false)
 const sizeImg = ref("15vw")
 let busca = ref("")
 
-const elements= ref(0)
+const elements= ref(1)
 const perPage= ref(20)
 const page= ref(1)
 

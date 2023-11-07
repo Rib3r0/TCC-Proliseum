@@ -32,7 +32,6 @@
           <span class="title">CAPA:</span>
           <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
         </div>
-        <!-- <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" @onClick="leaveTeam" /> -->
 
       </div>
     </div>
@@ -41,12 +40,14 @@
         <ImageUpload id="profilePic" v-model="cadastro.foto_perfil" :image="src" />
         <span class="title">BIO:</span>
         <textarea name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+        <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" @onClick="leaveTeam" />
       </div>
       <div class="end">
         <p class="awarnResponse" v-if="errorLogin" >Email ou Nome de Usuario já cadastrado!</p>
         <div  class="cadastrar">
           <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
           <NewCustomButton label="ATUALIZAR" size="1.5vw" type="submit" />
+          
         </div>
       </div>
     </div>
@@ -158,16 +159,16 @@ async function handleSubmit () {
       showIcon : true,
       position : "top-center"
     })
-  //router.push('/perfil/'+ id)
+  router.push('/perfil/'+ id)
 }
 
 
-// async function leaveTeam(){
-//   await axiosPerfil.put('profile',JSON.stringify(update)).then( (response) =>{
+async function leaveTeam(){
+  await axiosPerfil.put('profile',JSON.stringify(update)).then( (response) =>{
 
-//   })
+  })
 
-// }
+}
 
 
 </script>
