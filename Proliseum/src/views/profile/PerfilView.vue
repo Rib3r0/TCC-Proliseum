@@ -28,7 +28,7 @@
         <div class="main">
           <div class="info" >
             <div class="icon">
-              <img  class="iconLarge" :key="src" :src="src">
+              <miniIcon :image="src" size="20vw"/>
             </div>
             
             <h3 class="nome"><router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="image"/></router-link>{{ nome }}</h3>

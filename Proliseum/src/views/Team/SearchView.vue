@@ -101,7 +101,7 @@
               </div>
               <div class="button_div">
                 <Newcustombutton type="submit" label="SALVAR" />
-                <Newcustombutton type="submit" label="RETIRAR" />
+                <Newcustombutton @onClick="remove" label="RETIRAR" />
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
             </form>
@@ -112,7 +112,7 @@
           <template v-else>
             <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
-                <router-link class="profile" :to="'/perfil/' + id"> 
+                <router-link class="profile" :to="'/perfil/' + card.dono_id.id"> 
                   <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
                   <p>{{ card.dono_id.nickname }}</p>
                 </router-link>
@@ -239,6 +239,16 @@ watch(page, async() => {
 } )
 
 
+let card = ref({
+  descricao: '',
+  jogo: '0',
+  funcao: '0',
+  elo: '0',
+  hora: '00:00',
+  tipo: false,
+  pros: ''
+});
+
 nextTick( async () => {
     await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
       .then(async (response) => {
@@ -250,6 +260,14 @@ nextTick( async () => {
   if (!response.data.playerProfile) {
     perfilExist.value = true
   }else{
+
+    await axiosPerfil.get('post/mypost').then(async (response) => {
+      console.log(response.data.postProfile);
+      card.value = response.data.postProfile
+      if(response.data.postProfile){
+        editPost.value = true
+      }
+    })
     const jogador = response.data.playerProfile
     console.log(jogador);
     card.value.funcao = jogador.funcao
@@ -257,9 +275,7 @@ nextTick( async () => {
 
 
     //AQUI EDITAR TBM
-    await axiosPerfil.get('post/mypost').then(async (response) => {
-      console.log(response.data);
-    })
+
   }
 
   await axiosPerfil.get('team/org/' + id )
@@ -281,15 +297,7 @@ loading.value = false
 
 
 
-let card = ref({
-  descricao: '',
-  jogo: '0',
-  funcao: '0',
-  elo: '0',
-  hora: '00:00',
-  tipo: false,
-  pros: ''
-});
+
 
 
 
@@ -396,6 +404,20 @@ async function proposta(){
     })}
 }
 
+async function remove(){
+  if(!loading.value){
+    loading.value = true
+    await axiosPerfil.delete('post').then(async (response) => {
+      const message = 'postagem retidada!'
+      loading.value = false
+      createToast(message,{
+        type : 'success',
+        showIcon : true,
+        position : "top-center"
+      })
+    })
+  }
+}
 
 </script>
 
@@ -474,6 +496,7 @@ async function proposta(){
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 10vw;
 }
 
 .info_card img{
