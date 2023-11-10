@@ -13,8 +13,6 @@
         <h3>encontrar seu time dos sonhos</h3>
         <div class="games">
           <img class="icons" src="../../assets/img/LOL.png" >
-          <img class="icons" src="../../assets/img/CSGO.png" >
-          <img class="icons" src="../../assets/img/Valorant.png" >
           <h3>mais em breve...</h3>
         </div>
       </div>

@@ -230,7 +230,7 @@ async function handleSubmit () {
                 console.log(error);
                 console.log("error");
 
-                createToast('Erro!',{
+                createToast(error.response.data.error,{
                 type : 'warning',
                 showIcon : true,
                 position : "top-center"

@@ -92,8 +92,9 @@ async function handleSubmit () {
             position : "top-center"
             })
         }).catch( (erro) => {
-            const message = 'Erro!'
-            createToast(message,{
+            loading.value = false
+            console.log(erro.response.data.error);
+            createToast(erro.response.data.error,{
             type : 'danger',
             showIcon : true,
             position : "top-center"
