@@ -92,12 +92,16 @@ nextTick( async () => {
 
 async function accept (id2)  {
   if(!loading.value){ 
-      loading = true 
+      loading.value = true
+      console.log(cards);
+      let result = cards.filter( (x) => x.id != id2)
+      cards = result
+
+
       await axiosPerfil.delete('offer/' + id2 + '/1')
       .then( (response) => {
         console.log(response.data);
-        loading = false 
-        router.go(router.currentRoute)
+        loading.value = false 
         const message = 'Proposta Aceita!'
           createToast(message,{
             type : 'success',
@@ -105,10 +109,9 @@ async function accept (id2)  {
             position : "top-center"
           })
       }).catch( (erro) => {
-        loading = false
+        loading.value = false
         console.log(erro);
-        const message = 'Erro!'
-          createToast(message,{
+          createToast(erro.data.error,{
             type : 'danger',
             showIcon : true,
             position : "top-center"
@@ -119,11 +122,13 @@ async function accept (id2)  {
 }
 async function reject(id2){
   if(!loading.value){ 
-      loading = true 
+      loading.value = true 
+      console.log(cards.value);
+      let result = cards.value.filter( (x) => x.id != id2)
+      cards.value = result
       await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
-        loading = false 
-        router.go(router.currentRoute)
+        loading.value = false 
         const message = 'Proposta Recusada!'
           createToast(message,{
             showIcon : true,

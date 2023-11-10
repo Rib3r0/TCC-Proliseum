@@ -164,8 +164,15 @@ async function handleSubmit () {
 
 
 async function leaveTeam(){
-  await axiosPerfil.put('profile',JSON.stringify(update)).then( (response) =>{
-
+  loading.value =true
+  await axiosPerfil.put('player/leave').then( (response) =>{
+    loading.value =false
+    createToast('Você saiu do time',{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+  router.push('/perfil/'+ id)
   })
 
 }

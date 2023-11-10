@@ -8,7 +8,7 @@
         <div>
           <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca" @keyup.enter="buscar"/>
         </div>
-        <div class="manege">
+        <div v-if="hasOrg" class="manege">
           <a>
             <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
           </a>
@@ -53,6 +53,7 @@ import Pagination from "../../components/Pagination.vue";
 
 const loading = ref(true)
 const myteams = ref(false)
+const hasOrg = ref(false)
 const sizeImg = ref("15vw")
 let busca = ref("")
 
@@ -79,6 +80,13 @@ nextTick( async () => {
   console.log(listOfTeams.value);
   loading.value = false
 })
+await axiosPerfil.get('profile')
+  .then( async (response) => {
+    console.log(response);
+    if(response.data.orgProfile){
+        hasOrg.value = true
+    }
+  })
 })
 
 

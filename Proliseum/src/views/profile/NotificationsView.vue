@@ -23,23 +23,7 @@ import { nextTick, ref } from "vue";
 import { axiosPerfil } from "../../axios/axios";
 
 
-const cards = ref([
-    {
-        id: 1,
-        titulo: "a",
-        descricao: "oie"
-    },
-    {
-        id: 2,
-        titulo: "b",
-        descricao: "oiee"
-    },
-    {
-        id: 3,
-        titulo: "c",
-        descricao: "oieee"
-    },
-])
+const cards = ref([])
 
 
 async function handle(e){
