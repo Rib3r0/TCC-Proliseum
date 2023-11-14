@@ -1,6 +1,6 @@
 <template >
-    <div class="container">
-        <div class="icon">
+    <div class="container" :style=" {  maxHeight : size, minHeight : size,  minWidth: size }">
+        <div class="icon"  :style=" {  maxHeight : size, minHeight : size,  minWidth: size }">
           <img class="image"  :style=" {  maxHeight : size, minHeight : size,  minWidth: size }" :key="src" :src="src">
         </div>
     </div>
@@ -86,6 +86,7 @@
       gap: 0px;
     }
     .image{
-      overflow: hidden;
+      position: static;
+      position: absolute;
     }
   </style>
