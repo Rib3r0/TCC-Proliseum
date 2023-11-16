@@ -9,8 +9,8 @@
           <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca" @keyup.enter="buscar"/>
         </div>
         <div class="manege">
-          <router-link to="/edit"><NewCustomButton label="CRIAR PERFIL DE JOGADOR"/></router-link>
-          <router-link to="/teams/create"><NewCustomButton label="DELETAR PERFIL"/></router-link>
+          <router-link to="/perfil/editar"><NewCustomButton label="CRIAR PERFIL DE JOGADOR"/></router-link>
+          <router-link to="/perfil/editar"><NewCustomButton label="DELETAR PERFIL"/></router-link>
         </div>
       </div>
       <template v-if="loading" >

@@ -159,7 +159,7 @@ async function handleSubmit () {
       showIcon : true,
       position : "top-center"
     })
-  router.push('/perfil/'+ id)
+  router.push('/perfil/editar')
 }
 
 
@@ -172,7 +172,7 @@ async function leaveTeam(){
       showIcon : true,
       position : "top-center"
     })
-  router.push('/perfil/'+ id)
+  router.push('/perfil/editar')
   })
 
 }

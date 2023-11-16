@@ -14,7 +14,7 @@
           </div>
         </template>
         <template v-else >
-          <div class="preview">
+          <div class="preview" :key="cards.length">
             <div class="card_props" v-if="cards.length < 1">
               <div class="info_sem">
                 <h2>NENHUMA PROPOSTA ATIVA &#128533;</h2>
@@ -96,7 +96,6 @@ async function accept (id2)  {
       console.log(cards);
       let result = cards.filter( (x) => x.id != id2)
       cards = result
-
 
       await axiosPerfil.delete('offer/' + id2 + '/1')
       .then( (response) => {

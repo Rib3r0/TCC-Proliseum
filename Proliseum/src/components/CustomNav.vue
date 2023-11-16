@@ -22,7 +22,6 @@
       <SidebarLink to="/search" icon="https://img.icons8.com/material-sharp/96/FFFFFF/find-user-male.png">BUSCAR JOGADORES</SidebarLink>
       <SidebarLink to="/offers" icon="https://img.icons8.com/sf-black/512/FFFFFF/search.png">BUSCAR Times</SidebarLink>
       <SidebarLink to="/championships" icon="https://img.icons8.com/glyph-neue/64/FFFFFF/trophy.png">CAMPEONATOS</SidebarLink>
-      <SidebarLink to="/edit" icon="https://img.icons8.com/material-rounded/384/FFFFFF/settings.png">EDITAR PERFIS</SidebarLink>
     </div>
     <div>
       <!-- Additional SidebarLink components -->
@@ -46,6 +45,8 @@ import Notifications from './Notifications.vue';
 let src = ref("https://i.ibb.co/jVvMSHY/image-6.png");
 let nome = ref("");
 let id = ref("");
+let jogador = ref(false)
+let organizador = ref(false)
 
 watch(collapsed, (collapsedValue) => {
   if(!collapsedValue){

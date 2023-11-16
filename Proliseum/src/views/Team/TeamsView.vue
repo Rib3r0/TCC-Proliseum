@@ -8,7 +8,7 @@
         <div>
           <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca" @keyup.enter="buscar"/>
         </div>
-        <div v-if="hasOrg" class="manege">
+        <div class="manege">
           <a>
             <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
           </a>
@@ -80,13 +80,6 @@ nextTick( async () => {
   console.log(listOfTeams.value);
   loading.value = false
 })
-await axiosPerfil.get('profile')
-  .then( async (response) => {
-    console.log(response);
-    if(response.data.orgProfile){
-        hasOrg.value = true
-    }
-  })
 })
 
 
@@ -105,26 +98,22 @@ const getImage = async (id) =>{
     return image
     
     
-  }
+}
 
-
-  
-  
-  const buscar = async () => {
-    console.log("oi");
-    loading.value = true
-    await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
-      console.log(response);
-      listOfTeams.value = response.data.teams
-      elements.value = response.data.limit
-      myteams.value = false
-      loading.value = false
-    })
+const buscar = async () => {
+  loading.value = true
+  await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+    console.log(response);
+    listOfTeams.value = response.data.teams
+    elements.value = response.data.limit
+    myteams.value = false
+    loading.value = false
+  })
 }
   
   
   
-  const getMyTimes = async () => {
+const getMyTimes = async () => {
   loading.value = true
   myteams.value = true
   await axiosPerfil.get('team/myteams').then( (response) => {

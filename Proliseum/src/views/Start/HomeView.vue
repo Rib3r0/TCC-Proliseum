@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="main">
-      <h3>Campeonatos:</h3>
-      <Carrosel/>
+      <!-- <h3>Campeonatos:</h3>
+      <Carrosel/> -->
       <template v-if="loading" >
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
       </template>
