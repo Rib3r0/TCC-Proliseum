@@ -37,7 +37,7 @@
                   <div class="profile">
                     <router-link :to="'/team/' + card.dono_id">
                       <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw" />
-                      <p>{{ card.nickname }}</p>
+                      <p>{{ card.n }}</p>
                     </router-link>
                   </div>
                   <div class="info">
