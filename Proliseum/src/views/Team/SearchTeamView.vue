@@ -24,7 +24,7 @@
           <Modal :open="isOpen" @close="isOpen = !isOpen">
             <div v-if="perfilExist" class="nExist">
               <div>
-                <h3>VOCÊ AINDA NÃO TEM PERFIL DE JOGADOR!</h3>
+                <h3>VOCÊ AINDA NÃO TEM PERFIL DE ORGANIZADOR!</h3>
                 <router-link to="/edit">
                   <Newcustombutton label="CRIE AQUI!" />
                 </router-link>
@@ -233,13 +233,12 @@
   
 nextTick( async () => {
     await axiosPerfil.get('profile/' + id).then(async (response) => {
-      if (!response.data.playerProfile) {
+      console.log(response.data);
+      if (!response.data.orgProfile) {
         perfilExist.value = true
       }else{
-        const jogador = response.data.playerProfile
+        const jogador = response.data.orgProfile
         console.log(jogador);
-        
-        card.value.name = response.data.user.nickname
       }
     });
     await axiosPerfil.get('/team/org/' + id).then(async (response) => {
