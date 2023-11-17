@@ -28,7 +28,7 @@
                 <div class="card_props">
                   <div class="profile">
                     <router-link :to="'/team/' + card.dono_id">
-                      <miniIcon class="icon" :image="getImage(card.id_dono)" size="10vw" />
+                      <miniIcon class="icon" :image="getImage(card.time)" size="10vw" />
                       <p>{{ card.n }}</p>
                     </router-link>
                   </div>
@@ -155,7 +155,7 @@
   import Modal from '../../components/popup/Modal.vue';
   import { axiosPerfil } from '../../axios/axios.js';
   import Pagination from '../../components/Pagination.vue';
-  
+  import { createToast } from 'mosha-vue-toastify';
   
   const id = localStorage.getItem('id');
   const isOpen= ref(false)
@@ -170,6 +170,7 @@
   const page = ref(1)
   let limit = ref(0)
   const hasTeam = ref(false)
+  const editPost = ref(false)
   
   let cards = ref([
     {
@@ -213,7 +214,7 @@
   
     let card = ref({
     name: "",
-    id_dono: 0,
+    time: 0,
     elo: '0',
     description: '',
     funcao: '0',
@@ -230,7 +231,7 @@ nextTick( async () => {
     });
     await axiosPerfil.get('/team/user/' + id).then(async (response) => {
       list.value = response.data.teams
-      if(list.length > 0){
+      if(list.value.length > 0){
         hasTeam.value = true
       }
     })
@@ -266,13 +267,14 @@ async function remove(){
 watch(selectedTeam, async() => {
   console.log(list.value[selectedTeam.value]);
   card.value.name = list.value[selectedTeam.value].nome_time
-  card.value.id_dono= list.value[selectedTeam.value].id
+  card.value.time= list.value[selectedTeam.value].id
 } )
   
 
 async function handleSubmit () {
     if(!loading.value){
         loading.value = true
+        console.log(card.value);
         if(!editPost.value){
             await axiosPerfil.post('post', JSON.stringify(card.value))
                 .then( (response) => {
