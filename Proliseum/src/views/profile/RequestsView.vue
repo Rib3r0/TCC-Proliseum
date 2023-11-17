@@ -20,7 +20,7 @@
                 <h2>NENHUMA PROPOSTA ATIVA &#128533;</h2>
               </div>
             </div>
-          <div class="card_props" v-for="card in cards" :key="card.id">
+          <div v-else class="card_props" v-for="card in cards" :key="card.id">
             <div class="profile">
               <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
               <p>{{ card.de.nome_time }}</p>
@@ -55,14 +55,13 @@ import { nextTick, ref } from 'vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from '../../axios/axios';
-import router from '../../router';
 import { createToast } from 'mosha-vue-toastify';
 
 
 
 
 const id = localStorage.getItem('id');
-let loading = ref(false)
+const loading = ref(true)
 const getImage = async (id) =>{
   
   let image

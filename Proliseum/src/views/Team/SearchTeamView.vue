@@ -20,7 +20,7 @@
           <Newcustombutton label="BUSCAR" size="1vw"/>
         </div>
         <div class="main_main">
-          <Newcustombutton class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
+          <Newcustombutton v-if="hasTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
           <Modal :open="isOpen" @close="isOpen = !isOpen">
             <form class="body" autocomplete="off" @submit.prevent="handleSubmit">
               <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
@@ -169,6 +169,7 @@
   const perPage = ref(5)
   const page = ref(1)
   let limit = ref(0)
+  const hasTeam = ref(false)
   
   let cards = ref([
     {
@@ -229,9 +230,12 @@ nextTick( async () => {
     });
     await axiosPerfil.get('/team/user/' + id).then(async (response) => {
       list.value = response.data.teams
+      if(list.length > 0){
+        hasTeam.value = true
+      }
     })
 
-    await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+    await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
       .then(async (response) => {
     console.log(response.data.post)
     cards = response.data.post
@@ -365,6 +369,7 @@ async function handleSubmit () {
     display: flex;
     padding: 20px;
     align-items: center;
+    height: 200px;
   }
   .profile{
     display: flex;

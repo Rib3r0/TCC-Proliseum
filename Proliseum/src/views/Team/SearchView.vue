@@ -141,7 +141,7 @@
 
                 </div>
                 <div class="info_buttons">
-                  <Newcustombutton label="ENVIAR PROPOSTA" @onClick="toProposta(card.dono_id.id)"/>
+                  <Newcustombutton v-if="hasTeam" label="ENVIAR PROPOSTA" @onClick="toProposta(card.dono_id.id)"/>
                 </div>
               </div>
             </div>
@@ -198,6 +198,7 @@ const remuneracao = ref('')
 const perPage = ref(5)
 const page = ref(1)
 let limit = ref(0)
+const hasTeam = ref(false)
 
 let loading = ref(true);
 
@@ -239,15 +240,17 @@ nextTick( async () => {
     limit = response.data.limit
 
     await axiosPerfil.get('profile/' + id).then(async (response) => {
+      console.log(response.data);
   if (!response.data.playerProfile) {
     perfilExist.value = true
   }else{
 
     await axiosPerfil.get('post/mypost').then(async (response) => {
-      if(response.data.postProfile.length < 1){
+      console.log(response.data);
+      if(response.data.postProfile.id){
         card.value = response.data.postProfile
       }
-      console.log(response.data.postProfile);
+      console.log(response.data.id);
       if(response.data.postProfile.length < 1){
         editPost.value = true
       }
@@ -268,6 +271,9 @@ nextTick( async () => {
   await axiosPerfil.get('team/user/' + id )
   .then( (response) => {
       list = response.data.teams
+      if(list.length > 0){
+        hasTeam.value = true
+      }
   })
 
 
