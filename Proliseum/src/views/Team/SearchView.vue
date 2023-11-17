@@ -201,29 +201,7 @@ let limit = ref(0)
 
 let loading = ref(true);
 
-let cards = ref([
-  {
-    id: 1,
-    id_dono: '7',
-    name: "aaaaaa" ,
-    descricao: "a",
-    elo: "0",
-    funcao: "0",
-    horario: "20:00 - 23:00",
-    pros: "['1','2','3','4']"
-  },
-  {
-    id: 2,
-    name: "b",
-    id_dono: '10',
-    descricao: "b",
-    elo: "1",
-    funcao: "1",
-    horario: "19:00 - 23:30",
-    pros: "['a','b','c','d']"
-  },
-
-])
+let cards = ref([])
 
 const getImage = async (id) =>{
   
@@ -265,15 +243,17 @@ nextTick( async () => {
     perfilExist.value = true
   }else{
 
-  //   await axiosPerfil.get('post/mypost').then(async (response) => {
-  //     console.log(response.data.postProfile);
-  //     card.value = response.data.postProfile
-  //     if(response.data.postProfile){
-  //       editPost.value = true
-  //     }
-  //   }).catch( () => {
-  //   loading.value = false
-  // })
+    await axiosPerfil.get('post/mypost').then(async (response) => {
+      if(response.data.postProfile.length < 1){
+        card.value = response.data.postProfile
+      }
+      console.log(response.data.postProfile);
+      if(response.data.postProfile.length < 1){
+        editPost.value = true
+      }
+    }).catch( () => {
+    loading.value = false
+  })
 
     const jogador = response.data.playerProfile
     console.log(jogador);
@@ -285,7 +265,7 @@ nextTick( async () => {
 
   }
 
-  await axiosPerfil.get('team/org/' + id )
+  await axiosPerfil.get('team/user/' + id )
   .then( (response) => {
       list = response.data.teams
   })

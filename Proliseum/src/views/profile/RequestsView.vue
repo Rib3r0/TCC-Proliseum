@@ -96,7 +96,7 @@ async function accept (id2)  {
   if(!loading.value){ 
       loading.value = true
       console.log(cards);
-      let result = cards.filter( (x) => x.id != id2)
+      let result = cards.value.filter( (x) => x.id != id2)
       cards = result
 
       await axiosPerfil.delete('offer/' + id2 + '/1')
