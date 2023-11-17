@@ -175,6 +175,19 @@ import { createToast } from 'mosha-vue-toastify';
 
 
 
+let card = ref({
+  descricao: '',
+  jogo: '0',
+  funcao: '0',
+  elo: '0',
+  hora: '00:00',
+  tipo: false,
+  pros: ''
+});
+
+console.log(card.value);
+
+
 const id = localStorage.getItem('id');
 const isOpen= ref(false)
 const perfilExist = ref(false);
@@ -193,7 +206,7 @@ let cards = ref([
     id: 1,
     id_dono: '7',
     name: "aaaaaa" ,
-    description: "a",
+    descricao: "a",
     elo: "0",
     funcao: "0",
     horario: "20:00 - 23:00",
@@ -203,7 +216,7 @@ let cards = ref([
     id: 2,
     name: "b",
     id_dono: '10',
-    description: "b",
+    descricao: "b",
     elo: "1",
     funcao: "1",
     horario: "19:00 - 23:30",
@@ -239,15 +252,6 @@ watch(page, async() => {
 } )
 
 
-let card = ref({
-  descricao: '',
-  jogo: '0',
-  funcao: '0',
-  elo: '0',
-  hora: '00:00',
-  tipo: false,
-  pros: ''
-});
 
 nextTick( async () => {
     await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
@@ -261,13 +265,16 @@ nextTick( async () => {
     perfilExist.value = true
   }else{
 
-    await axiosPerfil.get('post/mypost').then(async (response) => {
-      console.log(response.data.postProfile);
-      card.value = response.data.postProfile
-      if(response.data.postProfile){
-        editPost.value = true
-      }
-    })
+  //   await axiosPerfil.get('post/mypost').then(async (response) => {
+  //     console.log(response.data.postProfile);
+  //     card.value = response.data.postProfile
+  //     if(response.data.postProfile){
+  //       editPost.value = true
+  //     }
+  //   }).catch( () => {
+  //   loading.value = false
+  // })
+
     const jogador = response.data.playerProfile
     console.log(jogador);
     card.value.funcao = jogador.funcao
@@ -285,8 +292,12 @@ nextTick( async () => {
 
 
 
-})
-})
+}).catch( () => {
+    loading.value = false
+  })
+}).catch( () => {
+    loading.value = false
+  })
 
 loading.value = false
 })

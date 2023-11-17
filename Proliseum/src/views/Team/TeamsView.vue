@@ -27,7 +27,7 @@
               <div class="jogo">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
               </div>
-              <p v-if="!myteams">gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
+              <p v-if="!myteams">gerenciado por {{ card.dono.nickname }}</p>
             </router-link>
           </div>
         </div>
@@ -79,7 +79,9 @@ nextTick( async () => {
   
   console.log(listOfTeams.value);
   loading.value = false
-})
+}).catch( () => {
+    loading.value = false
+  })
 })
 
 

@@ -22,15 +22,7 @@
         <div class="main_main">
           <Newcustombutton class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
           <Modal :open="isOpen" @close="isOpen = !isOpen">
-            <div v-if="perfilExist" class="nExist">
-              <div>
-                <h3>VOCÊ AINDA NÃO TEM PERFIL DE ORGANIZADOR!</h3>
-                <router-link to="/edit">
-                  <Newcustombutton label="CRIE AQUI!" />
-                </router-link>
-              </div>
-            </div>
-            <form v-else class="body" autocomplete="off" @submit.prevent="handleSubmit">
+            <form class="body" autocomplete="off" @submit.prevent="handleSubmit">
               <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
               <div v-if=" selectedTeam != '' " class="preview" :key="selectedTeam">
                 <div class="card_props">
@@ -234,14 +226,8 @@
 nextTick( async () => {
     await axiosPerfil.get('profile/' + id).then(async (response) => {
       console.log(response.data);
-      if (!response.data.orgProfile) {
-        perfilExist.value = true
-      }else{
-        const jogador = response.data.orgProfile
-        console.log(jogador);
-      }
     });
-    await axiosPerfil.get('/team/org/' + id).then(async (response) => {
+    await axiosPerfil.get('/team/user/' + id).then(async (response) => {
       list.value = response.data.teams
     })
 

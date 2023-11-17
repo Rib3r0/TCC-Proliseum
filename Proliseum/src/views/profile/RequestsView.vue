@@ -62,7 +62,7 @@ import { createToast } from 'mosha-vue-toastify';
 
 
 const id = localStorage.getItem('id');
-let loading = ref(true)
+let loading = ref(false)
 const getImage = async (id) =>{
   
   let image
@@ -84,7 +84,9 @@ nextTick( async () => {
   await axiosPerfil.get('offer')
   .then( (response) => {
     console.log(response.data.propostas);
-    cards = response.data.propostas
+    cards.value = response.data.propostas
+    loading.value = false
+  }).catch( () => {
     loading.value = false
   })
 })
