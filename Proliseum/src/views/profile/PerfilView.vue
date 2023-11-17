@@ -191,7 +191,7 @@ await axiosPerfil.get('profile/' + id )
 
 await axiosPerfil.get('profile/' + idLocal )
 .then( (response) => {
-  if(response.data.orgProfile){
+  if(response){
     canProposta = true
   }else{
     canProposta = false
@@ -236,7 +236,7 @@ await getDownloadURL(refFB(storage,'team/'+ timeAtual + '/profile')).then(
 
 if(!editar.value){
 
-  await axiosPerfil.get('team/org/' + idLocal )
+  await axiosPerfil.get('team/user/' + idLocal )
   .then( (response) => {
       list = response.data.teams
   })
