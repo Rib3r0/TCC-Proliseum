@@ -18,7 +18,6 @@
       <SidebarLink to="/home" icon="https://img.icons8.com/windows/512/FFFFFF/home.png">HOME</SidebarLink>
       <SidebarLink to="/teams" icon="https://img.icons8.com/material-sharp/96/FFFFFF/conference-call.png">LISTA DE TIMES</SidebarLink>
       <SidebarLink to="/players" icon="https://img.icons8.com/ios-glyphs/90/FFFFFF/person-male.png">LISTA DE JOGADORES</SidebarLink>
-      <SidebarLink to="/requests" icon="https://img.icons8.com/ios-filled/100/FFFFFF/man-raising-hand-icon.png">PROPOSTAS</SidebarLink>
       <SidebarLink to="/search" icon="https://img.icons8.com/material-sharp/96/FFFFFF/find-user-male.png">BUSCAR JOGADORES</SidebarLink>
       <SidebarLink to="/offers" icon="https://img.icons8.com/sf-black/512/FFFFFF/search.png">BUSCAR Times</SidebarLink>
       <SidebarLink to="/championships" icon="https://img.icons8.com/glyph-neue/64/FFFFFF/trophy.png">CAMPEONATOS</SidebarLink>

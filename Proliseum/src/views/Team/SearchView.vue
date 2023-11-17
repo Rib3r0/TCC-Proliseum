@@ -104,6 +104,8 @@
                 <Newcustombutton @onClick="remove" label="RETIRAR" />
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
+              <br>
+              <requests-view v-if="!perfilExist"/>
             </form>
           </Modal>
           <template v-if="loading" >
@@ -151,6 +153,7 @@
           </div>
         </div>
       </div>
+      
       <rodape lined/>
     </div>
   </div>
@@ -172,6 +175,7 @@ import Modal from '../../components/popup/Modal.vue';
 import { axiosPerfil } from '../../axios/axios.js';
 import Pagination from '../../components/Pagination.vue';
 import { createToast } from 'mosha-vue-toastify';
+import RequestsView from '../profile/RequestsView.vue'
 
 
 

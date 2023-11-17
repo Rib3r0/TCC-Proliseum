@@ -5,7 +5,7 @@
     </div> -->
     <div class="body">
       <div class="header">
-        <h1>Propostas</h1>
+        <h2>Propostas Recebidas:</h2>
       </div>
       <div class="main">
         <template v-if="loading" >
@@ -40,7 +40,6 @@
         </template>
 
       </div>
-      <rodape lined/>
     </div>
   </div>
   
@@ -159,7 +158,7 @@ async function reject(id2){
   background-repeat: no-repeat;
   background-size: cover, contain;
   background-position: 50% 20%;
-  height: 20vh;
+  height: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -215,6 +215,7 @@
     let card = ref({
     name: "",
     time: 0,
+    jogo: '0',
     elo: '0',
     description: '',
     funcao: '0',
