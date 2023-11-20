@@ -64,21 +64,6 @@ const router = createRouter({
       component: () => import('@/views/Team/ProfileTeamView.vue')
     },
     {
-      path: '/myorg',
-      name: 'MyOrg',
-      redirect: '/org/' + localStorage.getItem('id'),
-    },
-    {
-      path: '/org/:id',
-      name: 'Org',
-      component: () => import('@/views/org/ProfileOrgView.vue')
-    },
-    {
-      path: '/org/editar',
-      name: 'OrgEdit',
-      redirect: '/edit',
-    },
-    {
       path: '/premium',
       name: 'Premium',
       component: () => import('@/views/PremiumView.vue')

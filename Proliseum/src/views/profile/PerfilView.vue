@@ -28,7 +28,7 @@
         <div class="main">
           <div class="info" >
             <div class="icon">
-              <img  class="iconLarge" :key="src" :src="src">
+              <miniIcon :image="src" size="29vh"/>
             </div>
             
             <h3 class="nome"><router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="image"/></router-link>{{ nome }}</h3>
@@ -191,7 +191,7 @@ await axiosPerfil.get('profile/' + id )
 
 await axiosPerfil.get('profile/' + idLocal )
 .then( (response) => {
-  if(response.data.orgProfile){
+  if(response){
     canProposta = true
   }else{
     canProposta = false
@@ -236,7 +236,7 @@ await getDownloadURL(refFB(storage,'team/'+ timeAtual + '/profile')).then(
 
 if(!editar.value){
 
-  await axiosPerfil.get('team/org/' + idLocal )
+  await axiosPerfil.get('team/user/' + idLocal )
   .then( (response) => {
       list = response.data.teams
   })

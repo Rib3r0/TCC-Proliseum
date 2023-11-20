@@ -1,10 +1,6 @@
 <template>
     <form class="body" autocomplete="off" @submit.prevent="handleSubmit($event)">
-        <div class="forms">
-            <FormRatio id="jogador" label="JOGADOR" name="cadastro" value="jogador" v-model="usuario" checked/>
-            <FormRatio id="organizador" label="ORGANIZAÇÃO" name="cadastro" value="organizador" v-model="usuario"/>
-        </div>
-        <div class="preview" v-if="usuario == 'jogador'"  >
+        <div class="preview"   >
             <img class="elo" :src="eloSrc" alt="" srcset="">
             <p>{{ eloName }}</p>
             <h3>"{{ jogador.nickname }}"</h3>
@@ -17,8 +13,8 @@
               </div>
             </div>
         </div>
-        <span v-if="usuario == 'jogador'">*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
-        <div class="cadastro" v-if="usuario == 'jogador'">
+        <span>*ISSO PODERÁ SER VISUALIZADO NO SEU PERFIL*</span>
+        <div class="cadastro" >
             <div>
             <span class="title">GAME:</span>
                 <div class="jogo">
@@ -38,25 +34,10 @@
             </div>
             <SelectForm name="elo" label="ELO:" :list="Elo.map( (x) => { return x[0]})" :selected="Elo.map( (x) => { return x[0]})[jogador.elo]" default="Porfavor informe o seu elo" v-model="jogador.elo"/>
         </div>
-        <div class="cadastro" v-if="usuario == 'organizador'">
-            <div class="text">
-                <new-input-form v-model="organizador.nome_organizacao" label="NOME DA ORGANIZAÇÃO:" required/>
-                <span class="title">BIO:</span>
-                <textarea name="" v-model="organizador.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
-            </div>
-            <div>
-                <span class="title">LOGO:</span>
-                <ImageUpload id="orgPic" v-model="organizador.logo" :image="srcLogo"/>
-            </div>
-            <div>
-                <span class="title">CAPA:</span>
-                <ImageUpload id="capaPic" v-model="organizador.capa" :image="srcCapa" capa/>
-            </div>
-        </div>
         <div class="button_div">
             <NewCustomButton type="submit" label="SALVAR"/>
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
-            
+            <NewCustomButton @onClick="deleteProfile" :label="'EXCLUIR PERFIL DE JOGADOR'"/>
         </div>
     </form>
 </template>
@@ -65,18 +46,14 @@
 import FormRatio from '../../components/form/FormRatio.vue';
 import NewInputForm from '../../components/form/NewInputForm.vue';
 import NewCustomButton from '../../components/NewCustomButton.vue';
-import ImageUpload from '../../components/form/ImageUpload.vue';
 import { ref, watch } from 'vue';
 import SelectForm from '../../components/form/SelectForm.vue';
 import { Elo } from '../../components/enum/Elo';
 import { Funcao } from '../../components/enum/Funcao'
 import { createToast } from 'mosha-vue-toastify'
 import { axiosPerfil } from "../../axios/axios.js";
-import storage from '../../firebase/firebase.js'
-import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
+import router from '../../router';
 
-
-let usuario = ref("jogador")
 const id = localStorage.getItem('id')
 
 let jogador = ref({
@@ -98,34 +75,6 @@ await axiosPerfil.get('profile/' + id )
         jogador.value.jogo = profile.jogo
         jogador.value.nickname = profile.nickname
     }
-})
-let organizador = ref({
-    nome_organizacao: "",
-    biografia: "",
-    capa: ""
-})
-
-const editOrg = ref(false)
-let srcLogo = ref("")
-let srcCapa = ref("")
-await axiosPerfil.get('profile/' + id )
-.then( async (response) => {
-    if(response.data.orgProfile){
-        editOrg.value = true
-        const profile = response.data.orgProfile
-        organizador.value.nome_organizacao = profile.nome_organizacao
-        organizador.value.biografia = profile.biografia
-    }
-    await getDownloadURL(refFB(storage, id + '/orgprofile')).then(
-    (download_url) => ( srcLogo.value = download_url)
-    ).catch( (erro) => {
-        srcLogo.value = "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA."
-    })
-    await getDownloadURL(refFB(storage, id + '/orgcapa')).then(
-    (download_url) => ( srcCapa.value = download_url)
-    ).catch( (erro) => {
-        srcCapa.value = "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA."
-    })
 })
 
 
@@ -152,8 +101,7 @@ const loading = ref(false)
 async function handleSubmit () {
     if(!loading.value){
         loading.value = true
-        if(usuario.value == "jogador" && !editJogador.value){
-            
+        if(!editJogador.value){
             await axiosPerfil.post('player', JSON.stringify(jogador.value))
                 .then( (response) => {
                 loading.value = false
@@ -163,6 +111,7 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                router.go(router.currentRoute)
             })
             .catch( (error) => {
                 loading.value = false
@@ -175,7 +124,6 @@ async function handleSubmit () {
                 }
                 )
         }else{
-        if(usuario.value == "jogador"){
             await axiosPerfil.put('player', JSON.stringify(jogador.value))
             .then( (response) => {
                 loading.value = false
@@ -198,81 +146,28 @@ async function handleSubmit () {
                 })
                 }
                 )
-        }else{
-            console.log(organizador.value);
         }
-        }
-        if(usuario.value == "organizador" && !editOrg.value ){
-            console.log(usuario.value == "organizador");
-            console.log("oi");
-            loading.value = true
-            await axiosPerfil.post('organizer', JSON.stringify(organizador.value))
-                .then( (response) => {
-                loading.value = false
-                const message = 'Perfil Criado!'
-                const storageRef = refFB(storage, id + '/orgprofile')
-                if(organizador.value.logo){
-                    uploadBytes(storageRef, organizador.value.logo)
-                }
-                const storageRefcapa = refFB(storage, id + '/orgcapa')
-                if(organizador.value.capa){
-                    uploadBytes(storageRefcapa, organizador.value.capa)
-                }
-
-                createToast(message,{
-                type : 'success',
-                showIcon : true,
-                position : "top-center"
-                })
-            })
-            .catch( (error) => {
-                loading.value = false
-                console.log(error);
-                console.log("error");
-
-                createToast('Erro!',{
-                type : 'warning',
-                showIcon : true,
-                position : "top-center"
-                })
-                }
-                )
-        }else if(usuario.value == "organizador"){
-            loading.value = true
-            await axiosPerfil.put('organizer', JSON.stringify(organizador.value))
-                .then( (response) => {
-                loading.value = false
-                const message = 'Perfil Atualizado!'
-                const storageRef = refFB(storage, id + '/orgprofile')
-                if(organizador.value.logo){
-                    uploadBytes(storageRef, organizador.value.logo)
-                }
-                const storageRefcapa = refFB(storage, id + '/orgcapa')
-                if(organizador.value.capa){
-                    uploadBytes(storageRefcapa, organizador.value.capa)
-                }
-
-                createToast(message,{
-                type : 'success',
-                showIcon : true,
-                position : "top-center"
-                })
-            })
-            .catch( (error) => {
-                loading.value = false
-                console.log(error);
-
-                createToast('Erro!',{
-                type : 'warning',
-                showIcon : true,
-                position : "top-center"
-                })
-                }
-                )
-        }
-    }else{
-        
+    }
 }
+
+async function deleteProfile () {
+    loading.value = true
+    await axiosPerfil.delete('player').then( () => {
+        loading.value = false
+        createToast('Perfil Deletado com sucesso!',{
+        type : 'success',
+        showIcon : true,
+        position : "top-center"
+        })
+        router.go(router.currentRoute)
+    }).catch( (erro) => {
+        createToast(erro.response.data.error,{
+        type : 'danger',
+        showIcon : true,
+        position : "top-center"
+        })
+    })
+    loading.value = false
 
 }
 
@@ -343,6 +238,7 @@ async function handleSubmit () {
 
     .button_div{
         display: flex;
+        gap: 20px;
     }
     .button_div img{
         height: 50px;

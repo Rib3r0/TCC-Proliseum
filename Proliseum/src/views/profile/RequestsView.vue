@@ -1,40 +1,48 @@
 <template>
-  <div class="loading_div" v-if="loading">
-    <img class="loading" src="../../assets/img/Rolling-1s-323px.svg">
-  </div>
-  <div class="body">
-    <div class="header">
-      <h1>Propostas</h1>
-    </div>
-    <div class="main">
-      <div class="preview">
-        <div class="card_props" v-if="cards.length < 1">
-          <div class="info_sem">
-            <h2>NENHUMA PROPOSTA ATIVA &#128533;</h2>
-          </div>
-        </div>
-      <div class="card_props" v-for="card in cards" :key="card.id">
-        <div class="profile">
-          <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
-          <p>{{ card.de.nome_time }}</p>
-        </div>
-        <div class="info">
-          <div class="description">
-            <p>{{ card.menssagem }}</p>
-          </div>
-          <div class="info_buttons">
-            <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.de.id)" />
-            
-            <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.de.id)" />
-          </div>
-        </div>
+  <div>
+    <!-- <div class="loading_div" v-if="loading">
+      <img class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+    </div> -->
+    <div class="body">
+      <div class="header">
+        <h2>Propostas Recebidas:</h2>
       </div>
+      <div class="main">
+        <template v-if="loading" >
+          <div class="loading">
+            <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
+          </div>
+        </template>
+        <template v-else >
+          <div class="preview" :key="cards.length">
+            <div class="card_props" v-if="cards.length < 1">
+              <div class="info_sem">
+                <h2>NENHUMA PROPOSTA ATIVA &#128533;</h2>
+              </div>
+            </div>
+          <div v-else class="card_props" v-for="card in cards" :key="card.id">
+            <div class="profile">
+              <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
+              <p>{{ card.de.nome_time }}</p>
+            </div>
+            <div class="info">
+              <div class="description">
+                <p>{{ card.menssagem }}</p>
+              </div>
+              <div class="info_buttons">
+                <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.de.id)" />
+                
+                <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.de.id)" />
+              </div>
+            </div>
+          </div>
+          </div>
+        </template>
+
       </div>
-          
-     
     </div>
-    <rodape lined/>
   </div>
+  
   
 </template>
 
@@ -42,18 +50,17 @@
 import Rodape from '../../components/Rodape.vue';
 import Newcustombutton from '../../components/NewCustomButton.vue';
 import miniIcon from '../../components/miniIcon.vue';
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from '../../axios/axios';
-import router from '../../router';
 import { createToast } from 'mosha-vue-toastify';
 
 
 
 
 const id = localStorage.getItem('id');
-let loading = ref(false)
+const loading = ref(true)
 const getImage = async (id) =>{
   
   let image
@@ -71,23 +78,29 @@ const getImage = async (id) =>{
 
 let cards = ref([]);
 
-await axiosPerfil.get('offer')
+nextTick( async () => {
+  await axiosPerfil.get('offer')
   .then( (response) => {
     console.log(response.data.propostas);
-    cards = response.data.propostas
+    cards.value = response.data.propostas
+    loading.value = false
+  }).catch( () => {
+    loading.value = false
   })
-
-
+})
 
 
 async function accept (id2)  {
   if(!loading.value){ 
-      loading = true 
+      loading.value = true
+      console.log(cards);
+      let result = cards.value.filter( (x) => x.id != id2)
+      cards = result
+
       await axiosPerfil.delete('offer/' + id2 + '/1')
       .then( (response) => {
         console.log(response.data);
-        loading = false 
-        router.go(router.currentRoute)
+        loading.value = false 
         const message = 'Proposta Aceita!'
           createToast(message,{
             type : 'success',
@@ -95,10 +108,9 @@ async function accept (id2)  {
             position : "top-center"
           })
       }).catch( (erro) => {
-        loading = false
+        loading.value = false
         console.log(erro);
-        const message = 'Erro!'
-          createToast(message,{
+          createToast(erro.data.error,{
             type : 'danger',
             showIcon : true,
             position : "top-center"
@@ -109,11 +121,13 @@ async function accept (id2)  {
 }
 async function reject(id2){
   if(!loading.value){ 
-      loading = true 
+      loading.value = true 
+      console.log(cards.value);
+      let result = cards.value.filter( (x) => x.id != id2)
+      cards.value = result
       await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
-        loading = false 
-        router.go(router.currentRoute)
+        loading.value = false 
         const message = 'Proposta Recusada!'
           createToast(message,{
             showIcon : true,
@@ -144,7 +158,7 @@ async function reject(id2){
   background-repeat: no-repeat;
   background-size: cover, contain;
   background-position: 50% 20%;
-  height: 20vh;
+  height: 10vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -220,6 +234,8 @@ async function reject(id2){
 
 .loading{
   height: 10vh;
+  display: grid;
+  place-items: center;
 }
 .loading_div{
   display: grid;

@@ -1,157 +1,163 @@
 <template>
-  <Modal class="proposta" :open="isOpenProps" @close="isOpenProps = !isOpenProps">
-    <form class="form" autocomplete="on">
-      <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
-      <span class="title">mensage:</span>
-      <textarea name="" v-model="message"  id="" maxlength="300" placeholder="Olá..."></textarea>
-      <div class="boton">
-        <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
-        <Newcustombutton label="ENVIAR" @onClick="proposta"  />
-      </div>
+  <div>
+    <Modal class="proposta" :open="isOpenProps" @close="isOpenProps = !isOpenProps">
+      <form class="form" autocomplete="on">
+        <SelectForm label="TIME:" v-model="selectedTeam" :list="list.map( (x) => { return x.nome_time})" default="Selecione o time"/>
+        <span class="title">mensage:</span>
+        <textarea name="" v-model="message"  id="" maxlength="300" placeholder="Olá..."></textarea>
+        <div class="boton">
+          <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+          <Newcustombutton label="ENVIAR" @onClick="proposta"  />
+        </div>
 
-    </form>
-  </Modal>
+      </form>
+    </Modal>
 
-  <div class="body">
-    <div class="header">
-      <h1>Jogares Disponiveis</h1>
-    </div>
-    <div class="main">
-      <div class="main_header">
-        <div>
-          <h4>ELO MINIMO</h4>
-          <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
-        </div>
-        <div>
-          <h4>DISPONIBILIDADE A PARTIR</h4>
-          <NewInputForm  type="time" v-model="horario"/>
-        </div>
-        <div>
-          <h4>FUNÇÃO</h4>
-          <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
-        </div>
-        <div>
-          <h4>REMUNERAÇÃO</h4>
-          <select-form default="remuneração" :list="['sim','não']" v-model="remuneracao"/>
-        </div>
-        <Newcustombutton label="BUSCAR" size="0.5vw"/>
+    <div class="body">
+      <div class="header">
+        <h1>Jogares Disponiveis</h1>
       </div>
-      <div class="main_main">
-        <Newcustombutton class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
-        <Modal :open="isOpen" @close="isOpen = !isOpen">
-          <div v-if="perfilExist" class="nExist">
-            <div>
-              <h3>VOCÊ AINDA NÃO TEM PERFIL DE JOGADOR!</h3>
-              <router-link to="/edit">
-                <Newcustombutton label="CRIE AQUI!" />
-              </router-link>
-            </div>
+      <div class="main">
+        <div class="main_header">
+          <div>
+            <h4>ELO MINIMO</h4>
+            <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
           </div>
-          <form v-else class="body" autocomplete="off" @submit.prevent="handleSubmit">
-            <div class="preview">
-              <div class="card_props">
-                <div class="profile">
-                  <router-link :to="'/perfil/' + id">
-                    <miniIcon class="icon" :image="getImage(id)" size="10vw" />
-                    <p>{{ card.nickname }}</p>
-                  </router-link>
-                </div>
-                <div class="info">
-                  <div class="description">
-                    <p>{{ card.descricao }}</p>
-                  </div>
-                  <div class="info_main">
-                    <div class="info_card">
-                      <h3>ELO</h3>
-                      <img :src="Elo[parseInt(card.elo)][1]" alt="" />
-                      <p>{{ Elo[parseInt(card.elo)][0] }}</p>
-                    </div>
-                    <div class="info_card">
-                      <h3>FUNÇÃO</h3>
-                      <img :src="Funcao[parseInt(card.funcao)][1]" alt="" />
-                      <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
-                    </div>
-                    <div class="info_card">
-                      <h3>HORARIO</h3>
-                      <h4>{{ card.hora }}</h4>
-                    </div>
-                    <div class="info_card">
-                      <h3>PROS</h3>
-                      <p>{{ card.pros }}</p>
-                    </div>
-                  </div>
-                  <div class="info_buttons">
-                    <Newcustombutton label="ENVIAR PROPOSTA" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <span>*ISSO PODERÁ SER VISUALIZADO NO POST*</span>
-            <div class="cadastro">
-              <div class="text">
-                <span class="title">DESCRIÇÃO:</span>
-                <textarea name="desc" v-model="card.descricao"  id="desc" maxlength="300" placeholder="olá..."></textarea>
-              </div>
-              <NewInputForm label="horario" v-model="card.hora" type="time"/>
-              <div class="text">
-                <span class="title">Prós:</span>
-                <textarea name="pros" v-model="card.pros"  id="pros" maxlength="300" placeholder="Tranquilo..."></textarea>
-              </div>
-            </div>
-            <div class="button_div">
-              <Newcustombutton type="submit" label="SALVAR" />
-              <Newcustombutton type="submit" label="RETIRAR" />
-              <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
-            </div>
-          </form>
-        </Modal>
-        <template v-if="loading" >
-          <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
-        </template>
-        <template v-else>
-          <div class="card_props" v-for="card in cards" :key="card.id">
-            <div class="profile">
-              <router-link class="profile" :to="'/perfil/' + id"> 
-                <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
-                <p>{{ card.dono_id.nickname }}</p>
-              </router-link>
-            </div>
-            <div class="info">
-              <div class="description"><p>{{ card.descricao }}</p></div>
-              <div class="info_main">
-                <div class="info_card">
-                  <h3>ELO</h3>
-                  <img :src="Elo[parseInt(card.elo)][1]" alt="">
-                  <p>{{ Elo[parseInt(card.elo)][0] }}</p>
-                </div>
-                <div class="info_card">
-                  <h3>FUNÇÃO</h3>
-                  <img :src="Funcao[parseInt(card.funcao)][1]" alt="">
-                  <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
-                </div>
-                <div class="info_card">
-                  <h3>HORARIO</h3>
-                  <h4>{{ card.hora }}</h4>
-                </div>
-                <div class="info_card">
-                  <h3>PROS</h3>
-                  <p>{{ card.pros }}</p>
-                </div>
-
-              </div>
-              <div class="info_buttons">
-                <Newcustombutton label="ENVIAR PROPOSTA" @onClick="toProposta(card.dono_id.id)"/>
-              </div>
-            </div>
+          <div>
+            <h4>DISPONIBILIDADE A PARTIR</h4>
+            <NewInputForm  type="time" v-model="horario"/>
           </div>
-        </template>
-        <div class="pagination">
-          <pagination :elements="limit" :key="cards" :per-page="perPage" v-model="page"/>
+          <div>
+            <h4>FUNÇÃO</h4>
+            <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
+          </div>
+          <div>
+            <h4>REMUNERAÇÃO</h4>
+            <select-form default="remuneração" :list="['sim','não']" v-model="remuneracao"/>
+          </div>
+          <Newcustombutton label="BUSCAR" size="0.5vw"/>
+        </div>
+        <div class="main_main">
+          <Newcustombutton class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
+          <Modal :open="isOpen" @close="isOpen = !isOpen">
+            <div v-if="perfilExist" class="nExist">
+              <div>
+                <h3>VOCÊ AINDA NÃO TEM PERFIL DE JOGADOR!</h3>
+                <router-link to="/edit">
+                  <Newcustombutton label="CRIE AQUI!" />
+                </router-link>
+              </div>
+            </div>
+            <form v-else class="body" autocomplete="off" @submit.prevent="handleSubmit">
+              <div class="preview">
+                <div class="card_props">
+                  <div class="profile">
+                    <router-link :to="'/perfil/' + id">
+                      <miniIcon class="icon" :image="getImage(id)" size="10vw" />
+                      <p>{{ card.nickname }}</p>
+                    </router-link>
+                  </div>
+                  <div class="info">
+                    <div class="description">
+                      <p>{{ card.descricao }}</p>
+                    </div>
+                    <div class="info_main">
+                      <div class="info_card">
+                        <h3>ELO</h3>
+                        <img :src="Elo[parseInt(card.elo)][1]" alt="" />
+                        <p>{{ Elo[parseInt(card.elo)][0] }}</p>
+                      </div>
+                      <div class="info_card">
+                        <h3>FUNÇÃO</h3>
+                        <img :src="Funcao[parseInt(card.funcao)][1]" alt="" />
+                        <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
+                      </div>
+                      <div class="info_card">
+                        <h3>HORARIO</h3>
+                        <h4>{{ card.hora }}</h4>
+                      </div>
+                      <div class="info_card">
+                        <h3>PROS</h3>
+                        <p>{{ card.pros }}</p>
+                      </div>
+                    </div>
+                    <div class="info_buttons">
+                      <Newcustombutton label="ENVIAR PROPOSTA" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span>*ISSO PODERÁ SER VISUALIZADO NO POST*</span>
+              <div class="cadastro">
+                <div class="text">
+                  <span class="title">DESCRIÇÃO:</span>
+                  <textarea name="desc" v-model="card.descricao"  id="desc" maxlength="300" placeholder="olá..."></textarea>
+                </div>
+                <NewInputForm label="horario" v-model="card.hora" type="time"/>
+                <div class="text">
+                  <span class="title">Prós:</span>
+                  <textarea name="pros" v-model="card.pros"  id="pros" maxlength="300" placeholder="Tranquilo..."></textarea>
+                </div>
+              </div>
+              <div class="button_div">
+                <Newcustombutton type="submit" label="SALVAR" />
+                <Newcustombutton @onClick="remove" label="RETIRAR" />
+                <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
+              </div>
+              <br>
+              <requests-view v-if="!perfilExist"/>
+            </form>
+          </Modal>
+          <template v-if="loading" >
+            <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
+          </template>
+          <template v-else>
+            <div class="card_props" v-for="card in cards" :key="card.id">
+              <div class="profile">
+                <router-link class="profile" :to="'/perfil/' + card.dono_id.id"> 
+                  <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
+                  <p>{{ card.dono_id.nickname }}</p>
+                </router-link>
+              </div>
+              <div class="info">
+                <div class="description"><p>{{ card.descricao }}</p></div>
+                <div class="info_main">
+                  <div class="info_card">
+                    <h3>ELO</h3>
+                    <img :src="Elo[parseInt(card.elo)][1]" alt="">
+                    <p>{{ Elo[parseInt(card.elo)][0] }}</p>
+                  </div>
+                  <div class="info_card">
+                    <h3>FUNÇÃO</h3>
+                    <img :src="Funcao[parseInt(card.funcao)][1]" alt="">
+                    <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
+                  </div>
+                  <div class="info_card">
+                    <h3>HORARIO</h3>
+                    <h4>{{ card.hora }}</h4>
+                  </div>
+                  <div class="info_card">
+                    <h3>PROS</h3>
+                    <p>{{ card.pros }}</p>
+                  </div>
+
+                </div>
+                <div class="info_buttons">
+                  <Newcustombutton v-if="hasTeam" label="ENVIAR PROPOSTA" @onClick="toProposta(card.dono_id.id)"/>
+                </div>
+              </div>
+            </div>
+          </template>
+          <div class="pagination">
+            <pagination :elements="limit" :key="cards" :per-page="perPage" v-model="page"/>
+          </div>
         </div>
       </div>
+      
+      <rodape lined/>
     </div>
-    <rodape lined/>
   </div>
+  
 </template>
 
 <script setup>
@@ -162,14 +168,28 @@ import { Funcao } from '../../components/enum/Funcao'
 import NewInputForm from '../../components/form/NewInputForm.vue'
 import Newcustombutton from '../../components/NewCustomButton.vue';
 import miniIcon from '../../components/miniIcon.vue';
-import { ref, watch } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import Modal from '../../components/popup/Modal.vue';
 import { axiosPerfil } from '../../axios/axios.js';
 import Pagination from '../../components/Pagination.vue';
 import { createToast } from 'mosha-vue-toastify';
+import RequestsView from '../profile/RequestsView.vue'
 
+
+
+let card = ref({
+  descricao: '',
+  jogo: '0',
+  funcao: '0',
+  elo: '0',
+  hora: '00:00',
+  tipo: false,
+  pros: ''
+});
+
+console.log(card.value);
 
 
 const id = localStorage.getItem('id');
@@ -182,32 +202,11 @@ const remuneracao = ref('')
 const perPage = ref(5)
 const page = ref(1)
 let limit = ref(0)
+const hasTeam = ref(false)
 
-let loading = ref(false);
+let loading = ref(true);
 
-let cards = ref([
-  {
-    id: 1,
-    id_dono: '7',
-    name: "aaaaaa" ,
-    description: "a",
-    elo: "0",
-    funcao: "0",
-    horario: "20:00 - 23:00",
-    pros: "['1','2','3','4']"
-  },
-  {
-    id: 2,
-    name: "b",
-    id_dono: '10',
-    description: "b",
-    elo: "1",
-    funcao: "1",
-    horario: "19:00 - 23:30",
-    pros: "['a','b','c','d']"
-  },
-
-])
+let cards = ref([])
 
 const getImage = async (id) =>{
   
@@ -235,32 +234,34 @@ watch(page, async() => {
 })
 } )
 
-await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
-.then(async (response) => {
-  console.log(response.data.post)
-  cards = response.data.post
-  limit = response.data.limit
-})
 
 
+nextTick( async () => {
+    await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+      .then(async (response) => {
+    console.log(response.data.post)
+    cards = response.data.post
+    limit = response.data.limit
 
-
-
-let card = ref({
-  descricao: '',
-  jogo: '0',
-  funcao: '0',
-  elo: '0',
-  hora: '00:00',
-  tipo: false,
-  pros: ''
-});
-
-
-await axiosPerfil.get('profile/' + id).then(async (response) => {
+    await axiosPerfil.get('profile/' + id).then(async (response) => {
+      console.log(response.data);
   if (!response.data.playerProfile) {
     perfilExist.value = true
   }else{
+
+    await axiosPerfil.get('post/mypost').then(async (response) => {
+      console.log(response.data);
+      if(response.data.postProfile.id){
+        card.value = response.data.postProfile
+      }
+      console.log(response.data.id);
+      if(response.data.postProfile.length < 1){
+        editPost.value = true
+      }
+    }).catch( () => {
+    loading.value = false
+  })
+
     const jogador = response.data.playerProfile
     console.log(jogador);
     card.value.funcao = jogador.funcao
@@ -268,13 +269,38 @@ await axiosPerfil.get('profile/' + id).then(async (response) => {
 
 
     //AQUI EDITAR TBM
-    await axiosPerfil.get('post/mypost').then(async (response) => {
-      console.log(response.data);
-    })
-
 
   }
+
+  await axiosPerfil.get('team/user/' + id )
+  .then( (response) => {
+      list = response.data.teams
+      if(list.length > 0){
+        hasTeam.value = true
+      }
+  })
+
+
+
+}).catch( () => {
+    loading.value = false
+  })
+}).catch( () => {
+    loading.value = false
+  })
+
+loading.value = false
 })
+
+
+
+
+
+
+
+
+
+
 
 const editPost = ref(false)
 
@@ -379,10 +405,20 @@ async function proposta(){
     })}
 }
 
-await axiosPerfil.get('team/org/' + id )
-  .then( (response) => {
-      list = response.data.teams
-  })
+async function remove(){
+  if(!loading.value){
+    loading.value = true
+    await axiosPerfil.delete('post').then(async (response) => {
+      const message = 'postagem retidada!'
+      loading.value = false
+      createToast(message,{
+        type : 'success',
+        showIcon : true,
+        position : "top-center"
+      })
+    })
+  }
+}
 
 </script>
 
@@ -461,6 +497,7 @@ await axiosPerfil.get('team/org/' + id )
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-width: 10vw;
 }
 
 .info_card img{

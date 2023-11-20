@@ -9,8 +9,8 @@
           <NewInputForm label="BUSCAR:" icon="https://img.icons8.com/ios-filled/250/search--v1.png" v-model="busca" @keyup.enter="buscar"/>
         </div>
         <div class="manege">
-          <router-link to="/edit"><NewCustomButton label="CRIAR PERFIL DE JOGADOR"/></router-link>
-          <router-link to="/teams/create"><NewCustomButton label="DELETAR PERFIL"/></router-link>
+          <router-link to="/perfil/editar"><NewCustomButton label="CRIAR PERFIL DE JOGADOR"/></router-link>
+          <router-link to="/perfil/editar"><NewCustomButton label="DELETAR PERFIL"/></router-link>
         </div>
       </div>
       <template v-if="loading" >
@@ -55,7 +55,7 @@ import NewCustomButton from "../../components/NewCustomButton.vue";
 import rodape from "../../components/Rodape.vue"
 import miniIcon from "../../components/miniIcon.vue";
 import { axiosPerfil } from "../../axios/axios.js";
-import { ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import NewInputForm from "../../components/form/NewInputForm.vue";
@@ -82,7 +82,8 @@ watch(page, async() => {
 
 const listOfTeams = ref({})
 
-await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+nextTick(async () => {
+  await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
   listOfTeams.value = response.data.players
   console.log(response.data);
   elements.value = response.data.limit
@@ -90,6 +91,9 @@ await axiosPerfil.get('player',{ params: { name: busca.value, perPage: perPage.v
   console.log(listOfTeams.value);
   loading.value = false
 })
+})
+
+
 
 
 const getImage = async (id) =>{

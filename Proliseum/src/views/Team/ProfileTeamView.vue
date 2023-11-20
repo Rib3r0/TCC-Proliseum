@@ -15,7 +15,7 @@
             <img  class="iconLarge" :key="src" :src="src">
           </div>
           <h3 class="nome"> <router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="src"/></router-link>{{ nome }}</h3>
-          <h4 class="nomeCompleto">gerenciado por<router-link :to="'/org/'+ idOrg"> {{ nomeCompleto }}</router-link></h4>
+          <h4 class="nomeCompleto">gerenciado por <router-link :to="'/perfil/'+ idOrg"> {{ nomeCompleto }}</router-link></h4>
           <div class="jogo">
             <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
           </div>
@@ -99,8 +99,8 @@ await axiosPerfil.get('team/' + id )
   const profile = response.data.teams[0]
   console.log(profile);
   nome = profile.nome_time
-  nomeCompleto = profile.organizacao.nome_organizacao
-  idOrg = profile.organizacao.dono_id.id
+  nomeCompleto = profile.dono.nickname
+  idOrg = profile.dono.id
   jogadores = profile.jogadores
 
   if(localStorage.getItem('id') == idOrg){

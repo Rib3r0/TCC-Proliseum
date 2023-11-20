@@ -1,7 +1,7 @@
 <template >
-    <div class="container">
-        <div class="icon">
-          <img class="image"  :style=" {  maxHeight : size, minHeight : size}" :key="src" :src="src">
+    <div class="container" :style=" {  maxHeight : size, minHeight : size,  minWidth: size }">
+        <div class="icon"  :style=" {  maxHeight : size, minHeight : size,  minWidth: size }">
+          <img class="image"  :style=" {  maxHeight : size, minHeight : size,  minWidth: size }" :key="src" :src="src">
         </div>
     </div>
   </template>
@@ -73,6 +73,7 @@
     .iconLarge{
       max-height: v-bind(size);
       min-height: v-bind(size);
+
       /* max-width: 18vw;
       min-width: 18vw; */
       overflow: hidden;
@@ -85,6 +86,7 @@
       gap: 0px;
     }
     .image{
-      overflow: hidden;
+      position: static;
+      position: absolute;
     }
   </style>

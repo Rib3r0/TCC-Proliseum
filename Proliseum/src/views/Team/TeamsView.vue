@@ -13,7 +13,6 @@
             <NewCustomButton @Click="getMyTimes()" label="MEUS TIMES"/>
           </a>
           <router-link to="/teams/create"><NewCustomButton label="CRIAR TIME"/></router-link>
-          <router-link to="/teams/create"><NewCustomButton label="DELETAR TIME"/></router-link>
         </div>
       </div>
       <template v-if="loading" >
@@ -28,14 +27,14 @@
               <div class="jogo">
                 <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
               </div>
-              <p v-if="!myteams">gerenciado por {{ card.organizacao.dono_id.nickname }}</p>
+              <p v-if="!myteams">gerenciado por {{ card.dono.nickname }}</p>
             </router-link>
           </div>
         </div>
       </template>
     </div>
     <div class="pagination">
-        <pagination :elements="elements" :per-page="perPage" v-model="page"/>
+        <pagination :elements="elements" :per-page="perPage" v-model="page" :key="elements"/>
     </div>
     <rodape lined/>
   </div>
@@ -46,7 +45,7 @@ import NewCustomButton from "../../components/NewCustomButton.vue";
 import rodape from "../../components/Rodape.vue"
 import miniIcon from "../../components/miniIcon.vue";
 import { axiosPerfil } from "../../axios/axios.js";
-import { ref, watch } from "vue";
+import { nextTick, ref, watch } from "vue";
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import NewInputForm from "../../components/form/NewInputForm.vue";
@@ -54,10 +53,11 @@ import Pagination from "../../components/Pagination.vue";
 
 const loading = ref(true)
 const myteams = ref(false)
+const hasOrg = ref(false)
 const sizeImg = ref("15vw")
 let busca = ref("")
 
-const elements= ref(0)
+const elements= ref(1)
 const perPage= ref(20)
 const page= ref(1)
 
@@ -71,14 +71,20 @@ watch(page, async() => {
 
 const listOfTeams = ref({})
 
-await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+nextTick( async () => {
+  await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
   listOfTeams.value = response.data.teams
   console.log(response.data);
   elements.value = response.data.limit
   
   console.log(listOfTeams.value);
   loading.value = false
+}).catch( () => {
+    loading.value = false
+  })
 })
+
+
 
 
 const getImage = async (id) =>{
@@ -94,26 +100,22 @@ const getImage = async (id) =>{
     return image
     
     
-  }
+}
 
-
-  
-  
-  const buscar = async () => {
-    console.log("oi");
-    loading.value = true
-    await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
-      console.log(response);
-      listOfTeams.value = response.data.teams
-      elements.value = response.data.limit
-      myteams.value = false
-      loading.value = false
-    })
+const buscar = async () => {
+  loading.value = true
+  await axiosPerfil.get('team',{ params: { name: busca.value, perPage: perPage.value , page: page.value } }).then( (response) => {
+    console.log(response);
+    listOfTeams.value = response.data.teams
+    elements.value = response.data.limit
+    myteams.value = false
+    loading.value = false
+  })
 }
   
   
   
-  const getMyTimes = async () => {
+const getMyTimes = async () => {
   loading.value = true
   myteams.value = true
   await axiosPerfil.get('team/myteams').then( (response) => {

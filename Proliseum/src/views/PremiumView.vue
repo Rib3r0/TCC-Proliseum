@@ -28,7 +28,7 @@ import Rodape from '../components/Rodape.vue';
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background: radial-gradient(   var(--background-color) 36%,  var(--red)  76%);
+  background: radial-gradient(circle at 100%, var(--background-color), var(--background-color) 50%, var(--red) 110%, var(--background-color) 75%);
   background-repeat: no-repeat;
 }
 
