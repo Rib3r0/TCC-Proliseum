@@ -62,7 +62,7 @@ const isActive = computed( () => router.currentRoute.value.path.startsWith(pros.
     color: #fff;
     font-size: var(--font-text);
     font-weight: 900;
-    height: 60px;
+    height: 8vh;
     width: 100%;
     background-color: #0005;
     gap: 2px;

@@ -73,12 +73,12 @@ function handle(e){
   padding: 20px;
   border-radius: 20px;
   min-width: 70vw;
-  min-height: 16vw;
+  min-height: 8vw;
   display: grid;
 }
 .close{
     position: absolute;
-    transform: translate( 34vw, -7.5vw );
+    transform: translate( 34vw, -3.5vw );
 }
 .close:hover{
     filter: brightness(0) saturate(100%) invert(42%) sepia(42%) saturate(5000%) hue-rotate(338deg) brightness(95%) contrast(112%);
