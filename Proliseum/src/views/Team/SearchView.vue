@@ -255,7 +255,7 @@ nextTick( async () => {
         card.value = response.data.postProfile
       }
       console.log(response.data.id);
-      if(response.data.postProfile.length < 1){
+      if(response.data.postProfile){
         editPost.value = true
       }
     }).catch( () => {
@@ -310,6 +310,12 @@ async function handleSubmit () {
     if(!loading.value){
         loading.value = true
         if(!editPost.value){
+          if(card.value.funcao == 0){
+            card.value.funcao = "0"
+          }
+          if(card.value.elo == 0){
+            card.value.elo = "0"
+          }
             await axiosPerfil.post('post', JSON.stringify(card.value))
                 .then( (response) => {
                   console.log(card.value);
@@ -323,6 +329,7 @@ async function handleSubmit () {
             })
             .catch( (error) => {
                 loading.value = false
+                console.log(card.value);
                 console.log(error);
                 createToast('Erro!',{
                 type : 'warning',
@@ -332,6 +339,12 @@ async function handleSubmit () {
                 }
                 )
         }else{
+          if(card.value.funcao == 0){
+            card.value.funcao = "0"
+          }
+          if(card.value.elo == 0){
+            card.value.elo = "0"
+          }
             await axiosPerfil.put('post', JSON.stringify(card.value))
             .then( (response) => {
                 loading.value = false
