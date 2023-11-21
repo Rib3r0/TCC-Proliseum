@@ -5,7 +5,7 @@
     </div> -->
     <div class="body">
       <div class="header">
-        <h2>Propostas Recebidas:</h2>
+        <h2>INSCRITOS:</h2>
       </div>
       <div class="main">
         <template v-if="loading" >
@@ -17,22 +17,21 @@
           <div class="preview" :key="cards.length">
             <div class="card_props" v-if="cards.length < 1">
               <div class="info_sem">
-                <h2>NENHUMA PROPOSTA AINDA... &#128533;</h2>
+                <h2>NENHUM INSCRITO AINDA... &#128533;</h2>
               </div>
             </div>
           <div v-else class="card_props" v-for="card in cards" :key="card.id">
-            <div class="profile">
-              <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
-              <p>{{ card.de.nome_time }}</p>
-            </div>
             <div class="info">
-              <div class="description">
-                <p>{{ card.menssagem }}</p>
-              </div>
+              <RouterLink :to="'/perfil/' + card.id">
+                <div class="profile">
+                  <miniIcon class="icon" :image="getImage(card.id)" size="10vw" />
+                  <p>{{ card.nickname }}</p>
+                </div>
+              </RouterLink>
               <div class="info_buttons">
-                <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.de.id)" />
+                <Newcustombutton label="ACEITAR" @onClick="accept(card.de.id)" />
                 
-                <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.de.id)" />
+                <Newcustombutton label="RECUSAR" @onClick="reject(card.de.id)" />
               </div>
             </div>
           </div>
@@ -65,7 +64,7 @@ const getImage = async (id) =>{
   
   let image
   
-  await getDownloadURL(refFB(storage,'team/'+ id + '/profile')).then(
+  await getDownloadURL(refFB(storage, id + '/profile')).then(
     (download_url) => ( image = download_url)
     ).catch( (erro) => {
       image =  "https://i.ibb.co/jVvMSHY/image-6.png"
@@ -76,17 +75,51 @@ const getImage = async (id) =>{
     
   }
 
-let cards = ref([]);
+let cards = ref([
+  {
+    id: "1",
+    nickname: "aaaaa",
+  },
+  {
+    id: "2",
+    nickname: "bbbbb",
+  },
+  {
+    id: "1",
+    nickname: "aaaaa",
+  },
+  {
+    id: "2",
+    nickname: "bbbbb",
+  },
+  {
+    id: "1",
+    nickname: "aaaaa",
+  },
+  {
+    id: "2",
+    nickname: "bbbbb",
+  },
+  {
+    id: "1",
+    nickname: "aaaaa",
+  },
+  {
+    id: "2",
+    nickname: "bbbbb",
+  },
+]);
 
 nextTick( async () => {
-  await axiosPerfil.get('offer')
-  .then( (response) => {
-    console.log(response.data.propostas);
-    cards.value = response.data.propostas
-    loading.value = false
-  }).catch( () => {
-    loading.value = false
-  })
+  // await axiosPerfil.get('offer')
+  // .then( (response) => {
+  //   console.log(response.data.propostas);
+  //   cards.value = response.data.propostas
+  //   loading.value = false
+  // }).catch( () => {
+  //   loading.value = false
+  // })
+  loading.value = false
 })
 
 
@@ -153,6 +186,11 @@ async function reject(id2){
   width: 100%;
 }
 
+.preview{
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .header{
   background-image: url(../../assets/img/backgroundHome.png);
   background-repeat: no-repeat;
@@ -174,12 +212,14 @@ async function reject(id2){
   padding: 20px;
   align-items: center;
   justify-content: center;
+  width: fit-content;
 }
 .profile{
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  color: #FFF;
 }
 
 
@@ -188,7 +228,7 @@ async function reject(id2){
   background-color: #0005;
   padding: 20px;
   border-radius: 20px;
-  min-width: 70vw;
+  max-width: 25vw;
   min-height: 16vw;
   display: flex;
   flex-direction: column;

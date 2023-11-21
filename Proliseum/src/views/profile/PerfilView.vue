@@ -30,13 +30,12 @@
             <div class="icon">
               <miniIcon :image="src" size="29vh"/>
             </div>
-            
             <h3 class="nome"><router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="image"/></router-link>{{ nome }}</h3>
             <h4 class="nomeCompleto">{{ nomeCompleto }}</h4>
             <div v-if="orgExist">
               <p class="dono">DONO DA <router-link class="select" :to="'/org/' + id"> <span>{{ nome_organizacao }}</span> <mini-icon :image="srcLogo"/></router-link></p>
             </div>
-            <div v-if="jogadorExist">
+            <div class="info_jogador" v-if="jogadorExist">
               <div class="card">
                 <img :src="srcElo" alt="">
                 <p>{{ elo }}</p>
@@ -59,6 +58,23 @@
             </div>
             <div>
               <h3>highlights:</h3>
+              <div class="post_container">
+                <div class="post">
+                  <div class="post_title">
+                    <h3>Titulo</h3>
+                    <img width="32" height="32" src="https://img.icons8.com/material-sharp/FFFFFF/48/edit--v1.png" alt="edit--v1"/>
+                  </div>
+                  <div class="post_img">
+                    <img src="../../assets/img/Background_Champions.png" alt="">
+                  </div>
+                </div>
+                <div class="post">
+                  <h3>Titulo</h3>
+                  <div class="post_img">
+                    <img src="../../assets/img/Background_Champions.png" alt="">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -273,6 +289,7 @@ if(!editar.value){
     display: grid;
     grid-template-columns: 40vh 1fr;
     padding: 0px 50px 0px 50px;
+    
   }
   .info{
     display: flex;
@@ -281,6 +298,7 @@ if(!editar.value){
     transform: translateY(-16vh);
     gap: 10px;
     width: 20vw;
+    
   }
 
   .iconLarge{
@@ -401,5 +419,35 @@ if(!editar.value){
   display: flex;
   justify-content: end;
   align-items: center;
+}
+
+.post_container{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+}
+
+.post_img{
+  padding: 20px;
+  background-color: #0005;
+}
+
+.post_img img{
+  max-width: 100%;
+}
+
+.post_title{
+  display: flex;
+  align-items: center;
+}
+
+.post_title img:hover{
+ filter: brightness(0);
+}
+
+.info_jogador{
+  background-color: #0002;
+  padding: 20px;
 }
 </style>

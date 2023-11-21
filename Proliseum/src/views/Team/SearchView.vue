@@ -31,14 +31,10 @@
             <h4>FUNÇÃO</h4>
             <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
           </div>
-          <div>
-            <h4>REMUNERAÇÃO</h4>
-            <select-form default="remuneração" :list="['sim','não']" v-model="remuneracao"/>
-          </div>
           <Newcustombutton label="BUSCAR" size="0.5vw"/>
         </div>
         <div class="main_main">
-          <Newcustombutton class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
+          <Newcustombutton v-if="!isOnTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
           <Modal :open="isOpen" @close="isOpen = !isOpen">
             <div v-if="perfilExist" class="nExist">
               <div>
@@ -203,6 +199,7 @@ const perPage = ref(5)
 const page = ref(1)
 let limit = ref(0)
 const hasTeam = ref(false)
+const isOnTeam = ref(true)
 
 let loading = ref(true);
 
@@ -248,6 +245,9 @@ nextTick( async () => {
   if (!response.data.playerProfile) {
     perfilExist.value = true
   }else{
+    if(!response.data.playerProfile.time_atual){
+      isOnTeam.value = false
+    }
 
     await axiosPerfil.get('post/mypost').then(async (response) => {
       console.log(response.data);

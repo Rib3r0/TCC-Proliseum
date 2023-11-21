@@ -27,7 +27,7 @@
               <div v-if=" selectedTeam != '' " class="preview" :key="selectedTeam">
                 <div class="card_props">
                   <div class="profile">
-                    <router-link :to="'/team/' + card.dono_id">
+                    <router-link :to="'/teams/' + card.time">
                       <miniIcon class="icon" :image="getImage(card.time)" size="10vw" />
                       <p>{{ card.n }}</p>
                     </router-link>
@@ -91,6 +91,7 @@
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
             </form>
+            <peneira-view v-if=" selectedTeam != '' "/>
           </Modal>
           <template v-if="loading" >
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
@@ -156,7 +157,8 @@
   import { axiosPerfil } from '../../axios/axios.js';
   import Pagination from '../../components/Pagination.vue';
   import { createToast } from 'mosha-vue-toastify';
-  
+  import PeneiraView from './PeneiraView.vue';
+
   const id = localStorage.getItem('id');
   const isOpen= ref(false)
   const perfilExist = ref(false);
