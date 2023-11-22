@@ -53,6 +53,14 @@
 
           </div>
           <div class="main2">
+            <div class="redes_container">
+              <div class="redes_card" v-for="rede in redes" :key="rede.id">
+                <div class="redes_icon">
+                  <img :src="Elo[parseInt(rede.tipo)][1]" alt="">
+                </div>
+                <p>{{ rede.nome }}</p>
+              </div>
+            </div>
             <div class="descricao">
               <p>{{ descricao }}</p>
             </div>
@@ -90,6 +98,7 @@ import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from "../../axios/axios";
 import Rodape from '../../components/Rodape.vue'
 import { Elo } from '../../components/enum/Elo';
+import { Rede } from '../../components/enum/Rede'
 import { Funcao } from '../../components/enum/Funcao'
 import  miniIcon  from '../../components/miniIcon.vue'
 import NewCustomButton from "../../components/NewCustomButton.vue";
@@ -155,6 +164,19 @@ let srcElo = ref(Elo[parseInt(0)][1])
 let nickname = ref("")
 
 let nome_organizacao = ref("")
+
+let redes = ref([
+  {
+    id: 1,
+    tipo: 0,
+    nome: "teste"
+  },
+  {
+    id: 2,
+    tipo: 1,
+    nome: "teste2"
+  },
+])
 
 
 
@@ -350,7 +372,7 @@ if(!editar.value){
   .main2{
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
   }
 
   .plusInfo{
@@ -377,7 +399,6 @@ if(!editar.value){
     padding: 10px;
     width: 80%;
     word-break: break-all;
-    margin-top: 20px;
   }
   .edit{
     display: flex;
@@ -450,4 +471,28 @@ if(!editar.value){
   background-color: #0002;
   padding: 20px;
 }
+
+.redes_container{
+  padding-top: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.redes_card{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.redes_icon{
+  background-color: var(--red);
+  border-radius: 10px;
+  height: 6vh;
+  width: 6vh;
+  padding: 5px;
+}
+.redes_icon img{
+  height: 100%;
+}
+
 </style>
