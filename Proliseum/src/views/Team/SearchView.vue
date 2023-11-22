@@ -31,7 +31,7 @@
             <h4>FUNÇÃO</h4>
             <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
           </div>
-          <Newcustombutton label="BUSCAR" size="0.5vw"/>
+          <Newcustombutton @onClick="filter" label="BUSCAR" size="0.5vw"/>
         </div>
         <div class="main_main">
           <Newcustombutton v-if="!isOnTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
@@ -431,6 +431,19 @@ async function remove(){
       })
     })
   }
+}
+
+async function filter() {
+  loading.value = true
+  await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value, elo: elo.value, funcao: funcao.value, hora: horario.value } })
+      .then(async (response) => {
+    console.log(response.data.post)
+    cards = response.data.post
+    limit = response.data.limit
+    loading.value = false
+  }
+  )
+  
 }
 
 </script>
