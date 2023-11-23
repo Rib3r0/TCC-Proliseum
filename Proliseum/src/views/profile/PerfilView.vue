@@ -56,7 +56,7 @@
             <div class="redes_container">
               <div class="redes_card" v-for="rede in redes" :key="rede.id">
                 <div class="redes_icon">
-                  <img :src="Elo[parseInt(rede.tipo)][1]" alt="">
+                  <img :src="Rede[parseInt(rede.tipo)][1]" alt="">
                 </div>
                 <p>{{ rede.nome }}</p>
               </div>

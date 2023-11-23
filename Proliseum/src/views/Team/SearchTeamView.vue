@@ -100,8 +100,8 @@
             <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
                 <router-link class="profile" :to="'/perfil/' + card.id"> 
-                  <miniIcon class="icon" :image="getImage(card.id)" size="10vw"/>
-                  <p>{{ card.nome_time}}</p>
+                  <miniIcon class="icon" :image="getImage(card.time.id)" size="10vw"/>
+                  <p>{{ card.time.nome_time}}</p>
                 </router-link>
               </div>
               <div class="info">
@@ -240,7 +240,7 @@ nextTick( async () => {
 
     await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
       .then(async (response) => {
-    console.log(response.data.post)
+    console.log(response.data)
     cards = response.data.post
     limit = response.data.limit
     })
