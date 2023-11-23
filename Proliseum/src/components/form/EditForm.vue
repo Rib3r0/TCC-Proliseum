@@ -30,7 +30,10 @@
         <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nickname" label="NICKNAME:"/>
         <div>
           <span class="title">CAPA:</span>
-          <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
+          <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>          
+        </div>
+        <div>
+          <add-social-media/>
         </div>
 
       </div>
@@ -39,7 +42,7 @@
       <div class="submit">
         <ImageUpload id="profilePic" v-model="cadastro.foto_perfil" :image="src" />
         <span class="title">BIO:</span>
-        <textarea name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+        <textarea class="bio" name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
         <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" @onClick="leaveTeam" />
       </div>
       <div class="end">
@@ -66,6 +69,7 @@ import { axiosPerfil } from "../../axios/axios.js";
 import router from "../../router";
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
+import AddSocialMedia from "../AddSocialMedia.vue";
 
 
 const id = localStorage.getItem('id')
@@ -228,6 +232,7 @@ async function leaveTeam(){
     gap: 20px;
     padding: 50px;
     height: 63vh;
+    min-height: 650px;
     background-color: #0005;
   }
 
@@ -276,5 +281,9 @@ async function leaveTeam(){
 
   .end{
     display: flex;
+  }
+
+  .bio{
+    min-height: 150px;
   }
 </style>
