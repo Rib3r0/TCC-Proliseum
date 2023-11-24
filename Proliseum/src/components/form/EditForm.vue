@@ -33,6 +33,9 @@
           <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>          
         </div>
         <div>
+          
+        </div>
+        <div>
           <add-social-media/>
         </div>
 
@@ -189,7 +192,7 @@ async function leaveTeam(){
     padding:20px 20px 0px 20px ;
     display: grid;
     column-gap: 5%;
-    grid-template-columns: 1fr 30vw;
+    grid-template-columns: 57vw 30vw;
   }
   .title{
     font-weight: 900;
@@ -205,9 +208,9 @@ async function leaveTeam(){
 
   .cadastro{
     width: 100%;
-    height: 98vh;
+    height: fit-content;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 1fr;
     grid-auto-flow: row dense;
     gap: 20px;
     padding: 50px;

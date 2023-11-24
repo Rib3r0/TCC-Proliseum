@@ -65,19 +65,42 @@
               <p>{{ descricao }}</p>
             </div>
             <div>
-              <h3>highlights:</h3>
+              <div style=" display: flex; align-items: center; gap: 20px;">
+                <h3>highlights:</h3>
+                <Modal class="proposta" :open="addPost" @close="addPost = !addPost">
+                <form class="form" autocomplete="on">
+                  <NewInputForm label="Titulo" v-model="editPostValues.titulo"/>
+                  <span class="title">Imagem:</span>
+                  <ImageUpload id="editPostValues.titulo" :normal="true" v-model="editPostValues.image"/>
+
+                  <div class="boton">
+                    <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+                    <NewCustomButton label="SALVAR" @onClick="savarPost"  />
+                    <NewCustomButton label="APAGAR" @onClick="deletarPost"  />
+                  </div>
+                </form>
+              </Modal>
+                <new-custom-button v-if="editar" label="+" @onClick="addPost = true"/>
+              </div>
+              <Modal class="proposta" :open="isOpenEdit" @close="isOpenEdit = !isOpenEdit">
+                <form class="form" autocomplete="on">
+                  <NewInputForm label="Titulo" v-model="editPostValues.titulo"/>
+                  <span class="title">Imagem:</span>
+                  <ImageUpload id="editPostValues.titulo" :normal="true" v-model="editPostValues.image"/>
+
+                  <div class="boton">
+                    <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
+                    <NewCustomButton label="SALVAR" @onClick="savarPost"  />
+                    <NewCustomButton label="APAGAR" @onClick="deletarPost"  />
+                  </div>
+                </form>
+              </Modal>
               <div class="post_container">
-                <div class="post">
+                <div v-for=" post in posts" :key="post.id" class="post">
                   <div class="post_title">
-                    <h3>Titulo</h3>
-                    <img width="32" height="32" src="https://img.icons8.com/material-sharp/FFFFFF/48/edit--v1.png" alt="edit--v1"/>
+                    <h3>{{ post.titulo }}</h3>
+                    <img v-if="editar" width="32" height="32" src="https://img.icons8.com/material-sharp/FFFFFF/48/edit--v1.png" @click="editPost(post.id)" alt="edit--v1"/>
                   </div>
-                  <div class="post_img">
-                    <img src="../../assets/img/Background_Champions.png" alt="">
-                  </div>
-                </div>
-                <div class="post">
-                  <h3>Titulo</h3>
                   <div class="post_img">
                     <img src="../../assets/img/Background_Champions.png" alt="">
                   </div>
@@ -106,6 +129,7 @@ import NewInputForm from "../../components/form/NewInputForm.vue";
 import Modal from "../../components/popup/Modal.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import { createToast } from 'mosha-vue-toastify';
+import ImageUpload from "../../components/form/ImageUpload.vue";
 
 const isOpen = ref(false)
 let canProposta = ref(false)
@@ -116,6 +140,7 @@ let list = ref([])
 let selectedTeam = ref(0)
 let message = ref('')
 let loading = ref(false)
+let addPost = ref(false)
 
 async function proposta(){
   if(!loading.value){  
@@ -156,6 +181,7 @@ let image = ref("")
 
 let jogadorExist = ref(false)
 let orgExist = ref(false)
+let isOpenEdit = ref(false)
 
 let jogo = ref('0')
 let srcFuncao = ref(Funcao[parseInt(2)][1])
@@ -175,6 +201,17 @@ let redes = ref([
     id: 2,
     tipo: 1,
     nome: "teste2"
+  },
+])
+
+let posts = ref([
+  {
+    id: 1,
+    titulo: "a"
+  },
+  {
+    id: 2,
+    titulo: "b"
   },
 ])
 
@@ -281,6 +318,25 @@ if(!editar.value){
 
 }
 
+const editPostValues = ref({
+  titulo: "",
+  id: 0,
+  image: ""
+})
+
+
+async function editPost(id) {
+  console.log(id);
+  isOpenEdit.value = true
+}
+
+async function savarPost() {
+
+}
+
+async function deletarPost() {
+  
+}
 
 
   
@@ -452,6 +508,17 @@ if(!editar.value){
 .post_img{
   padding: 20px;
   background-color: #0005;
+}
+
+.post_img_edit{
+  padding: 20px;
+  background-color: #0005;
+  width: 50%;
+}
+
+.post_img_edit img{
+  width: 100%;
+  cursor: pointer;
 }
 
 .post_img img{

@@ -2,7 +2,7 @@
   <div class="container">
 
     <label class="upload" :for="id">
-      <div :class="capa ? 'icon2' : 'icon'">
+      <div :class="capa ? 'icon2' : normal ? 'icon3' : 'icon'">
         <img  class="iconLarge" :key="src" :src="src">
       </div>
     </label>
@@ -23,7 +23,14 @@ const props = defineProps({
   },
   image : {
     type: String
+  },
+  normal: {
+    type : Boolean
+  },
+  video: {
+    type : Boolean
   }
+
 
 })
 
@@ -32,7 +39,7 @@ let src = ref("")
 if(props.image){
   src = props.image
 }else{
-  src = props.capa ? ref('https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.') : ref("https://i.ibb.co/jVvMSHY/image-6.png")
+  src = props.capa || props.normal ? ref('https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c&_gl=1*w1vlxx*_ga*MTU2NzgyOTI1Ni4xNjk1NzI0NjYy*_ga_CW55HF8NVT*MTY5NTk5NDgzNC45LjEuMTY5NTk5NDg3OS4xNS4wLjA.') : ref("https://i.ibb.co/jVvMSHY/image-6.png")
 }
 
 const emit = defineEmits(['update:modelValue'])
@@ -79,6 +86,22 @@ function getImage(event){
     display: grid;
     place-items: center;
     height: 31%;
+    width: 100%;
+    background-color: #0005;
+    position: absolute;
+  }
+
+  .icon3{
+    clip-path: inset(0% 0 0% 0);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .icon3:hover::after{
+    content: url(https://img.icons8.com/sf-black/64/FFFFFF/edit-image.png);
+    display: grid;
+    place-items: center;
+    height: 50%;
     width: 100%;
     background-color: #0005;
     position: absolute;
