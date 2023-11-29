@@ -99,7 +99,7 @@
           <template v-else>
             <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
-                <router-link class="profile" :to="'/perfil/' + card.id"> 
+                <router-link class="profile" :to="'/teams/' + card.time.id"> 
                   <miniIcon class="icon" :image="getImage(card.time.id)" size="10vw"/>
                   <p>{{ card.time.nome_time}}</p>
                 </router-link>

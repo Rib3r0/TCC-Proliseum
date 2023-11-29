@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="display: flex; gap: 20px;">
-      <select-form default="selcione" :list="Rede.map( (x) => { return x[0]})" v-model="redToAdd.tipo"/>
+      <select-form default="selecione"  :list="Rede.map( (x) => { return x[0]})" v-model="redToAdd.tipo"/>
       <new-input-form v-model="redToAdd.nome"/>
       <new-custom-button label="ADICIONAR" @onClick="addRede"/>
     </div>

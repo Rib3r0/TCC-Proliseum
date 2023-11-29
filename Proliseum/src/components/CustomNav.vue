@@ -40,6 +40,7 @@ import SidebarLink from './SidebarLink.vue';
 import { createToast } from 'mosha-vue-toastify';
 import { sidebarWidth, collapsed, toggleSidebar } from './state';
 import Notifications from './Notifications.vue';
+import { axiosPerfil } from '../axios/axios';
 
 let src = ref("https://i.ibb.co/jVvMSHY/image-6.png");
 let nome = ref("");

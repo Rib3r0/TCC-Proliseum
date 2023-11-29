@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <span>{{ label }}</span>
-        <select @input="$emit('update:modelValue', $event.target.value)" :name="props.name" id="props.name" required>
+        <select @input="$emit('update:modelValue', $event.target.value)" :name="props.name" id="props.name">
             <option value="">{{ props.default }}</option>
             <option v-for="item in props.list" :selected="props.selected == item" :key="item" :value="props.list.indexOf(item)">{{ item }}</option>
         </select>

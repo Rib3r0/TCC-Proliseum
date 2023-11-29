@@ -15,41 +15,41 @@
       </template>
       <template v-else>
         <h3>VAGAS:</h3>
-        <div class="card_props" v-for="card in cards" :key="card.id">
-          <div class="profile">
-            <miniIcon class="icon" :image="getImage(card.dono_id.id)" size="10vw"/>
-            <p>{{ card.name }}</p>
-          </div>
-          <div class="info">
-            <div class="description"><p>{{ card.description }}</p></div>
-            <div class="info_main">
-              <div class="info_card">
-                <h3>ELO</h3>
-                <img :src="Elo[parseInt(card.elo)][1]" alt="">
-                <p>{{ Elo[parseInt(card.elo)][0] }}</p>
+            <div class="card_props" v-for="card in cards" :key="card.id">
+              <div class="profile">
+                <router-link class="profile" :to="'/teams/' + card.time.id"> 
+                  <miniIcon class="icon" :image="getImage(card.time.id)" size="10vw"/>
+                  <p>{{ card.time.nome_time}}</p>
+                </router-link>
               </div>
-              <div class="info_card">
-                <h3>FUNÇÃO</h3>
-                <img :src="Funcao[parseInt(card.funcao)][1]" alt="">
-                <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
-              </div>
-              <div class="info_card">
-                <h3>HORARIO</h3>
-                <h4>{{ card.hora }}</h4>
-              </div>
-              <div class="info_card">
-                <h3>PROS</h3>
-                <p>{{ card.pros }}</p>
-              </div>
+              <div class="info">
+                <div class="description"><p>{{ card.descricao }}</p></div>
+                <div class="info_main">
+                  <div class="info_card">
+                    <h3>ELO</h3>
+                    <img :src="Elo[parseInt(card.elo)][1]" alt="">
+                    <p>{{ Elo[parseInt(card.elo)][0] }}</p>
+                  </div>
+                  <div class="info_card">
+                    <h3>FUNÇÃO</h3>
+                    <img :src="Funcao[parseInt(card.funcao)][1]" alt="">
+                    <p>{{ Funcao[parseInt(card.funcao)][0] }}</p>
+                  </div>
+                  <div class="info_card">
+                    <h3>HORARIO</h3>
+                    <h4>{{ card.hora }}</h4>
+                  </div>
+                  <div class="info_card">
+                    <h3>PROS</h3>
+                    <p>{{ card.pros }}</p>
+                  </div>
 
+                </div>
+                <div class="info_buttons">
+                  <Newcustombutton label="INSCREVER-SE" @onClick="toProposta(card.dono_id.id)"/>
+                </div>
+              </div>
             </div>
-            <div class="info_buttons">
-              <RouterLink :to="'/search/send/' + card.id_dono">
-                <Newcustombutton label="ENVIAR PROPOSTA"/>
-              </RouterLink>
-            </div>
-          </div>
-        </div>
       </template>
 
     </div>
@@ -110,7 +110,7 @@ const getImage = async (id) =>{
   
   let image
   
-  await getDownloadURL(refFB(storage, id + '/profile')).then(
+  await getDownloadURL(refFB(storage,'team/' + id + '/profile')).then(
     (download_url) => ( image = download_url)
     ).catch( (erro) => {
       image =  "https://i.ibb.co/jVvMSHY/image-6.png"
@@ -123,7 +123,7 @@ const getImage = async (id) =>{
 
 nextTick( async () => {
   
-    await axiosPerfil.get('post/0',{ params: { perPage: 3 , page: 1 } })
+    await axiosPerfil.get('post/1',{ params: { perPage: 3 , page: 1 } })
   .then(async (response) => {
     console.log(response.data.post)
     cards = response.data.post
