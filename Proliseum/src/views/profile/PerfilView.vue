@@ -75,22 +75,22 @@
 
                   <div class="boton">
                     <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
-                    <NewCustomButton label="SALVAR" @onClick="savarPost"  />
-                    <NewCustomButton label="APAGAR" @onClick="deletarPost"  />
+                    <new-custom-button label="SALVAR" @onClick="salvarPost"/>
+                    <new-custom-button label="APAGAR" @onClick="deletarPost"/>
                   </div>
                 </form>
               </Modal>
-                <new-custom-button v-if="editar" label="+" @onClick="addPost = true"/>
+                <new-custom-button v-if="editar" label="+" @onClick="newPost"/>
               </div>
               <Modal class="proposta" :open="isOpenEdit" @close="isOpenEdit = !isOpenEdit">
                 <form class="form" autocomplete="on">
                   <NewInputForm label="Titulo" v-model="editPostValues.titulo"/>
                   <span class="title">Imagem:</span>
-                  <ImageUpload id="editPostValues.titulo" :normal="true" v-model="editPostValues.image"/>
+                  <ImageUpload :key="editPostValues.image" id="editPostValues.titulo" :normal="true" :image="editPostValues.image" v-model="editPostValues.image"/>
 
                   <div class="boton">
                     <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
-                    <NewCustomButton label="SALVAR" @onClick="savarPost"  />
+                    <NewCustomButton label="SALVAR" @onClick="editPost(editPost.id)"  />
                     <NewCustomButton label="APAGAR" @onClick="deletarPost"  />
                   </div>
                 </form>
@@ -99,10 +99,10 @@
                 <div v-for=" post in posts" :key="post.id" class="post">
                   <div class="post_title">
                     <h3>{{ post.titulo }}</h3>
-                    <img v-if="editar" width="32" height="32" src="https://img.icons8.com/material-sharp/FFFFFF/48/edit--v1.png" @click="editPost(post.id)" alt="edit--v1"/>
+                    <img v-if="editar" width="32" height="32" src="https://img.icons8.com/material-sharp/FFFFFF/48/edit--v1.png" @click="editPost(post)" alt="edit--v1"/>
                   </div>
                   <div class="post_img">
-                    <img src="../../assets/img/Background_Champions.png" alt="">
+                    <post-image :image="getImage(post.id)" size="100%" alt=""/>
                   </div>
                 </div>
               </div>
@@ -114,10 +114,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import router from "../../router";
 import storage from '../../firebase/firebase.js'
-import { ref as refFB , getDownloadURL } from 'firebase/storage'
+import { ref as refFB , getDownloadURL, uploadBytes } from 'firebase/storage'
 import { axiosPerfil } from "../../axios/axios";
 import Rodape from '../../components/Rodape.vue'
 import { Elo } from '../../components/enum/Elo';
@@ -130,6 +130,7 @@ import Modal from "../../components/popup/Modal.vue";
 import SelectForm from "../../components/form/SelectForm.vue";
 import { createToast } from 'mosha-vue-toastify';
 import ImageUpload from "../../components/form/ImageUpload.vue";
+import postImage from "../../components/postImage.vue"
 
 const isOpen = ref(false)
 let canProposta = ref(false)
@@ -145,8 +146,6 @@ let addPost = ref(false)
 async function proposta(){
   if(!loading.value){  
     loading.value = true
-    console.log(list[selectedTeam.value]);
-    console.log(message.value);
     await axiosPerfil.post('offer/' + list[selectedTeam.value].id +'/'+ id, JSON.stringify({ menssage: message.value }))
     .then( (response) => {
       loading.value = false
@@ -156,7 +155,6 @@ async function proposta(){
         showIcon : true,
         position : "top-center"
       })
-      console.log(response.data);
     }).catch((erro) => {
       console.log(erro);
       const message = 'Não foi possivel enviar a proposta!'
@@ -167,6 +165,20 @@ async function proposta(){
         position : "top-center"
       })
     })}
+}
+
+async function getImage(id){
+  
+  let image = ""
+  
+  
+  await getDownloadURL(refFB(storage, 'post/'+id)).then(
+    (download_url) => ( image = download_url)
+    ).catch( (erro) => {
+      image =  "https://firebasestorage.googleapis.com/v0/b/proliseum-f06a1.appspot.com/o/Rectangle%2048.png?alt=media&token=ad4d5cb4-c92b-4414-8c2a-615d6deb4e8c"
+    })
+    
+    return image
 }
 
 
@@ -222,9 +234,12 @@ if(localStorage.getItem('id') == id){
 }
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
+  
   const profile = response.data.user
 
+
   redes.value = profile.redeSocial
+  posts.value = profile.highlights
 
   if(response.data.playerProfile){
     if(response.data.playerProfile.time_atual){
@@ -320,25 +335,63 @@ if(!editar.value){
 
 }
 
-const editPostValues = ref({
+let editPostValues = ref({
   titulo: "",
   id: 0,
   image: ""
 })
 
+async function newPost() {
+    editPostValues.value = {
+    titulo: "",
+    image: ""
+  }
 
-async function editPost(id) {
-  console.log(id);
-  isOpenEdit.value = true
+  addPost.value = true
 }
 
-async function savarPost() {
+
+async function editPost(post) {
+  console.log(post);
+  isOpenEdit.value = true
+  editPostValues.value.titulo = post.titulo
+
+  await getDownloadURL(refFB(storage,'post/'+post.id)).then(
+  (download_url) => (  editPostValues.value.image = download_url)
+  ).catch( (erro) => {
+    editPostValues.value.image = ""
+  })
+  console.log(editPostValues.value);
+
+}
+
+async function salvarPost() {
+
+  await axiosPerfil.post('highlight',{ titulo: editPostValues.value.titulo })
+  .then( (response) => {
+
+    const storageRefProfile = refFB(storage, 'post/'+ response.data.id)
+    if(editPostValues.value.image != ''){
+      uploadBytes(storageRefProfile, editPostValues.value.image)
+    }
+    createToast('Highlight adicionado!',{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+
+  })
 
 }
 
 async function deletarPost() {
   
 }
+
+
+watch(isOpenEdit, async () => {
+  editPostValues
+})
 
 
   
@@ -510,6 +563,7 @@ async function deletarPost() {
 .post_img{
   padding: 20px;
   background-color: #0005;
+  max-width: 50vw;
 }
 
 .post_img_edit{
@@ -523,7 +577,7 @@ async function deletarPost() {
   cursor: pointer;
 }
 
-.post_img img{
+.post_img_img{
   max-width: 100%;
 }
 

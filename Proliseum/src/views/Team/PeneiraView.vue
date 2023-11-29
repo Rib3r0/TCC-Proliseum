@@ -60,6 +60,7 @@ import { createToast } from 'mosha-vue-toastify';
 
 const id = localStorage.getItem('id');
 const loading = ref(true)
+
 const getImage = async (id) =>{
   
   let image
@@ -71,9 +72,7 @@ const getImage = async (id) =>{
     })
     
     return image
-    
-    
-  }
+}
 
 let cards = ref([
   {
