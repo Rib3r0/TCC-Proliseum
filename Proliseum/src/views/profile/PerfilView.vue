@@ -58,7 +58,7 @@
                 <div class="redes_icon">
                   <img :src="Rede[parseInt(rede.tipo)][1]" alt="">
                 </div>
-                <p>{{ rede.nome }}</p>
+                <p>{{ rede.link }}</p>
               </div>
             </div>
             <div class="descricao">
@@ -223,6 +223,8 @@ if(localStorage.getItem('id') == id){
 await axiosPerfil.get('profile/' + id )
 .then( (response) => {
   const profile = response.data.user
+
+  redes.value = profile.redeSocial
 
   if(response.data.playerProfile){
     if(response.data.playerProfile.time_atual){

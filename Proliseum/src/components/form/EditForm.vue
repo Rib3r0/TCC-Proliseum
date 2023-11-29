@@ -36,7 +36,7 @@
           
         </div>
         <div>
-          <add-social-media/>
+          <add-social-media :list="cadastroAtual.redeSocial"/>
         </div>
 
       </div>
