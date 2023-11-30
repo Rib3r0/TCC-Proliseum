@@ -71,12 +71,11 @@
                 <form class="form" autocomplete="on">
                   <NewInputForm label="Titulo" v-model="editPostValues.titulo"/>
                   <span class="title">Imagem:</span>
-                  <ImageUpload id="editPostValues.titulo" :normal="true" v-model="editPostValues.image"/>
+                  <ImageUpload :key="editPostValues" id="add" :normal="true" v-model="editPostValues.image"/>
 
                   <div class="boton">
                     <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
                     <new-custom-button label="SALVAR" @onClick="salvarPost"/>
-                    <new-custom-button label="APAGAR" @onClick="deletarPost"/>
                   </div>
                 </form>
               </Modal>
@@ -86,23 +85,23 @@
                 <form class="form" autocomplete="on">
                   <NewInputForm label="Titulo" v-model="editPostValues.titulo"/>
                   <span class="title">Imagem:</span>
-                  <ImageUpload :key="editPostValues.image" id="editPostValues.titulo" :normal="true" :image="editPostValues.image" v-model="editPostValues.image"/>
+                  <ImageUpload :key="editPostValues.titulo" id="edit" :normal="true" :image="srcPost" v-model="editPostValues.image"/>
 
                   <div class="boton">
                     <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
-                    <NewCustomButton label="SALVAR" @onClick="editPost(editPost.id)"  />
+                    <NewCustomButton label="SALVAR" @onClick="saveEditPost(editPostValues.id)"  />
                     <NewCustomButton label="APAGAR" @onClick="deletarPost"  />
                   </div>
                 </form>
               </Modal>
-              <div class="post_container">
+              <div v-if="!loading" :key="redes.value" class="post_container">
                 <div v-for=" post in posts" :key="post.id" class="post">
                   <div class="post_title">
                     <h3>{{ post.titulo }}</h3>
                     <img v-if="editar" width="32" height="32" src="https://img.icons8.com/material-sharp/FFFFFF/48/edit--v1.png" @click="editPost(post)" alt="edit--v1"/>
                   </div>
                   <div class="post_img">
-                    <post-image :image="getImage(post.id)" size="100%" alt=""/>
+                    <post-image :key="redes.value" :image="getImage(post.id)" size="100%" alt=""/>
                   </div>
                 </div>
               </div>
@@ -142,6 +141,8 @@ let selectedTeam = ref(0)
 let message = ref('')
 let loading = ref(false)
 let addPost = ref(false)
+let srcPost = ref('')
+
 
 async function proposta(){
   if(!loading.value){  
@@ -346,6 +347,7 @@ async function newPost() {
     titulo: "",
     image: ""
   }
+  console.log(editPostValues.value);
 
   addPost.value = true
 }
@@ -354,21 +356,62 @@ async function newPost() {
 async function editPost(post) {
   console.log(post);
   isOpenEdit.value = true
-  editPostValues.value.titulo = post.titulo
-
   await getDownloadURL(refFB(storage,'post/'+post.id)).then(
-  (download_url) => (  editPostValues.value.image = download_url)
+  (download_url) => {  
+    editPostValues.value.image = download_url
+    srcPost.value = download_url
+  }
   ).catch( (erro) => {
     editPostValues.value.image = ""
+    srcPost.value = ""
   })
+  editPostValues.value.titulo = post.titulo
+  editPostValues.value.id = post.id
   console.log(editPostValues.value);
+}
+
+async function saveEditPost(id2) {
+  loading.value = true
+  await axiosPerfil.put('highlight/'+id2,{ titulo: editPostValues.value.titulo })
+  .then( async (response) => {
+
+    const storageRefProfile = refFB(storage, 'post/'+ id2)
+    if(editPostValues.value.image != ''){
+      console.log("oi");
+      uploadBytes(storageRefProfile, editPostValues.value.image)
+    }
+    createToast('Highlight atualizado!',{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+
+    await axiosPerfil.get('profile/' + id )
+    .then( (response) => {
+      const profile = response.data.user
+      posts.value = profile.highlights
+      
+    })
+
+    loading.value = false
+    isOpenEdit.value = !isOpenEdit.value
+
+  })
 
 }
+
+
+
+
+
+
+
+
 
 async function salvarPost() {
 
   await axiosPerfil.post('highlight',{ titulo: editPostValues.value.titulo })
-  .then( (response) => {
+  .then( async (response) => {
 
     const storageRefProfile = refFB(storage, 'post/'+ response.data.id)
     if(editPostValues.value.image != ''){
@@ -380,17 +423,57 @@ async function salvarPost() {
       position : "top-center"
     })
 
+    await axiosPerfil.get('profile/' + id )
+    .then( (response) => {
+      const profile = response.data.user
+      redes.value = profile.redeSocial
+      posts.value = profile.highlights
+      
+    })
+
+
+    addPost.value = !addPost.value
+
   })
 
 }
 
-async function deletarPost() {
+async function deletarPost(id2) {
+
+  console.log(editPostValues.value);
+
+  await axiosPerfil.delete('highlight/'+editPostValues.value.id,{ titulo: editPostValues.value.titulo })
+  .then( async (response) => {
+
+    const storageRefProfile = refFB(storage, 'post/'+ response.data.id)
+    if(editPostValues.value.image != ''){
+      uploadBytes(storageRefProfile, editPostValues.value.image)
+    }
+    createToast('Highlight retirado!',{
+      type : 'success',
+      showIcon : true,
+      position : "top-center"
+    })
+
+    await axiosPerfil.get('profile/' + id )
+    .then( (response) => {
+      const profile = response.data.user
+      posts.value = profile.highlights
+      
+    })
+
+
+    isOpenEdit.value = false
+
+
+  })
+
   
 }
 
 
 watch(isOpenEdit, async () => {
-  editPostValues
+
 })
 
 
