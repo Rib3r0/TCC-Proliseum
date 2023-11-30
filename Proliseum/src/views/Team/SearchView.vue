@@ -101,7 +101,7 @@
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
               <br>
-              <requests-view v-if="!perfilExist"/>
+              <requests-view :key="isOpen" v-if="!perfilExist"/>
             </form>
           </Modal>
           <template v-if="loading" >
@@ -317,7 +317,7 @@ async function handleSubmit () {
             card.value.elo = "0"
           }
             await axiosPerfil.post('post', JSON.stringify(card.value))
-                .then( (response) => {
+                .then( async (response) => {
                   console.log(card.value);
                 loading.value = false
                 const message = 'Post Criado!'
@@ -326,6 +326,17 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
+                loading.value = true
+
+                await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+                  .then(async (response) => {
+                console.log(response.data.post)
+                cards = response.data.post
+                limit = response.data.limit
+                loading.value = false
+                })
+                
             })
             .catch( (error) => {
                 loading.value = false
@@ -355,6 +366,7 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
             })
             .catch( (error) => {
                 loading.value = false
@@ -429,6 +441,19 @@ async function remove(){
         showIcon : true,
         position : "top-center"
       })
+
+      isOpen.value = !isOpen.value
+      loading.value = true
+
+      await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+        .then(async (response) => {
+          console.log(response.data.post)
+          cards = response.data.post
+          limit = response.data.limit
+          loading.value = false
+        })
+
+
     })
   }
 }

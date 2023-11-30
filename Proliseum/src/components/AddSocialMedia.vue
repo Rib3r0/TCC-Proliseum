@@ -53,15 +53,17 @@ async function addRede(){
       position : "top-center"
     })
 
-  })
-
-  redes.value.push(
+    redes.value.push(
     {
       id: response.data.id,
       tipo: redToAdd.value.tipo,
       link: redToAdd.value.link
     }
   )
+
+  })
+
+
 }
 
 async function removeRede(id){

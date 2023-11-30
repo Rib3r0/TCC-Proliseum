@@ -22,16 +22,16 @@
             </div>
           <div v-else class="card_props" v-for="card in cards" :key="card.id">
             <div class="info">
-              <RouterLink :to="'/perfil/' + card.id">
+              <RouterLink :to="'/perfil/' + card.perfil_id.id">
                 <div class="profile">
-                  <miniIcon class="icon" :image="getImage(card.id)" size="10vw" />
+                  <miniIcon class="icon" :image="getImage(card.perfil_id.id)" size="10vw" />
                   <p>{{ card.nickname }}</p>
                 </div>
               </RouterLink>
               <div class="info_buttons">
-                <Newcustombutton label="ACEITAR" @onClick="accept(card.de.id)" />
+                <Newcustombutton label="ACEITAR" @onClick="accept(card.perfil_id.id)" />
                 
-                <Newcustombutton label="RECUSAR" @onClick="reject(card.de.id)" />
+                <Newcustombutton label="RECUSAR" @onClick="reject(card.perfil_id.id)" />
               </div>
             </div>
           </div>
@@ -54,6 +54,15 @@ import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from '../../axios/axios';
 import { createToast } from 'mosha-vue-toastify';
+import router from '../../router';
+
+
+const props = defineProps({
+  team: {
+    type : Number,
+    required: true
+  }
+})
 
 
 
@@ -74,71 +83,38 @@ const getImage = async (id) =>{
     return image
 }
 
-let cards = ref([
-  {
-    id: "1",
-    nickname: "aaaaa",
-  },
-  {
-    id: "2",
-    nickname: "bbbbb",
-  },
-  {
-    id: "1",
-    nickname: "aaaaa",
-  },
-  {
-    id: "2",
-    nickname: "bbbbb",
-  },
-  {
-    id: "1",
-    nickname: "aaaaa",
-  },
-  {
-    id: "2",
-    nickname: "bbbbb",
-  },
-  {
-    id: "1",
-    nickname: "aaaaa",
-  },
-  {
-    id: "2",
-    nickname: "bbbbb",
-  },
-]);
+let cards = ref([]);
 
 nextTick( async () => {
-  // await axiosPerfil.get('offer')
-  // .then( (response) => {
-  //   console.log(response.data.propostas);
-  //   cards.value = response.data.propostas
-  //   loading.value = false
-  // }).catch( () => {
-  //   loading.value = false
-  // })
+  await axiosPerfil.get('sieve/' + props.team)
+  .then( (response) => {
+    console.log(response.data);
+    if(response.data.acepted[0]){
+      cards.value = response.data.acepted[0].jogadores
+    }
+    loading.value = false
+  }).catch( () => {
+    loading.value = false
+  })
   loading.value = false
 })
 
 
-async function accept (id2)  {
+async function accept (id2){
   if(!loading.value){ 
       loading.value = true
-      console.log(cards);
-      let result = cards.value.filter( (x) => x.id != id2)
-      cards = result
-
       await axiosPerfil.delete('offer/' + id2 + '/1')
       .then( (response) => {
         console.log(response.data);
         loading.value = false 
-        const message = 'Proposta Aceita!'
+        const message = 'Jogador Aceito!'
           createToast(message,{
             type : 'success',
             showIcon : true,
             position : "top-center"
           })
+          const index = cards.value.findIndex( x => id2 == x.id)
+          cards.value.splice(index,1)
       }).catch( (erro) => {
         loading.value = false
         console.log(erro);
@@ -154,17 +130,18 @@ async function accept (id2)  {
 async function reject(id2){
   if(!loading.value){ 
       loading.value = true 
-      console.log(cards.value);
-      let result = cards.value.filter( (x) => x.id != id2)
-      cards.value = result
+
       await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
         loading.value = false 
-        const message = 'Proposta Recusada!'
+        const message = 'Jogador Recusado!'
           createToast(message,{
             showIcon : true,
             position : "top-center"
           })
+
+          const index = cards.value.findIndex( x => id2 == x.id)
+          cards.value.splice(index,1)
        
       }).catch( () => {
         loading = false

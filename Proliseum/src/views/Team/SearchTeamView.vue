@@ -57,7 +57,7 @@
                       </div>
                     </div>
                     <div class="info_buttons">
-                      <Newcustombutton label="ENVIAR PROPOSTA" />
+                      <Newcustombutton label="INSCREVER-SE" />
                     </div>
                   </div>
                 </div>
@@ -87,11 +87,11 @@
               </div>
               <div class="button_div">
                 <Newcustombutton type="submit" label="SALVAR" />
-                <Newcustombutton @onClick="remove" label="RETIRAR" />
+                <Newcustombutton @onClick="remove(card.time)" label="RETIRAR" />
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
             </form>
-            <peneira-view v-if=" selectedTeam != '' "/>
+            <peneira-view :key="card.id" :team="card.id" v-if=" selectedTeam != '' "/>
           </Modal>
           <template v-if="loading" >
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
@@ -128,7 +128,7 @@
 
                 </div>
                 <div class="info_buttons">
-                  <Newcustombutton label="INSCREVER-SE" @onClick="toProposta(card.dono_id.id)"/>
+                  <Newcustombutton v-if="jogador" label="INSCREVER-SE" @onClick="subscribe(card.time.id)"/>
                 </div>
               </div>
             </div>
@@ -160,6 +160,7 @@
   import PeneiraView from './PeneiraView.vue';
 
   const id = localStorage.getItem('id');
+  let jogador = ref(false)
   const isOpen= ref(false)
   const perfilExist = ref(false);
   const elo = ref('')
@@ -174,31 +175,9 @@
   const hasTeam = ref(false)
   const editPost = ref(false)
   
-  let cards = ref([
-    {
-      id: 14,
-      id_dono: '7',
-      name: "a",
-      description: "a",
-      elo: "0",
-      funcao: "0",
-      horario: "20:00 - 23:00",
-      pros: "['1','2','3','4']"
-    },
-    {
-      id: 2,
-      name: "b",
-      id_dono: '10',
-      description: "b",
-      elo: "1",
-      funcao: "1",
-      horario: "19:00 - 23:30",
-      pros: "['a','b','c','d']"
-    },
+  let cards = ref([])
   
-  ])
-  
-  const getImage = async (id) =>{
+const getImage = async (id) =>{
     
     let image
     
@@ -211,25 +190,42 @@
       return image
       
       
-    }
+}
   
   
-    let card = ref({
-    time: 0,
+let card = ref({
+    id: 0,
     jogo: '0',
     elo: '0',
     descricao: '',
     funcao: '0',
     hora: '00:00',
     pros: '',
-    tipo: true
+    tipo: true,
+    time: 0
   });
+
+watch(page, async() => {
+  loading.value = true
+  await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } }).then( (response) => {
+    cards = response.data.post
+    loading.value = false
+})
+} )
+
   
   
   
 nextTick( async () => {
     await axiosPerfil.get('profile/' + id).then(async (response) => {
       console.log(response.data);
+      if(response.data.playerProfile){
+        if(!response.data.playerProfile.time_atual){
+          jogador.value = true
+        }
+        
+      }
+      
     });
     await axiosPerfil.get('/team/user/' + id).then(async (response) => {
       list.value = response.data.teams
@@ -251,10 +247,11 @@ nextTick( async () => {
   
 
   
-async function remove(){
+async function remove(id){
   if(!loading.value){
     loading.value = true
-    await axiosPerfil.delete('post').then(async (response) => {
+    console.log(id);
+    await axiosPerfil.delete('post/'+id).then(async (response) => {
       const message = 'postagem retidada!'
       loading.value = false
       createToast(message,{
@@ -262,7 +259,24 @@ async function remove(){
         showIcon : true,
         position : "top-center"
       })
+
+      isOpen.value = !isOpen.value
+      loading.value = true
+
+      await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
+        .then(async (response) => {
+        console.log(response.data.post)
+        cards = response.data.post
+        limit = response.data.limit
+        loading.value = false
+      })
+
+
+    }).catch( (error) => {
+      console.log(error);
+      loading.value = false
     })
+    loading.value = false
   }
 }
   
@@ -270,6 +284,35 @@ watch(selectedTeam, async() => {
   console.log(list.value[selectedTeam.value]);
   card.value.name = list.value[selectedTeam.value].nome_time
   card.value.time= list.value[selectedTeam.value].id
+
+  await axiosPerfil.get('post/time/'+ card.value.time)
+      .then(async (response) => {
+        if(response.data.postProfile){
+          let time = card.value.time
+          card.value = response.data.postProfile
+          card.value.time = time
+          console.log(card.value);
+          editPost.value = true
+        }else{
+          card.value = {
+              time: list.value[selectedTeam.value].id,
+              id: 0,
+              jogo: '0',
+              elo: '0',
+              descricao: '',
+              funcao: '0',
+              hora: '00:00',
+              pros: '',
+              tipo: true
+            }
+          console.log(card.value);
+            editPost.value = false
+        }
+        console.log(response.data.postProfile);
+        
+    }
+  )
+
 } )
   
 
@@ -279,7 +322,7 @@ async function handleSubmit () {
         console.log(card.value);
         if(!editPost.value){
             await axiosPerfil.post('post', JSON.stringify(card.value))
-                .then( (response) => {
+                .then( async (response) => {
                   console.log(card.value);
                 loading.value = false
                 const message = 'Post Criado!'
@@ -288,6 +331,17 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
+                loading.value = true
+
+                await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
+                  .then(async (response) => {
+                  console.log(response.data.post)
+                  cards = response.data.post
+                  limit = response.data.limit
+                  loading.value = false
+                })
+
             })
             .catch( (error) => {
                 loading.value = false
@@ -301,15 +355,27 @@ async function handleSubmit () {
                 )
         }else{
             await axiosPerfil.put('post', JSON.stringify(card.value))
-            .then( (response) => {
+            .then( async (response) => {
                 loading.value = false
                 console.log(card.value);
                 const message = 'Post Atualizado!'
+                console.log(response);
                 createToast(message,{
                 type : 'success',
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
+                loading.value = true
+
+                await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
+                  .then(async (response) => {
+                console.log(response.data.post)
+                cards = response.data.post
+                limit = response.data.limit
+                loading.value = false
+                })
+
             })
             .catch( (error) => {
                 loading.value = false
@@ -341,6 +407,31 @@ async function filter() {
   }
   )
   
+}
+
+
+async function subscribe(idTime){
+
+  await axiosPerfil.put('sieve/'+ idTime)
+      .then(async (response) => {
+        console.log(response.data);
+        createToast('Você foi inscrito!',{
+          type : "success",
+          showIcon : true,
+          position : "top-center"
+        })
+      })
+      .catch( (error) => {
+        console.log(error);
+        createToast(error.response.data.error,{
+          type : "warning",
+          showIcon : true,
+          position : "top-center"
+        })
+
+      })
+
+
 }
 
   

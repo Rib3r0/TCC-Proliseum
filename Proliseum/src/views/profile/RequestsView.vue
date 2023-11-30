@@ -55,6 +55,7 @@ import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from '../../axios/axios';
 import { createToast } from 'mosha-vue-toastify';
+import router from '../../router';
 
 
 
@@ -93,9 +94,6 @@ nextTick( async () => {
 async function accept (id2)  {
   if(!loading.value){ 
       loading.value = true
-      console.log(cards);
-      let result = cards.value.filter( (x) => x.id != id2)
-      cards = result
 
       await axiosPerfil.delete('offer/' + id2 + '/1')
       .then( (response) => {
@@ -107,6 +105,9 @@ async function accept (id2)  {
             showIcon : true,
             position : "top-center"
           })
+          const index = cards.value.findIndex( x => id2 == x.id)
+          cards.value.splice(index,1)
+          router.push('/teams/'+ id2)
       }).catch( (erro) => {
         loading.value = false
         console.log(erro);
@@ -122,18 +123,18 @@ async function accept (id2)  {
 async function reject(id2){
   if(!loading.value){ 
       loading.value = true 
-      console.log(cards.value);
-      let result = cards.value.filter( (x) => x.id != id2)
-      cards.value = result
+
+
       await axiosPerfil.delete('offer/' + id2 + '/0')
       .then( (response) => {
         loading.value = false 
-        const message = 'Proposta Recusada!'
+        const message = 'Proposta Recusada'
           createToast(message,{
             showIcon : true,
             position : "top-center"
           })
-       
+          const index = cards.value.findIndex( x => id2 == x.id)
+          cards.value.splice(index,1)
       }).catch( () => {
         loading = false
         const message = 'Erro!'
