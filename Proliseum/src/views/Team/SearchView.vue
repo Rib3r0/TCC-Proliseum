@@ -19,19 +19,25 @@
       </div>
       <div class="main">
         <div class="main_header">
-          <div>
-            <h4>ELO MINIMO</h4>
-            <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+          <div class="main_header">
+            <div>
+              <h4>ELO MINIMO</h4>
+              <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+            </div>
+            <div>
+              <h4>DISPONIBILIDADE A PARTIR</h4>
+              <NewInputForm  type="time" v-model="horario"/>
+            </div>
+            <div>
+              <h4>FUNÇÃO</h4>
+              <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
+            </div>
           </div>
-          <div>
-            <h4>DISPONIBILIDADE A PARTIR</h4>
-            <NewInputForm  type="time" v-model="horario"/>
-          </div>
-          <div>
-            <h4>FUNÇÃO</h4>
-            <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
-          </div>
-          <Newcustombutton @onClick="filter" label="BUSCAR" size="0.5vw"/>
+
+          <Newcustombutton @onClick="filter" label="BUSCAR" size="1vw"/>
+        </div>
+        <div class="aviso" v-if="perfilExist">
+          <p>PARA CRIAR UM ANUNCIO É NECESSARIO UM PERFIL DE JOGADOR, CRIE <router-link to="/edit">AQUI</router-link></p>
         </div>
         <div class="main_main">
           <Newcustombutton v-if="!isOnTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
@@ -496,8 +502,9 @@ async function filter() {
 .main_header{
   display: flex;
   gap: 20px;
-  padding: 20px;
-  max-width: 50%;
+  padding: 10px;
+  max-width: 100%;
+  align-items: center;
 }
 
 
@@ -558,5 +565,13 @@ async function filter() {
 .new{
   padding: 20px;
 }
+
+.aviso{
+    display: flex;
+    justify-content: center;
+    background-color: #FFF1;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
 
 </style>

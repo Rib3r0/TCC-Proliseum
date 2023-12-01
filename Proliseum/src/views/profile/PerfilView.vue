@@ -17,9 +17,6 @@
             <NewCustomButton label="ENVIAR PROPOSTA" @onClick="isOpen = true"/>
           </div>
           <div v-if="editar" class="edit">
-            <router-link to="/search/post" >
-              <NewCustomButton label="MINHA POSTAGEM"/>
-            </router-link>
             <router-link to="/perfil/editar" >
               <NewCustomButton class="editar" label="EDITAR PERFIL"></NewCustomButton>
             </router-link>
@@ -504,7 +501,7 @@ watch(isOpenEdit, async () => {
   .main{
     display: grid;
     grid-template-columns: 40vh 1fr;
-    padding: 0px 50px 0px 50px;
+    padding: 0px 0px 0px 50px;
     
   }
   .info{
@@ -567,6 +564,8 @@ watch(isOpenEdit, async () => {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    background-color: rgba(46, 44, 75, 0.58);
+    padding: 20px;
   }
 
   .plusInfo{
@@ -597,7 +596,6 @@ watch(isOpenEdit, async () => {
   .edit{
     display: flex;
     align-items: center;
-    background: #0008;
     margin: 0px 30px 10px 0px;
     padding: 0px 5px 0px 5px;
     gap: 20px;

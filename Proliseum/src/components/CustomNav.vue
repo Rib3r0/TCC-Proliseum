@@ -2,24 +2,25 @@
   <div class="sidebar" :style="{ width: sidebarWidth}" :class="{ 'shadow' : !collapsed } ">
     <div>
       <div class="profile">
-        <router-link @click="toggleSidebar" :to="'/perfil/' + id">
+        <router-link class="profile2" @click="toggleSidebar" :to="'/perfil/' + id">
           <div class="icon">
             <img v-if="!collapsed" class="iconLarge" :key="src" :src="src">
           </div>
-        </router-link>
-        <div class="name">
+          <div class="name">
           <p v-if="!collapsed">{{ nome }}</p>
           <router-link v-if="!collapsed" to="/notifications">
             <Notifications />
           </router-link>
         </div>
+        </router-link>
+
       </div>
       <!-- SidebarLink components -->
       <SidebarLink to="/home" icon="https://img.icons8.com/windows/512/FFFFFF/home.png">HOME</SidebarLink>
-      <SidebarLink to="/teams" icon="https://img.icons8.com/material-sharp/96/FFFFFF/conference-call.png">LISTA DE TIMES</SidebarLink>
-      <SidebarLink to="/players" icon="https://img.icons8.com/ios-glyphs/90/FFFFFF/person-male.png">LISTA DE JOGADORES</SidebarLink>
-      <SidebarLink to="/search" icon="https://img.icons8.com/material-sharp/96/FFFFFF/find-user-male.png">BUSCAR JOGADORES</SidebarLink>
-      <SidebarLink to="/offers" icon="https://img.icons8.com/sf-black/512/FFFFFF/search.png">BUSCAR Times</SidebarLink>
+      <SidebarLink to="/teams" icon="https://img.icons8.com/material-sharp/96/FFFFFF/conference-call.png">TIMES</SidebarLink>
+      <SidebarLink to="/players" icon="https://img.icons8.com/ios-glyphs/90/FFFFFF/person-male.png">JOGADORES</SidebarLink>
+      <SidebarLink to="/search" icon="https://img.icons8.com/material-sharp/96/FFFFFF/find-user-male.png">ANUNCIOS DE JOGADORES</SidebarLink>
+      <SidebarLink to="/offers" icon="https://img.icons8.com/sf-black/512/FFFFFF/search.png">ANUNCIOS DE VAGAS</SidebarLink>
       <SidebarLink to="/championships" icon="https://img.icons8.com/glyph-neue/64/FFFFFF/trophy.png">CAMPEONATOS</SidebarLink>
     </div>
     <div>
@@ -108,13 +109,20 @@ const logoff = () => {
   background-color: #0000;
 }
 .profile {
-  padding: 20px;
   display: flex;
   align-items: center;
   gap: 20px;
   background: #0005;
   margin-bottom: 5px;
 }
+.profile2 {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #FFF;
+}
+
 .shadow {
   box-shadow: 100px 0px 50px #0009;
 }

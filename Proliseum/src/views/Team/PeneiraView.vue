@@ -29,9 +29,9 @@
                 </div>
               </RouterLink>
               <div class="info_buttons">
-                <Newcustombutton label="ACEITAR" @onClick="accept(card.perfil_id.id)" />
+                <Newcustombutton label="ACEITAR" @onClick="accept(card.id)" />
                 
-                <Newcustombutton label="RECUSAR" @onClick="reject(card.perfil_id.id)" />
+                <Newcustombutton label="RECUSAR" @onClick="reject(card.id)" />
               </div>
             </div>
           </div>
@@ -102,8 +102,9 @@ nextTick( async () => {
 
 async function accept (id2){
   if(!loading.value){ 
+      console.log(id2);
       loading.value = true
-      await axiosPerfil.delete('offer/' + id2 + '/1')
+      await axiosPerfil.delete('sieve/' + props.team + '/'+ id2 ,{params:{ aceitar: '1' }})
       .then( (response) => {
         console.log(response.data);
         loading.value = false 
@@ -131,7 +132,7 @@ async function reject(id2){
   if(!loading.value){ 
       loading.value = true 
 
-      await axiosPerfil.delete('offer/' + id2 + '/0')
+      await axiosPerfil.delete('sieve/' + props.team + '/'+ id2 ,{ params:{ aceitar: '0'}})
       .then( (response) => {
         loading.value = false 
         const message = 'Jogador Recusado!'

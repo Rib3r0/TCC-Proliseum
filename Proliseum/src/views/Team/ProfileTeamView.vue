@@ -2,7 +2,6 @@
     <div class="body">
       <div class="header">
         <div v-if="editar" class="edit">
-        <NewCustomButton label="MINHA POSTAGEM"/>
         <NewCustomButton class="editar" label="ENTRAR NO TIME" @onClick="entrarTime(idOrg)"></NewCustomButton>
           <router-link :to="'/teams/editar/'+ id" >
             <NewCustomButton class="editar" label="EDITAR PERFIL"></NewCustomButton>
@@ -14,7 +13,7 @@
           <div class="icon">
             <img  class="iconLarge" :key="src" :src="src">
           </div>
-          <h3 class="nome"> <router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="src"/></router-link>{{ nome }}</h3>
+          <h3 class="nome"> <router-link class="select" :to="'/teams/' + timeAtual"><miniIcon :image="src"/></router-link> {{ nome }}</h3>
           <h4 class="nomeCompleto">gerenciado por <router-link :to="'/perfil/'+ idOrg"> {{ nomeCompleto }}</router-link></h4>
           <div class="jogo">
             <img src="https://img.icons8.com/?size=512&id=57606&format=png" alt="">
@@ -47,9 +46,9 @@
           <div class="descricao">
             <p>{{ descricao }}</p>
           </div>
-          <div>
+          <!-- <div>
             <h3>highlights:</h3>
-          </div>
+          </div> -->
         </div>
       </div>
       <Rodape lined/>
@@ -196,7 +195,7 @@ const getImage = async (id) =>{
 .main{
   display: grid;
   grid-template-columns: 40vh 1fr;
-  padding: 0px 50px 0px 50px;
+  padding: 0px 0px 0px 50px;
 }
 .info{
   display: flex;
@@ -245,6 +244,7 @@ const getImage = async (id) =>{
   align-items: center;
   transform: translateX(-30px);
   word-break: break-all;
+  gap: 10px;
 }
 .nomeCompleto{
   color: #fff5;
@@ -253,6 +253,8 @@ const getImage = async (id) =>{
   display: flex;
   flex-direction: column;
   gap: 50px;
+  padding: 20px;
+  background-color: rgba(46, 44, 75, 0.58);
 }
 
 .plusInfo{
@@ -284,7 +286,6 @@ const getImage = async (id) =>{
 .edit{
   display: flex;
   align-items: center;
-  background: #0008;
   margin: 0px 30px 10px 0px;
   padding: 0px 5px 0px 5px;
   gap: 20px;

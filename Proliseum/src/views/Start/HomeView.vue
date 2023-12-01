@@ -14,8 +14,8 @@
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
       </template>
       <template v-else>
-        <h3>VAGAS:</h3>
-            <div class="card_props" v-for="card in cards" :key="card.id">
+        <h3>ALGUMAS VAGAS NO SEU PERFIL:</h3>
+        <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
                 <router-link class="profile" :to="'/teams/' + card.time.id"> 
                   <miniIcon class="icon" :image="getImage(card.time.id)" size="10vw"/>
@@ -46,13 +46,14 @@
 
                 </div>
                 <div class="info_buttons">
-                  <Newcustombutton label="INSCREVER-SE" @onClick="toProposta(card.dono_id.id)"/>
+                  <Newcustombutton v-if="jogador" label="INSCREVER-SE" @onClick="subscribe(card.time.id)"/>
                 </div>
               </div>
-            </div>
+        </div>
       </template>
 
     </div>
+    <PatrocinadorVue/>
     <rodape lined/>
   </div>
 </template>
@@ -70,41 +71,26 @@ import miniIcon from '../../components/miniIcon.vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , getDownloadURL } from 'firebase/storage'
 import { axiosPerfil } from '../../axios/axios';
+import PatrocinadorVue from '../../components/Patrocinador.vue';
 
-onBeforeMount( () => {
+onBeforeMount
+( () => {
   if(!localStorage.getItem('token')){
     router.push('login')
   }
   
 })
 
+const id = localStorage.getItem('id');
+
+
 const buscar = ""
 const loading = ref(true)
+let jogador = ref(false)
+let perfil = ref({})
 
 
-let cards = ref([
-  {
-    id: 1,
-    id_dono: '7',
-    name: "a",
-    description: "a",
-    elo: "0",
-    funcao: "0",
-    horario: "20:00 - 23:00",
-    pros: "['1','2','3','4']"
-  },
-  {
-    id: 2,
-    name: "b",
-    id_dono: '10',
-    description: "b",
-    elo: "1",
-    funcao: "1",
-    horario: "19:00 - 23:30",
-    pros: "['a','b','c','d']"
-  },
-
-])
+let cards = ref([])
 
 const getImage = async (id) =>{
   
@@ -123,13 +109,50 @@ const getImage = async (id) =>{
 
 nextTick( async () => {
   
-    await axiosPerfil.get('post/1',{ params: { perPage: 3 , page: 1 } })
+  await axiosPerfil.get('profile/' + id).then(async (response) => {
+      if(response.data.playerProfile){
+        perfil.value = response.data.playerProfile
+        if(!response.data.playerProfile.time_atual){
+          jogador.value = true
+        }
+        
+      }
+    })
+
+    await axiosPerfil.get('post/1',{ params: { perPage: 3 , page: 1, elo: perfil.value.elo , funcao: perfil.value.funcao } })
   .then(async (response) => {
     console.log(response.data.post)
     cards = response.data.post
   })
+
+
   loading.value = false
 })
+
+
+async function subscribe(idTime){
+
+await axiosPerfil.put('sieve/'+ idTime)
+    .then(async (response) => {
+      createToast('Você foi inscrito!',{
+        type : "success",
+        showIcon : true,
+        position : "top-center"
+      })
+    })
+    .catch( (error) => {
+      console.log(error);
+      createToast(error.response.data.error,{
+        type : "warning",
+        showIcon : true,
+        position : "top-center"
+      })
+
+    })
+
+
+}
+
 
 
 
@@ -190,6 +213,7 @@ nextTick( async () => {
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  color: #FFF;
 }
 
 

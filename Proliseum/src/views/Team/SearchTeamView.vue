@@ -5,21 +5,27 @@
       </div>
       <div class="main">
         <div class="main_header">
-          <div>
-            <h4>ELO MINIMO</h4>
-            <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
-          </div>
-          <div>
-            <h4>DISPONIBILIDADE A PARTIR</h4>
-            <NewInputForm  type="time" v-model="horario"/>
-          </div>
-          <div>
-            <h4>FUNÇÃO</h4>
-            <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
+          <div class="main_header">
+            <div>
+              <h4>ELO MINIMO</h4>
+              <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+            </div>
+            <div>
+              <h4>DISPONIBILIDADE A PARTIR</h4>
+              <NewInputForm  type="time" v-model="horario"/>
+            </div>
+            <div>
+              <h4>FUNÇÃO</h4>
+              <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
+            </div>
           </div>
           <Newcustombutton @onClick="filter" label="BUSCAR" size="1vw"/>
         </div>
+        <div class="aviso" v-if="!jogador">
+          <p>PARA SE INSCREVER É NECESSARIO UM PERFIL DE JOGADOR, CRIE <router-link to="/edit">AQUI.</router-link></p>
+        </div>
         <div class="main_main">
+          
           <Newcustombutton v-if="hasTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
           <Modal :open="isOpen" @close="isOpen = !isOpen">
             <form class="body" autocomplete="off" @submit.prevent="handleSubmit">
@@ -218,7 +224,6 @@ watch(page, async() => {
   
 nextTick( async () => {
     await axiosPerfil.get('profile/' + id).then(async (response) => {
-      console.log(response.data);
       if(response.data.playerProfile){
         if(!response.data.playerProfile.time_atual){
           jogador.value = true
@@ -236,7 +241,6 @@ nextTick( async () => {
 
     await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
       .then(async (response) => {
-    console.log(response.data)
     cards = response.data.post
     limit = response.data.limit
     })
@@ -250,7 +254,6 @@ nextTick( async () => {
 async function remove(id){
   if(!loading.value){
     loading.value = true
-    console.log(id);
     await axiosPerfil.delete('post/'+id).then(async (response) => {
       const message = 'postagem retidada!'
       loading.value = false
@@ -265,7 +268,6 @@ async function remove(id){
 
       await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
         .then(async (response) => {
-        console.log(response.data.post)
         cards = response.data.post
         limit = response.data.limit
         loading.value = false
@@ -281,7 +283,6 @@ async function remove(id){
 }
   
 watch(selectedTeam, async() => {
-  console.log(list.value[selectedTeam.value]);
   card.value.name = list.value[selectedTeam.value].nome_time
   card.value.time= list.value[selectedTeam.value].id
 
@@ -291,7 +292,6 @@ watch(selectedTeam, async() => {
           let time = card.value.time
           card.value = response.data.postProfile
           card.value.time = time
-          console.log(card.value);
           editPost.value = true
         }else{
           card.value = {
@@ -305,10 +305,8 @@ watch(selectedTeam, async() => {
               pros: '',
               tipo: true
             }
-          console.log(card.value);
             editPost.value = false
         }
-        console.log(response.data.postProfile);
         
     }
   )
@@ -319,11 +317,9 @@ watch(selectedTeam, async() => {
 async function handleSubmit () {
     if(!loading.value){
         loading.value = true
-        console.log(card.value);
         if(!editPost.value){
             await axiosPerfil.post('post', JSON.stringify(card.value))
                 .then( async (response) => {
-                  console.log(card.value);
                 loading.value = false
                 const message = 'Post Criado!'
                 createToast(message,{
@@ -336,7 +332,6 @@ async function handleSubmit () {
 
                 await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
                   .then(async (response) => {
-                  console.log(response.data.post)
                   cards = response.data.post
                   limit = response.data.limit
                   loading.value = false
@@ -357,9 +352,7 @@ async function handleSubmit () {
             await axiosPerfil.put('post', JSON.stringify(card.value))
             .then( async (response) => {
                 loading.value = false
-                console.log(card.value);
                 const message = 'Post Atualizado!'
-                console.log(response);
                 createToast(message,{
                 type : 'success',
                 showIcon : true,
@@ -370,7 +363,6 @@ async function handleSubmit () {
 
                 await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
                   .then(async (response) => {
-                console.log(response.data.post)
                 cards = response.data.post
                 limit = response.data.limit
                 loading.value = false
@@ -380,7 +372,6 @@ async function handleSubmit () {
             .catch( (error) => {
                 loading.value = false
                 console.log(error);
-                console.log("error");
 
                 createToast('Erro!',{
                 type : 'warning',
@@ -400,7 +391,6 @@ async function filter() {
   loading.value = true
   await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value, elo: elo.value, funcao: funcao.value, hora: horario.value } })
       .then(async (response) => {
-    console.log(response.data.post)
     cards = response.data.post
     limit = response.data.limit
     loading.value = false
@@ -414,7 +404,6 @@ async function subscribe(idTime){
 
   await axiosPerfil.put('sieve/'+ idTime)
       .then(async (response) => {
-        console.log(response.data);
         createToast('Você foi inscrito!',{
           type : "success",
           showIcon : true,
@@ -461,8 +450,9 @@ async function subscribe(idTime){
   .main_header{
     display: flex;
     gap: 20px;
-    padding: 20px;
-    max-width: 50%;
+    padding: 10px;
+    max-width: 100%;
+    align-items: center;
   }
   
   
@@ -525,4 +515,11 @@ async function subscribe(idTime){
     padding: 20px;
   }
   
+  .aviso{
+    display: flex;
+    justify-content: center;
+    background-color: #FFF1;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
   </style>
