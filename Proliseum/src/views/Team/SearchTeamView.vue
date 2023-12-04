@@ -241,8 +241,10 @@ nextTick( async () => {
 
     await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
       .then(async (response) => {
-    cards = response.data.post
-    limit = response.data.limit
+        console.log(response.data);
+    cards.value = response.data.post
+    console.log(cards.value)
+    limit.value = response.data.limit
     })
 
     loading.value = false
@@ -332,8 +334,8 @@ async function handleSubmit () {
 
                 await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
                   .then(async (response) => {
-                  cards = response.data.post
-                  limit = response.data.limit
+                  cards.value = response.data.post
+                  limit.value = response.data.limit
                   loading.value = false
                 })
 
@@ -391,8 +393,8 @@ async function filter() {
   loading.value = true
   await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value, elo: elo.value, funcao: funcao.value, hora: horario.value } })
       .then(async (response) => {
-    cards = response.data.post
-    limit = response.data.limit
+    cards.value = response.data.post
+    limit.value = response.data.limit
     loading.value = false
   }
   )
