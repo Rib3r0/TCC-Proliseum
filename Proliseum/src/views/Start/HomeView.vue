@@ -133,6 +133,7 @@
       </template>
 
     </div>
+    <br>
     <PatrocinadorVue/>
     <rodape lined/>
   </div>

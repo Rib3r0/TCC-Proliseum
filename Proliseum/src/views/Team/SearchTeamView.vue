@@ -21,7 +21,7 @@
           </div>
           <Newcustombutton @onClick="filter" label="BUSCAR" size="1vw"/>
         </div>
-        <div class="aviso" v-if="!jogador">
+        <div class="aviso" v-if="!hasJogador && !isOnTeam">
           <p>PARA SE INSCREVER É NECESSARIO UM PERFIL DE JOGADOR, CRIE <router-link to="/edit">AQUI.</router-link></p>
         </div>
         <div class="main_main">
@@ -134,7 +134,7 @@
 
                 </div>
                 <div class="info_buttons">
-                  <Newcustombutton v-if="jogador" label="INSCREVER-SE" @onClick="subscribe(card.time.id)"/>
+                  <Newcustombutton v-if="!isOnTeam && hasJogador" label="INSCREVER-SE" @onClick="subscribe(card.time.id)"/>
                 </div>
               </div>
             </div>
@@ -166,7 +166,7 @@
   import PeneiraView from './PeneiraView.vue';
 
   const id = localStorage.getItem('id');
-  let jogador = ref(false)
+  let hasJogador = ref(false)
   const isOpen= ref(false)
   const perfilExist = ref(false);
   const elo = ref('')
@@ -180,6 +180,7 @@
   let limit = ref(0)
   const hasTeam = ref(false)
   const editPost = ref(false)
+  const isOnTeam = ref(false)
   
   let cards = ref([])
   
@@ -225,8 +226,9 @@ watch(page, async() => {
 nextTick( async () => {
     await axiosPerfil.get('profile/' + id).then(async (response) => {
       if(response.data.playerProfile){
-        if(!response.data.playerProfile.time_atual){
-          jogador.value = true
+        hasJogador.value = true
+        if(response.data.playerProfile.time_atual){
+          isOnTeam.value = true
         }
         
       }
