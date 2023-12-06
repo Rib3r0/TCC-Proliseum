@@ -30,16 +30,23 @@
         <new-input-form icon="https://img.icons8.com/ios-glyphs/90/user--v1.png" v-model="cadastro.nickname" label="NICKNAME:"/>
         <div>
           <span class="title">CAPA:</span>
-          <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>
+          <ImageUpload id="capaPic" v-model="cadastro.capa" :image="srcCapa" capa/>          
+        </div>
+        <div>
+          
+        </div>
+        <div>
+          <add-social-media :list="cadastroAtual.redeSocial"/>
         </div>
 
       </div>
+      
     </div>
     <div class="second">
       <div class="submit">
         <ImageUpload id="profilePic" v-model="cadastro.foto_perfil" :image="src" />
         <span class="title">BIO:</span>
-        <textarea name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
+        <textarea class="bio" name="" v-model="cadastro.biografia" id="" maxlength="300" placeholder="Bio..."></textarea>
         <NewCustomButton label="SAIR DO TIME ATUAL" size="1.5vw" @onClick="leaveTeam" />
       </div>
       <div class="end">
@@ -66,6 +73,7 @@ import { axiosPerfil } from "../../axios/axios.js";
 import router from "../../router";
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
+import AddSocialMedia from "../AddSocialMedia.vue";
 
 
 const id = localStorage.getItem('id')
@@ -185,7 +193,7 @@ async function leaveTeam(){
     padding:20px 20px 0px 20px ;
     display: grid;
     column-gap: 5%;
-    grid-template-columns: 1fr 30vw;
+    grid-template-columns: 57vw 30vw;
   }
   .title{
     font-weight: 900;
@@ -201,9 +209,9 @@ async function leaveTeam(){
 
   .cadastro{
     width: 100%;
-    height: 98vh;
+    height: fit-content;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 1fr;
     grid-auto-flow: row dense;
     gap: 20px;
     padding: 50px;
@@ -228,6 +236,7 @@ async function leaveTeam(){
     gap: 20px;
     padding: 50px;
     height: 63vh;
+    min-height: 650px;
     background-color: #0005;
   }
 
@@ -276,5 +285,9 @@ async function leaveTeam(){
 
   .end{
     display: flex;
+  }
+
+  .bio{
+    min-height: 150px;
   }
 </style>

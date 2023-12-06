@@ -5,7 +5,7 @@
     </div> -->
     <div class="body">
       <div class="header">
-        <h2>Propostas Recebidas:</h2>
+        <h2>INSCRITOS:</h2>
       </div>
       <div class="main">
         <template v-if="loading" >
@@ -17,22 +17,21 @@
           <div class="preview" :key="cards.length">
             <div class="card_props" v-if="cards.length < 1">
               <div class="info_sem">
-                <h2>NENHUMA PROPOSTA AINDA... &#128533;</h2>
+                <h2>NENHUM INSCRITO AINDA... &#128533;</h2>
               </div>
             </div>
           <div v-else class="card_props" v-for="card in cards" :key="card.id">
-            <div class="profile">
-              <miniIcon class="icon" :image="getImage(card.de.id)" size="10vw" />
-              <p>{{ card.de.nome_time }}</p>
-            </div>
             <div class="info">
-              <div class="description">
-                <p>{{ card.menssagem }}</p>
-              </div>
+              <RouterLink :to="'/perfil/' + card.perfil_id.id">
+                <div class="profile">
+                  <miniIcon class="icon" :image="getImage(card.perfil_id.id)" size="10vw" />
+                  <p>{{ card.nickname }}</p>
+                </div>
+              </RouterLink>
               <div class="info_buttons">
-                <Newcustombutton label="ACEITAR PROPOSTA" @onClick="accept(card.de.id)" />
+                <Newcustombutton label="ACEITAR" @onClick="accept(card.id)" />
                 
-                <Newcustombutton label="RECUSAR PROPOSTA" @onClick="reject(card.de.id)" />
+                <Newcustombutton label="RECUSAR" @onClick="reject(card.id)" />
               </div>
             </div>
           </div>
@@ -58,48 +57,58 @@ import { createToast } from 'mosha-vue-toastify';
 import router from '../../router';
 
 
+const props = defineProps({
+  team: {
+    type : Number,
+    required: true
+  }
+})
+
+
 
 
 const id = localStorage.getItem('id');
 const loading = ref(true)
+
 const getImage = async (id) =>{
   
   let image
   
-  await getDownloadURL(refFB(storage,'team/'+ id + '/profile')).then(
+  await getDownloadURL(refFB(storage, id + '/profile')).then(
     (download_url) => ( image = download_url)
     ).catch( (erro) => {
       image =  "https://i.ibb.co/jVvMSHY/image-6.png"
     })
     
     return image
-    
-    
-  }
+}
 
 let cards = ref([]);
 
 nextTick( async () => {
-  await axiosPerfil.get('offer')
+  await axiosPerfil.get('sieve/' + props.team)
   .then( (response) => {
-    console.log(response.data.propostas);
-    cards.value = response.data.propostas
+    console.log(response.data);
+    if(response.data.acepted[0]){
+      cards.value = response.data.acepted[0].jogadores
+    }
     loading.value = false
   }).catch( () => {
     loading.value = false
   })
+  loading.value = false
 })
 
 
-async function accept (id2)  {
+async function accept (id2){
   if(!loading.value){ 
+      console.log(id2);
       loading.value = true
-
-      await axiosPerfil.delete('offer/' + id2 + '/1')
+      await axiosPerfil.delete('sieve/' + props.team + '/'+ id2 ,{params:{ aceitar: '1' }})
       .then( (response) => {
         console.log(response.data);
         loading.value = false 
-        const message = 'Proposta Aceita!'
+        const message = 'Jogador Aceito!'
           createToast(message,{
             type : 'success',
             showIcon : true,
@@ -107,7 +116,6 @@ async function accept (id2)  {
           })
           const index = cards.value.findIndex( x => id2 == x.id)
           cards.value.splice(index,1)
-          router.push('/teams/'+ id2)
       }).catch( (erro) => {
         loading.value = false
         console.log(erro);
@@ -124,17 +132,18 @@ async function reject(id2){
   if(!loading.value){ 
       loading.value = true 
 
-
-      await axiosPerfil.delete('offer/' + id2 + '/0')
+      await axiosPerfil.delete('sieve/' + props.team + '/'+ id2 ,{ params:{ aceitar: '0'}})
       .then( (response) => {
         loading.value = false 
-        const message = 'Proposta Recusada'
+        const message = 'Jogador Recusado!'
           createToast(message,{
             showIcon : true,
             position : "top-center"
           })
+
           const index = cards.value.findIndex( x => id2 == x.id)
           cards.value.splice(index,1)
+       
       }).catch( () => {
         loading = false
         const message = 'Erro!'
@@ -152,6 +161,11 @@ async function reject(id2){
 <style scoped>
 .body{
   width: 100%;
+}
+
+.preview{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .header{
@@ -175,12 +189,14 @@ async function reject(id2){
   padding: 20px;
   align-items: center;
   justify-content: center;
+  width: fit-content;
 }
 .profile{
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  color: #FFF;
 }
 
 
@@ -189,7 +205,7 @@ async function reject(id2){
   background-color: #0005;
   padding: 20px;
   border-radius: 20px;
-  min-width: 70vw;
+  max-width: 25vw;
   min-height: 16vw;
   display: flex;
   flex-direction: column;

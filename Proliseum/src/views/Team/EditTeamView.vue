@@ -144,23 +144,14 @@ async function deleteTeam () {
   loading.value = true
     await axiosPerfil.delete('team/'+ id).then(
         (response) => {
-            if(response.value){
               loading.value = false
-                const message = 'Perfil Criado!'
-                createToast(message,{
+              const message = 'Time Deletado!'
+            createToast(message,{
                 type : 'success',
                 showIcon : true,
                 position : "top-center"
-                })
-            }else{
-              loading.value = false
-                const message = 'Erro ao deletar!'
-                createToast(message,{
-                type : 'danger',
-                showIcon : true,
-                position : "top-center"
-                })
-            }
+            })
+            router.push("/teams")
         }
     )
 }

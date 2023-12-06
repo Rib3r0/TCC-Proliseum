@@ -5,21 +5,27 @@
       </div>
       <div class="main">
         <div class="main_header">
-          <div>
-            <h4>ELO MINIMO</h4>
-            <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+          <div class="main_header">
+            <div>
+              <h4>ELO MINIMO</h4>
+              <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+            </div>
+            <div>
+              <h4>DISPONIBILIDADE A PARTIR</h4>
+              <NewInputForm  type="time" v-model="horario"/>
+            </div>
+            <div>
+              <h4>FUNÇÃO</h4>
+              <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
+            </div>
           </div>
-          <div>
-            <h4>DISPONIBILIDADE A PARTIR</h4>
-            <NewInputForm  type="time" v-model="horario"/>
-          </div>
-          <div>
-            <h4>FUNÇÃO</h4>
-            <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
-          </div>
-          <Newcustombutton label="BUSCAR" size="1vw"/>
+          <Newcustombutton @onClick="filter" label="BUSCAR" size="1vw"/>
+        </div>
+        <div class="aviso" v-if="!hasJogador && !isOnTeam">
+          <p>PARA SE INSCREVER É NECESSARIO UM PERFIL DE JOGADOR, CRIE <router-link to="/edit">AQUI.</router-link></p>
         </div>
         <div class="main_main">
+          
           <Newcustombutton v-if="hasTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
           <Modal :open="isOpen" @close="isOpen = !isOpen">
             <form class="body" autocomplete="off" @submit.prevent="handleSubmit">
@@ -27,7 +33,7 @@
               <div v-if=" selectedTeam != '' " class="preview" :key="selectedTeam">
                 <div class="card_props">
                   <div class="profile">
-                    <router-link :to="'/team/' + card.dono_id">
+                    <router-link :to="'/teams/' + card.time">
                       <miniIcon class="icon" :image="getImage(card.time)" size="10vw" />
                       <p>{{ card.n }}</p>
                     </router-link>
@@ -57,7 +63,7 @@
                       </div>
                     </div>
                     <div class="info_buttons">
-                      <Newcustombutton label="ENVIAR PROPOSTA" />
+                      <Newcustombutton label="INSCREVER-SE" />
                     </div>
                   </div>
                 </div>
@@ -87,10 +93,11 @@
               </div>
               <div class="button_div">
                 <Newcustombutton type="submit" label="SALVAR" />
-                <Newcustombutton @onClick="remove" label="RETIRAR" />
+                <Newcustombutton @onClick="remove(card.time)" label="RETIRAR" />
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
             </form>
+            <peneira-view :key="card.id" :team="card.id" v-if=" selectedTeam != '' "/>
           </Modal>
           <template v-if="loading" >
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
@@ -98,9 +105,9 @@
           <template v-else>
             <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
-                <router-link class="profile" :to="'/perfil/' + card.id"> 
-                  <miniIcon class="icon" :image="getImage(card.id)" size="10vw"/>
-                  <p>{{ card.nome_time}}</p>
+                <router-link class="profile" :to="'/teams/' + card.time.id"> 
+                  <miniIcon class="icon" :image="getImage(card.time.id)" size="10vw"/>
+                  <p>{{ card.time.nome_time}}</p>
                 </router-link>
               </div>
               <div class="info">
@@ -127,7 +134,7 @@
 
                 </div>
                 <div class="info_buttons">
-                  <Newcustombutton label="INSCREVER-SE" @onClick="toProposta(card.dono_id.id)"/>
+                  <Newcustombutton v-if="!isOnTeam && hasJogador" label="INSCREVER-SE" @onClick="subscribe(card.time.id)"/>
                 </div>
               </div>
             </div>
@@ -156,8 +163,10 @@
   import { axiosPerfil } from '../../axios/axios.js';
   import Pagination from '../../components/Pagination.vue';
   import { createToast } from 'mosha-vue-toastify';
-  
+  import PeneiraView from './PeneiraView.vue';
+
   const id = localStorage.getItem('id');
+  let hasJogador = ref(false)
   const isOpen= ref(false)
   const perfilExist = ref(false);
   const elo = ref('')
@@ -171,32 +180,11 @@
   let limit = ref(0)
   const hasTeam = ref(false)
   const editPost = ref(false)
+  const isOnTeam = ref(false)
   
-  let cards = ref([
-    {
-      id: 14,
-      id_dono: '7',
-      name: "a",
-      description: "a",
-      elo: "0",
-      funcao: "0",
-      horario: "20:00 - 23:00",
-      pros: "['1','2','3','4']"
-    },
-    {
-      id: 2,
-      name: "b",
-      id_dono: '10',
-      description: "b",
-      elo: "1",
-      funcao: "1",
-      horario: "19:00 - 23:30",
-      pros: "['a','b','c','d']"
-    },
+  let cards = ref([])
   
-  ])
-  
-  const getImage = async (id) =>{
+const getImage = async (id) =>{
     
     let image
     
@@ -209,26 +197,42 @@
       return image
       
       
-    }
+}
   
   
-    let card = ref({
-    name: "",
-    time: 0,
+let card = ref({
+    id: 0,
     jogo: '0',
     elo: '0',
-    description: '',
+    descricao: '',
     funcao: '0',
-    horario: '00:00',
+    hora: '00:00',
     pros: '',
-    tipo: true
+    tipo: true,
+    time: 0
   });
+
+watch(page, async() => {
+  loading.value = true
+  await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } }).then( (response) => {
+    cards = response.data.post
+    loading.value = false
+})
+} )
+
   
   
   
 nextTick( async () => {
     await axiosPerfil.get('profile/' + id).then(async (response) => {
-      console.log(response.data);
+      if(response.data.playerProfile){
+        hasJogador.value = true
+        if(response.data.playerProfile.time_atual){
+          isOnTeam.value = true
+        }
+        
+      }
+      
     });
     await axiosPerfil.get('/team/user/' + id).then(async (response) => {
       list.value = response.data.teams
@@ -239,9 +243,10 @@ nextTick( async () => {
 
     await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
       .then(async (response) => {
-    console.log(response.data.post)
-    cards = response.data.post
-    limit = response.data.limit
+        console.log(response.data);
+    cards.value = response.data.post
+    console.log(cards.value)
+    limit.value = response.data.limit
     })
 
     loading.value = false
@@ -250,10 +255,10 @@ nextTick( async () => {
   
 
   
-async function remove(){
+async function remove(id){
   if(!loading.value){
     loading.value = true
-    await axiosPerfil.delete('post').then(async (response) => {
+    await axiosPerfil.delete('post/'+id).then(async (response) => {
       const message = 'postagem retidada!'
       loading.value = false
       createToast(message,{
@@ -261,25 +266,64 @@ async function remove(){
         showIcon : true,
         position : "top-center"
       })
+
+      isOpen.value = !isOpen.value
+      loading.value = true
+
+      await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
+        .then(async (response) => {
+        cards = response.data.post
+        limit = response.data.limit
+        loading.value = false
+      })
+
+
+    }).catch( (error) => {
+      console.log(error);
+      loading.value = false
     })
+    loading.value = false
   }
 }
   
 watch(selectedTeam, async() => {
-  console.log(list.value[selectedTeam.value]);
   card.value.name = list.value[selectedTeam.value].nome_time
   card.value.time= list.value[selectedTeam.value].id
+
+  await axiosPerfil.get('post/time/'+ card.value.time)
+      .then(async (response) => {
+        if(response.data.postProfile){
+          let time = card.value.time
+          card.value = response.data.postProfile
+          card.value.time = time
+          editPost.value = true
+        }else{
+          card.value = {
+              time: list.value[selectedTeam.value].id,
+              id: 0,
+              jogo: '0',
+              elo: '0',
+              descricao: '',
+              funcao: '0',
+              hora: '00:00',
+              pros: '',
+              tipo: true
+            }
+            editPost.value = false
+        }
+        
+    }
+  )
+
 } )
   
 
 async function handleSubmit () {
     if(!loading.value){
         loading.value = true
-        console.log(card.value);
         if(!editPost.value){
             await axiosPerfil.post('post', JSON.stringify(card.value))
-                .then( (response) => {
-                  console.log(card.value);
+                .then( async (response) => {
                 loading.value = false
                 const message = 'Post Criado!'
                 createToast(message,{
@@ -287,6 +331,16 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
+                loading.value = true
+
+                await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
+                  .then(async (response) => {
+                  cards.value = response.data.post
+                  limit.value = response.data.limit
+                  loading.value = false
+                })
+
             })
             .catch( (error) => {
                 loading.value = false
@@ -300,20 +354,28 @@ async function handleSubmit () {
                 )
         }else{
             await axiosPerfil.put('post', JSON.stringify(card.value))
-            .then( (response) => {
+            .then( async (response) => {
                 loading.value = false
-                console.log(card.value);
                 const message = 'Post Atualizado!'
                 createToast(message,{
                 type : 'success',
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
+                loading.value = true
+
+                await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value } })
+                  .then(async (response) => {
+                cards = response.data.post
+                limit = response.data.limit
+                loading.value = false
+                })
+
             })
             .catch( (error) => {
                 loading.value = false
                 console.log(error);
-                console.log("error");
 
                 createToast('Erro!',{
                 type : 'warning',
@@ -323,12 +385,48 @@ async function handleSubmit () {
                 }
                 )
         }
-    }else{
-        
-}
+    }
 
 }
   
+
+
+async function filter() {
+  loading.value = true
+  await axiosPerfil.get('post/1',{ params: { perPage: perPage.value , page: page.value, elo: elo.value, funcao: funcao.value, hora: horario.value } })
+      .then(async (response) => {
+    cards.value = response.data.post
+    limit.value = response.data.limit
+    loading.value = false
+  }
+  )
+  
+}
+
+
+async function subscribe(idTime){
+
+  await axiosPerfil.put('sieve/'+ idTime)
+      .then(async (response) => {
+        createToast('Você foi inscrito!',{
+          type : "success",
+          showIcon : true,
+          position : "top-center"
+        })
+      })
+      .catch( (error) => {
+        console.log(error);
+        createToast(error.response.data.error,{
+          type : "warning",
+          showIcon : true,
+          position : "top-center"
+        })
+
+      })
+
+
+}
+
   
   
   </script>
@@ -356,8 +454,9 @@ async function handleSubmit () {
   .main_header{
     display: flex;
     gap: 20px;
-    padding: 20px;
-    max-width: 50%;
+    padding: 10px;
+    max-width: 100%;
+    align-items: center;
   }
   
   
@@ -372,7 +471,7 @@ async function handleSubmit () {
     display: flex;
     padding: 20px;
     align-items: center;
-    height: 200px;
+    height: fit-content;
   }
   .profile{
     display: flex;
@@ -420,4 +519,11 @@ async function handleSubmit () {
     padding: 20px;
   }
   
+  .aviso{
+    display: flex;
+    justify-content: center;
+    background-color: #FFF1;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
   </style>

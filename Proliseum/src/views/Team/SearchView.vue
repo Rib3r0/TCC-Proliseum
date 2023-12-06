@@ -19,26 +19,28 @@
       </div>
       <div class="main">
         <div class="main_header">
-          <div>
-            <h4>ELO MINIMO</h4>
-            <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+          <div class="main_header">
+            <div>
+              <h4>ELO MINIMO</h4>
+              <select-form default="elo minimo" :list="Elo.map( (x) => { return x[0]})" v-model="elo"/>
+            </div>
+            <div>
+              <h4>DISPONIBILIDADE A PARTIR</h4>
+              <NewInputForm  type="time" v-model="horario"/>
+            </div>
+            <div>
+              <h4>FUNÇÃO</h4>
+              <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
+            </div>
           </div>
-          <div>
-            <h4>DISPONIBILIDADE A PARTIR</h4>
-            <NewInputForm  type="time" v-model="horario"/>
-          </div>
-          <div>
-            <h4>FUNÇÃO</h4>
-            <select-form default="função" :list="Funcao.map( (x) => { return x[0]})" v-model="funcao"/>
-          </div>
-          <div>
-            <h4>REMUNERAÇÃO</h4>
-            <select-form default="remuneração" :list="['sim','não']" v-model="remuneracao"/>
-          </div>
-          <Newcustombutton label="BUSCAR" size="0.5vw"/>
+
+          <Newcustombutton @onClick="filter" label="BUSCAR" size="1vw"/>
+        </div>
+        <div class="aviso" v-if="perfilExist">
+          <p>PARA CRIAR UM ANUNCIO É NECESSARIO UM PERFIL DE JOGADOR, CRIE <router-link to="/edit">AQUI</router-link></p>
         </div>
         <div class="main_main">
-          <Newcustombutton class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
+          <Newcustombutton v-if="!isOnTeam" class="new" @onClick="isOpen = true" label="MINHA POSTAGEM"/>
           <Modal :open="isOpen" @close="isOpen = !isOpen">
             <div v-if="perfilExist" class="nExist">
               <div>
@@ -105,7 +107,7 @@
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
               </div>
               <br>
-              <requests-view v-if="!perfilExist"/>
+              <requests-view :key="isOpen" v-if="!perfilExist"/>
             </form>
           </Modal>
           <template v-if="loading" >
@@ -203,6 +205,7 @@ const perPage = ref(5)
 const page = ref(1)
 let limit = ref(0)
 const hasTeam = ref(false)
+const isOnTeam = ref(true)
 
 let loading = ref(true);
 
@@ -248,6 +251,9 @@ nextTick( async () => {
   if (!response.data.playerProfile) {
     perfilExist.value = true
   }else{
+    if(!response.data.playerProfile.time_atual){
+      isOnTeam.value = false
+    }
 
     await axiosPerfil.get('post/mypost').then(async (response) => {
       console.log(response.data);
@@ -255,7 +261,7 @@ nextTick( async () => {
         card.value = response.data.postProfile
       }
       console.log(response.data.id);
-      if(response.data.postProfile.length < 1){
+      if(response.data.postProfile){
         editPost.value = true
       }
     }).catch( () => {
@@ -310,8 +316,14 @@ async function handleSubmit () {
     if(!loading.value){
         loading.value = true
         if(!editPost.value){
+          if(card.value.funcao == 0){
+            card.value.funcao = "0"
+          }
+          if(card.value.elo == 0){
+            card.value.elo = "0"
+          }
             await axiosPerfil.post('post', JSON.stringify(card.value))
-                .then( (response) => {
+                .then( async (response) => {
                   console.log(card.value);
                 loading.value = false
                 const message = 'Post Criado!'
@@ -320,9 +332,21 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
+                loading.value = true
+
+                await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+                  .then(async (response) => {
+                console.log(response.data.post)
+                cards = response.data.post
+                limit = response.data.limit
+                loading.value = false
+                })
+                
             })
             .catch( (error) => {
                 loading.value = false
+                console.log(card.value);
                 console.log(error);
                 createToast('Erro!',{
                 type : 'warning',
@@ -332,6 +356,12 @@ async function handleSubmit () {
                 }
                 )
         }else{
+          if(card.value.funcao == 0){
+            card.value.funcao = "0"
+          }
+          if(card.value.elo == 0){
+            card.value.elo = "0"
+          }
             await axiosPerfil.put('post', JSON.stringify(card.value))
             .then( (response) => {
                 loading.value = false
@@ -342,6 +372,7 @@ async function handleSubmit () {
                 showIcon : true,
                 position : "top-center"
                 })
+                isOpen.value = !isOpen.value
             })
             .catch( (error) => {
                 loading.value = false
@@ -416,8 +447,34 @@ async function remove(){
         showIcon : true,
         position : "top-center"
       })
+
+      isOpen.value = !isOpen.value
+      loading.value = true
+
+      await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value } })
+        .then(async (response) => {
+          console.log(response.data.post)
+          cards = response.data.post
+          limit = response.data.limit
+          loading.value = false
+        })
+
+
     })
   }
+}
+
+async function filter() {
+  loading.value = true
+  await axiosPerfil.get('post/0',{ params: { perPage: perPage.value , page: page.value, elo: elo.value, funcao: funcao.value, hora: horario.value } })
+      .then(async (response) => {
+    console.log(response.data.post)
+    cards = response.data.post
+    limit = response.data.limit
+    loading.value = false
+  }
+  )
+  
 }
 
 </script>
@@ -445,8 +502,9 @@ async function remove(){
 .main_header{
   display: flex;
   gap: 20px;
-  padding: 20px;
-  max-width: 50%;
+  padding: 10px;
+  max-width: 100%;
+  align-items: center;
 }
 
 
@@ -507,5 +565,13 @@ async function remove(){
 .new{
   padding: 20px;
 }
+
+.aviso{
+    display: flex;
+    justify-content: center;
+    background-color: #FFF1;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
 
 </style>

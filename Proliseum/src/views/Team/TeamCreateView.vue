@@ -34,6 +34,7 @@
             <NewCustomButton type="submit" label="SALVAR"/>
         </div>
     </form>
+    <rodape lined/>
 </template>
 
 <script setup>
@@ -47,6 +48,8 @@ import { axiosPerfil } from "../../axios/axios.js";
 import miniIcon from '../../components/miniIcon.vue';
 import storage from '../../firebase/firebase.js'
 import { ref as refFB , uploadBytes, getDownloadURL } from 'firebase/storage'
+import Rodape from '../../components/Rodape.vue'
+import router from '../../router';
 
 
 
@@ -81,7 +84,7 @@ async function handleSubmit () {
         .then( (response) => {
             loading.value = false
             const message = 'Time Foi criado com sucesso!'
-            console.log("oi");
+            console.log(response.data);
             const storageRefProfile = refFB(storage,'team/' + response.data.id + '/profile')
             if(foto_perfil.value != ""){
                 uploadBytes(storageRefProfile, foto_perfil.value)
@@ -91,6 +94,7 @@ async function handleSubmit () {
             showIcon : true,
             position : "top-center"
             })
+            router.push('/teams/'+response.data.id)
         }).catch( (erro) => {
             loading.value = false
             console.log(erro.response.data.error);
