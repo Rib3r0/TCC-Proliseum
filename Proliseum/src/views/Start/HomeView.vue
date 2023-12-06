@@ -233,7 +233,7 @@ nextTick( async () => {
       }
     })
 
-    await axiosPerfil.get('post/1',{ params: { perPage: 5 , page: 1, elo: perfil.value.elo , funcao: perfil.value.funcao } })
+    await axiosPerfil.get('post/1',{ params: { perPage: 5 , page: 1, eloPlayer: perfil.value.elo , funcao: perfil.value.funcao } })
   .then(async (response) => {
     console.log(response.data.post)
     cardsVagas = response.data.post
@@ -262,23 +262,30 @@ nextTick( async () => {
 
 async function subscribe(idTime){
 
-await axiosPerfil.put('sieve/'+ idTime)
-    .then(async (response) => {
-      createToast('Você foi inscrito!',{
-        type : "success",
-        showIcon : true,
-        position : "top-center"
-      })
-    })
-    .catch( (error) => {
-      console.log(error);
-      createToast(error.response.data.error,{
-        type : "warning",
-        showIcon : true,
-        position : "top-center"
-      })
+  if(!loading.value){
+    loading.value = true
+    await axiosPerfil.put('sieve/'+ idTime)
+        .then(async (response) => {
+          createToast('Você foi inscrito!',{
+            type : "success",
+            showIcon : true,
+            position : "top-center"
+          })
+          loading.value = false
+        })
+        .catch( (error) => {
+          console.log(error);
+          createToast(error.response.data.error,{
+            type : "warning",
+            showIcon : true,
+            position : "top-center"
+          })
+          loading.value = false
 
-    })
+        })
+  }
+
+
 
 
 }

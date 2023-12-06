@@ -258,7 +258,7 @@ nextTick( async () => {
 async function remove(id){
   if(!loading.value){
     loading.value = true
-    await axiosPerfil.delete('post/'+id).then(async (response) => {
+    await axiosPerfil.delete('post',{ params: { time: id }}).then(async (response) => {
       const message = 'postagem retidada!'
       loading.value = false
       createToast(message,{
@@ -353,7 +353,7 @@ async function handleSubmit () {
                 }
                 )
         }else{
-            await axiosPerfil.put('post', JSON.stringify(card.value))
+            await axiosPerfil.put('post', JSON.stringify(card.value),{params: { time: card.value.id }})
             .then( async (response) => {
                 loading.value = false
                 const message = 'Post Atualizado!'
