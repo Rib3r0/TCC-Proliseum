@@ -91,10 +91,10 @@
                   <textarea name="pros" v-model="card.pros"  id="pros" maxlength="300" placeholder="Tranquilo..."></textarea>
                 </div>
               </div>
-              <div class="button_div">
-                <Newcustombutton type="submit" label="SALVAR" />
-                <Newcustombutton @onClick="remove(card.time)" label="RETIRAR" />
+              <div class="boton">
                 <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg" />
+                <Newcustombutton v-if=" selectedTeam != '' " type="submit" label="SALVAR" />
+                <Newcustombutton v-if=" selectedTeam != '' " @onClick="remove(card.time)" label="RETIRAR" />
               </div>
             </form>
             <peneira-view :key="card.id" :team="card.id" v-if=" selectedTeam != '' "/>
@@ -103,6 +103,13 @@
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
           </template>
           <template v-else>
+            <div v-if="cards.length < 1" class="card_props">
+              <div class="info">
+                <div class="info_sem">
+                  <h3>AINDA NÃO HÁ VAGAS DISPONÍVEIS... &#128531;</h3>
+                </div>
+              </div>
+            </div>
             <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
                 <router-link class="profile" :to="'/teams/' + card.time.id"> 
@@ -406,13 +413,16 @@ async function filter() {
 
 async function subscribe(idTime){
 
-  await axiosPerfil.put('sieve/'+ idTime)
+  if(!loading.value){
+    loading.value = true
+    await axiosPerfil.put('sieve/'+ idTime)
       .then(async (response) => {
         createToast('Você foi inscrito!',{
           type : "success",
           showIcon : true,
           position : "top-center"
         })
+        loading.value = false
       })
       .catch( (error) => {
         console.log(error);
@@ -421,8 +431,12 @@ async function subscribe(idTime){
           showIcon : true,
           position : "top-center"
         })
+        loading.value = false
 
       })
+  }
+
+
 
 
 }
@@ -526,4 +540,31 @@ async function subscribe(idTime){
     padding: 10px;
     margin-bottom: 10px;
   }
+
+
+.boton{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.boton img{
+  height: 50px;
+}
+
+.info_sem{
+  background-color: #0005;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 70vw;
+  min-height: 16vw;
+  display: grid;
+  place-items: center;
+  filter: opacity(20%);
+  place-self: center;
+}
+
+
   </style>

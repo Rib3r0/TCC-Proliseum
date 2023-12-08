@@ -1,6 +1,0 @@
-Starting backup of C:\Users\t0283107\Desktop\teste to C:\Users\t0283107\Desktop\testepara.git\teste
-Starting backup of C:\Users\t0283107\Desktop\teste to C:\Users\t0283107\Desktop\testepara.git\teste
-Starting backup of C:\Users\t0283107\Desktop\teste to C:\Users\t0283107\Desktop\testepara.git\teste
-b''
-b'On branch master\nnothing to commit, working tree clean\n'
-b'Already up to date.\n'

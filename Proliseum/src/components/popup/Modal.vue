@@ -1,11 +1,11 @@
 <template>
     <transition name="fade">
-        <div class="vue-modal" v-show="open">
+        <div class="vue-modal" v-show="open" v-on:click="teste">
             <transition name="drop-in">
                 <div class="vue-modal-inner" v-show="open">
                     <div class="vue-modal-content">
+                      <img class="sair" src="https://img.icons8.com/ios-filled/100/FFFFFF/multiply.png" alt="" v-on:click="$emit('close')">
                       <slot/>
-                      <NewCustomButton class="sair" label="FECHAR" @onClick="$emit('close')"/>
                     </div>  
                 </div>
             </transition>
@@ -16,6 +16,7 @@
 <script setup>
 import { ref } from 'vue';
 import NewCustomButton from '../NewCustomButton.vue';
+import { defineEmits } from 'vue';
 
 defineProps({
     open: {
@@ -23,6 +24,19 @@ defineProps({
         required: true
     }
 })
+
+const emit = defineEmits()
+
+function teste(e){
+  console.log(e.target.className);
+  if(e.target.className == "vue-modal"){
+    
+    emit('close')
+  }
+}
+
+
+
 
 </script>
 
@@ -81,5 +95,15 @@ defineProps({
 
 .sair{
   align-self: flex-end;
+  position: absolute;
+  transform: translateX(4vh) translateY(-4vh);
+  height: 10vh;
+  padding: 10px;
+  z-index: 20;
 }
+
+.sair:hover{
+  filter: brightness(0) saturate(100%) invert(42%) sepia(58%) saturate(5931%) hue-rotate(341deg) brightness(98%) contrast(106%);
+}
+
 </style>

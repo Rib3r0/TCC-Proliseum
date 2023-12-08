@@ -2,6 +2,7 @@
   <div>
     <h1 class="title">editar</h1>
     <EditForm/>
+    <div class="separar"></div>
     <edit-prefs-view/>
     <Rodape lined/>
   </div>
@@ -23,5 +24,10 @@ import editPrefsView from './EditPrefsView.vue'
         font-weight: 100;
         text-transform: uppercase;
         padding: 20px;
+    }
+    .separar{
+      background-color: #FFF1;
+      height: 5vh;
+      margin-top: 20px;
     }
 </style>

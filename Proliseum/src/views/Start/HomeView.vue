@@ -16,7 +16,14 @@
       <template v-else>
         <div v-if="hasJogador" class="container">
           <h3 class="title">ALGUMAS VAGAS NO SEU PERFIL:</h3>
-          <div class="card_props" v-for="card in cardsVagas" :key="card.id">
+          <div v-if="cardsVagas.length < 1" class="card_props">
+            <div class="info">
+              <div class="info_sem">
+                <h3>AINDA NÃO HÁ NENHUMA VAGA NO SEU PERFIL... &#128547;</h3>
+              </div>
+            </div>
+          </div>
+          <div v-else class="card_props"  v-for="card in cardsVagas" :key="card.id">
               <div class="profile">
                 <router-link class="profile" :to="'/teams/' + card.time.id"> 
                   <miniIcon class="icon" :image="getImage(card.time.id)" size="10vw"/>
@@ -70,6 +77,13 @@
             </form>
           </Modal>
           <h3 class="title">ALGUNS JOGADORES DISPONIVEIS:</h3>
+          <div v-if="cards.length < 1" class="card_props">
+            <div class="info">
+              <div class="info_sem">
+                <h3>AINDA NÃO HÁ JOGADORES DISPONÍVEIS... &#128531;</h3>
+              </div>
+            </div>
+          </div>
           <div class="card_props" v-for="card in cards" :key="card.id">
               <div class="profile">
                 <router-link class="profile" :to="'/perfil/' + card.dono_id.id"> 
@@ -387,16 +401,7 @@ function toProposta(idr){
 
 
 
-.info{
-  background-color: #0005;
-  padding: 20px;
-  border-radius: 20px;
-  min-width: 70vw;
-  min-height: 16vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+
 
 .info_buttons{
   display: flex;
@@ -452,11 +457,44 @@ function toProposta(idr){
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .new3{
   display: grid;
   place-items: center;
+}
+
+.info_sem{
+  background-color: #0005;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 70vw;
+  min-height: 16vw;
+  display: grid;
+  place-items: center;
+  filter: opacity(20%);
+  place-self: center;
+}
+
+
+.info{
+  background-color: #0005;
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 70vw;
+  min-height: 16vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.boton{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 </style>

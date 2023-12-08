@@ -87,6 +87,7 @@
                   <div class="boton">
                     <img v-if="loading" style="height: 5vh;width: 5vh;" class="loading" src="../../assets/img/Rolling-1s-323px.svg">
                     <NewCustomButton label="SALVAR" @onClick="saveEditPost(editPostValues.id)"  />
+                    <br>
                     <NewCustomButton label="APAGAR" @onClick="deletarPost"  />
                   </div>
                 </form>
@@ -632,6 +633,8 @@ watch(isOpenEdit, async () => {
   display: flex;
   justify-content: end;
   align-items: center;
+  gap: 10px;
+  padding: 10px;
 }
 
 .post_container{
