@@ -145,7 +145,7 @@ async function reject(id2){
           cards.value.splice(index,1)
        
       }).catch( () => {
-        loading = false
+        loading.value = false
         const message = 'Erro!'
           createToast(message,{
             type : 'danger',

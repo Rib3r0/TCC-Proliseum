@@ -102,7 +102,7 @@ async function handleSubmit () {
     if(!loading.value){
         loading.value = true
         if(!editJogador.value){
-            await axiosPerfil.post('player', JSON.stringify(jogador.value))
+            await axiosPerfil.post('player', jogador.value)
                 .then( (response) => {
                 loading.value = false
                 const message = 'Perfil Criado!'
