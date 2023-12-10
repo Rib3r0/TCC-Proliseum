@@ -360,7 +360,7 @@ async function handleSubmit () {
                 }
                 )
         }else{
-            await axiosPerfil.put('post', JSON.stringify(card.value),{params: { time: card.value.id }})
+            await axiosPerfil.put('post', JSON.stringify(card.value),{params: { time: card.value.time }})
             .then( async (response) => {
                 loading.value = false
                 const message = 'Post Atualizado!'
