@@ -97,7 +97,7 @@
                 <Newcustombutton v-if=" selectedTeam != '' " @onClick="remove(card.time)" label="RETIRAR" />
               </div>
             </form>
-            <peneira-view :key="card.id" :team="card.id" v-if=" selectedTeam != '' "/>
+            <peneira-view :key="card.id" :team="card.time" v-if=" selectedTeam != '' "/>
           </Modal>
           <template v-if="loading" >
             <img v-if="loading" src="../../assets/img/Rolling-1s-323px.svg">
